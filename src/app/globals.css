@@ -213,25 +213,26 @@
     padding: 6px;
   }
 
-  /* Eyebrow — matches osmo demo's 11px Haffer Mono (we use Geist
-   * uppercase with 2.5% tracking to fake mono feel without the font). */
+  /* Eyebrow — small label above a section title. Sentence case, semibold,
+   * default site font (Geist). No uppercase / wide tracking — reads as a
+   * compact label instead of a shouting caps eyebrow. */
   .eyebrow {
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 600;
+    font-variation-settings: "wght" 600;
     line-height: 1;
-    letter-spacing: 0.035em;
-    text-transform: uppercase;
+    letter-spacing: -0.005em;
     color: var(--color-fg-faint);
   }
 
-  /* Stronger section eyebrow — Doppel's `.dop-section-label` scaled up
-   * so it's legible at normal reading distance. */
+  /* Stronger section eyebrow — same styling rationale as `.eyebrow`, just
+   * slightly tighter and bumped one step for a section heading role. */
   .eyebrow-strong {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
+    font-variation-settings: "wght" 600;
     line-height: 1;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    letter-spacing: -0.005em;
     color: var(--color-fg-faint);
   }
 

@@ -14,12 +14,14 @@ export function BoostPanel() {
       <main className="dop-no-scrollbar flex min-h-0 flex-1 flex-col gap-10 overflow-y-auto px-8 pb-16 pt-10">
         <header className="flex flex-col items-start gap-4">
           <span
-            className="inline-flex h-[26px] items-center gap-2 rounded-full px-3 text-[11px] font-semibold uppercase"
+            className="inline-flex h-[26px] items-center gap-2 rounded-full px-3 text-[12px]"
             style={{
-              letterSpacing: "0.08em",
+              letterSpacing: "-0.005em",
               background: "var(--color-accent-light)",
               color: "var(--color-accent)",
               boxShadow: "inset 0 0 0 1px var(--color-accent-border)",
+              fontWeight: 600,
+              fontVariationSettings: "'wght' 600",
             }}
           >
             <FaBolt size={11} />

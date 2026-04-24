@@ -83,14 +83,12 @@ export function Sidebar({ activePage = "tonight" }: SidebarProps) {
           label="Tonight"
           href="/dashboard"
           active={activePage === "tonight"}
-          badge="3"
         />
         <NavItem
           icon={<FaCalendarDays size={20} />}
           label="Upcoming"
           href="/dashboard/upcoming"
           active={activePage === "upcoming"}
-          badge="14"
         />
         <NavItem
           icon={<FaBolt size={20} />}

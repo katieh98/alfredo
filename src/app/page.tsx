@@ -1,5 +1,9 @@
+import type { ComponentType, SVGProps } from "react";
+import { FaBriefcase, FaHeart, FaPlane } from "react-icons/fa6";
 import { Footer, TopBar } from "@/components/site-chrome";
 import { StaggerText } from "@/components/stagger-text";
+
+type FaIcon = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
 
 export default function LandingPage() {
   return (
@@ -8,6 +12,7 @@ export default function LandingPage() {
       <main className="flex-1">
         <Hero />
         <CommandPreview />
+        <UseCases />
         <HowItWorks />
         <ConfirmationPreview />
       </main>
@@ -24,17 +29,14 @@ function Hero() {
           className="font-display text-[clamp(64px,9.5vw,140px)] font-normal leading-[0.9]"
           style={{ letterSpacing: "-0.04em" }}
         >
-          Dinner for the group,{" "}
+          Group reservations,{" "}
           <span className="italic font-normal">booked.</span>
         </h1>
-        <p className="body-lg mt-10 max-w-[620px] text-ink-soft">
-          Type{" "}
-          <span className="inline-flex items-center rounded-[6px] bg-bg-muted px-2 py-0.5 text-[16px] text-ink">
-            /alfredo @alice @bob
-          </span>{" "}
-          in any Discord channel. Alfredo checks everyone&apos;s availability,
-          queries your group&apos;s food preferences, and books the best
-          restaurant — autonomously.
+        <p className="body-lg mt-10 max-w-[640px] text-ink-soft">
+          A first date with your Hinge match, the company offsite, a weekend
+          trip with six friends — plug them in. Alfredo checks
+          everyone&apos;s availability, matches cuisine and dietary
+          preferences, and books the restaurant autonomously.
         </p>
         <div className="mt-12 flex items-center gap-3">
           <a
@@ -110,6 +112,79 @@ function CommandPreview() {
   );
 }
 
+interface UseCase {
+  tag: string;
+  title: string;
+  body: string;
+  icon: FaIcon;
+}
+
+const USE_CASES: UseCase[] = [
+  {
+    tag: "Dating",
+    title: "Never lose a match.",
+    body: "Connect your Hinge, Bumble, or Tinder profile once. When you and a match both tap yes to dinner, Alfredo books the first date before either of you can ghost — so you never lose a potential contact again.",
+    icon: FaHeart,
+  },
+  {
+    tag: "Work offsites",
+    title: "Skip the Slack thread.",
+    body: "One command instead of forty messages. Alfredo coordinates exec dinners, team lunches, and quarterly offsites across every calendar on the invite — dietary flags and budget bands handled.",
+    icon: FaBriefcase,
+  },
+  {
+    tag: "Group trips",
+    title: "Every dinner, booked.",
+    body: "Tokyo with six friends, wine country with the cousins, Lisbon bachelorette. Alfredo syncs time zones, cuisine prefs, and whose jetlag is worse, then books every night of the trip.",
+    icon: FaPlane,
+  },
+];
+
+function UseCases() {
+  return (
+    <section className="mx-auto max-w-[1440px] px-8 pb-28">
+      <div className="mb-14">
+        <p className="label-xs mb-6">Use cases</p>
+        <h2
+          className="font-display max-w-[780px] text-[64px] font-normal"
+          style={{ letterSpacing: "-0.03em" }}
+        >
+          Not just{" "}
+          <span className="italic font-normal">friend</span> group
+          dinners.
+        </h2>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        {USE_CASES.map((c) => {
+          const Icon = c.icon;
+          return (
+            <article
+              key={c.tag}
+              className="flex flex-col rounded-[12px] bg-bg-card p-8 ring-1 ring-border-soft"
+            >
+              <div
+                className="mb-8 flex size-12 items-center justify-center rounded-full bg-bg-alt text-ink-mute"
+                aria-hidden
+              >
+                <Icon size={20} />
+              </div>
+              <p className="label-xs mb-6">{c.tag}</p>
+              <h3
+                className="font-display mb-4 text-[32px] font-normal leading-[1.05]"
+                style={{ letterSpacing: "-0.03em" }}
+              >
+                {c.title}
+              </h3>
+              <p className="body-md text-ink-soft">{c.body}</p>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 function Message({
   user,
   color,
@@ -175,20 +250,20 @@ function HowItWorks() {
   const steps = [
     {
       n: "01",
-      title: "Tag your friends",
-      body: "Type the slash command with Discord mentions. Alfredo reads the last 5 messages for context — cuisine vibes, budget, neighborhood.",
-      meta: "Slash command",
+      title: "Tag your people",
+      body: "Slash command in Discord, a match in Hinge, a team channel in Slack. Alfredo reads the recent context — cuisine vibes, budget, neighborhood.",
+      meta: "One command",
     },
     {
       n: "02",
       title: "Everyone votes",
-      body: "Alfredo DMs each tagged friend with availability buttons. First-time users get a 30-second profile setup — dietary, cuisine, booking info.",
+      body: "Alfredo DMs each tagged contact with availability buttons. First-timers get a 30-second profile setup — dietary, cuisine, booking info — and it's remembered for next time.",
       meta: "Async responses",
     },
     {
       n: "03",
       title: "Alfredo books it",
-      body: "Once all responses are in, the agent queries restaurants against group prefs + overlapping slots, picks the best fit, and books OpenTable autonomously.",
+      body: "Once responses are in, the agent queries restaurants against group prefs and overlapping slots, picks the best fit, and books OpenTable autonomously.",
       meta: "Autonomous booking",
     },
   ];
