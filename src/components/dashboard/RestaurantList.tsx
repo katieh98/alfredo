@@ -224,11 +224,9 @@ function BookingRow({ booking: r, selected, isLast, onSelect }: RowProps) {
   );
 }
 
-/** Source channel chip — solid fill, white text, notion-tag radius (6px,
- *  not fully round). Only the Status pill is fully rounded, so shape alone
- *  tells the user "this is the live state" vs. "this is a category tag."
- *  Alfredo uses the app's accent so bookings that came through the platform
- *  (the ones restaurants pay to promote on) are instantly scannable. */
+/** Source channel chip — Notion-style pastel tint + dark text, 2px radius
+ *  (tag shape). Only the Status pill is fully rounded, so shape alone
+ *  tells the user "this is the live state" vs. "this is a category tag." */
 function SourcePill({
   source,
   dimmed,
@@ -242,9 +240,9 @@ function SourcePill({
       className="inline-flex h-[22px] items-center rounded-[2px] px-2 text-[11px]"
       style={{
         background: bg,
-        color: "#ffffff",
-        fontWeight: 600,
-        fontVariationSettings: "'wght' 600",
+        color: "var(--color-fg-strong)",
+        fontWeight: 510,
+        fontVariationSettings: "'wght' 510",
         letterSpacing: "-0.005em",
         opacity: dimmed ? 0.55 : 1,
       }}
@@ -254,32 +252,34 @@ function SourcePill({
   );
 }
 
+// Notion's tag palette — light pastel tints that sit behind dark ink.
 const SOURCE_COLORS: Record<BookingSource, string> = {
-  Alfredo: "var(--color-accent)",
-  OpenTable: "#DA3743",
-  Resy: "#C72F1A",
-  Direct: "#201D1D",
-  Phone: "#6B6B6B",
+  Alfredo: "#D8E2FE",   // light blue (matches --color-accent hue)
+  OpenTable: "#FBE4E4", // light pink
+  Resy: "#FADEC9",      // light peach
+  Direct: "#E3E2E0",    // light gray
+  Phone: "#E9E5E3",     // light tan
 };
 
-/** Status chip — solid fill, white text, with a small inset circle á la
- *  Notion's status property. Mixed case (not uppercase) so it reads like
- *  a badge, not a shouting eyebrow. Colours map to the booking's step in
- *  the restaurant's night: Confirmed / Seated / Pending / Cancelled. */
+/** Status chip — Notion-style pastel tint + dark text + a small coloured
+ *  dot on the left. The dot carries the state's hue (green/purple/amber/
+ *  red) so the pill is scannable at a glance; the text stays black for
+ *  legibility against the soft background. Mixed case, fully rounded
+ *  (shape distinguishes "state" from "category tag"). */
 function ConfirmationPill({ state }: { state: ConfirmationState }) {
-  const { label, bg } = CONFIRMATION_STYLES[state];
+  const { label, bg, dot } = CONFIRMATION_STYLES[state];
   return (
     <span
       className="inline-flex h-[22px] items-center gap-1.5 rounded-full pl-2 pr-2.5 text-[12px]"
       style={{
         background: bg,
-        color: "#ffffff",
-        fontWeight: 600,
-        fontVariationSettings: "'wght' 600",
+        color: "var(--color-fg-strong)",
+        fontWeight: 510,
+        fontVariationSettings: "'wght' 510",
         letterSpacing: "-0.005em",
       }}
     >
-      <FaCircle size={6} style={{ color: "#ffffff", opacity: 0.9 }} />
+      <FaCircle size={6} style={{ color: dot }} />
       {label}
     </span>
   );
@@ -287,12 +287,28 @@ function ConfirmationPill({ state }: { state: ConfirmationState }) {
 
 const CONFIRMATION_STYLES: Record<
   ConfirmationState,
-  { label: string; bg: string }
+  { label: string; bg: string; dot: string }
 > = {
-  confirmed: { label: "Confirmed", bg: "var(--color-status-green)" },
-  seated: { label: "Seated", bg: "var(--color-purple)" },
-  pending: { label: "Pending", bg: "var(--color-status-amber)" },
-  cancelled: { label: "Cancelled", bg: "var(--color-status-red)" },
+  confirmed: {
+    label: "Confirmed",
+    bg: "#DBEDDB", // light mint
+    dot: "var(--color-status-green)",
+  },
+  seated: {
+    label: "Seated",
+    bg: "#E8DEEE", // light lavender
+    dot: "var(--color-purple)",
+  },
+  pending: {
+    label: "Pending",
+    bg: "#FDECC8", // light butter
+    dot: "var(--color-status-amber)",
+  },
+  cancelled: {
+    label: "Cancelled",
+    bg: "#FBE4E4", // light pink
+    dot: "var(--color-status-red)",
+  },
 };
 
 /** Two-letter initials from "First Last", fallback to first char. */

@@ -9,7 +9,7 @@ import {
   Plus,
   X,
 } from "lucide-react";
-import { FaArrowUpArrowDown } from "react-icons/fa6";
+import { FaArrowsUpDown } from "react-icons/fa6";
 import type { FieldDef, SortRule } from "@/lib/filters/types";
 import { FieldIcon } from "./FieldIcon";
 import { FieldPicker, PopoverShell } from "./filter-dropdowns";
@@ -79,17 +79,18 @@ export function SortPanel({ fields, sorts, onChange }: SortPanelProps) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="dop-filter-pill-add dop-filter-pill-add--solid"
+        className={
+          ordered.length > 0
+            ? "dop-filter-pill-add dop-filter-pill-add--solid"
+            : "dop-filter-pill-add"
+        }
         style={
           ordered.length > 0
-            ? {
-                color: "var(--color-accent)",
-                borderColor: "var(--color-accent-border)",
-              }
+            ? { color: "var(--color-fg-strong)" }
             : undefined
         }
       >
-        <FaArrowUpArrowDown size={11} />
+        <FaArrowsUpDown size={11} />
         Sort
         {ordered.length > 0 && (
           <span
