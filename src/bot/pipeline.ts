@@ -98,6 +98,7 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
 
   try {
 
+  console.log(`[ghost:sessions-db] fetching session + responses for ${sessionId}`);
   const [sessionResult, responsesResult] = await Promise.all([
     sessDb.query("SELECT * FROM sessions WHERE id = $1", [sessionId]),
     sessDb.query(
@@ -105,6 +106,7 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
       [sessionId],
     ),
   ]);
+  console.log(`[ghost:sessions-db] got session status=${sessionResult.rows[0]?.status}, responses=${responsesResult.rows.length}`);
 
   const session = sessionResult.rows[0];
   if (session.status !== "collecting") {
@@ -168,10 +170,12 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
   });
   console.log(`[pipeline] OpenAI picked: ${pick.restaurant?.name}`);
 
+  console.log(`[ghost:users-db] fetching invoker profile for ${session.invoker_id}`);
   const invokerRow = await usrDb.query(
     "SELECT * FROM users WHERE discord_id = $1",
     [session.invoker_id],
   );
+  console.log(`[ghost:users-db] invoker profile found=${!!invokerRow.rows[0]}`);
 
   if (!invokerRow.rows[0]) {
     const appUrl = process.env.APP_URL ?? "http://localhost:3000";
@@ -191,6 +195,7 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
   const booking = await bookRestaurant(pick, invoker, session.demo ?? false);
   console.log(`[pipeline] Booking result: success=${booking.success}`);
 
+  console.log(`[ghost:sessions-db] writing booking result status=${booking.success ? "booked" : "fallback"}`);
   await sessDb.query(
     "UPDATE sessions SET status = $1, confirmation = $2, vapi_call_id = $3 WHERE id = $4",
     [booking.success ? "booked" : "fallback", booking.confirmation ?? null, booking.vapiCallId ?? null, sessionId],
