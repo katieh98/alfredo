@@ -16,6 +16,7 @@ import {
 interface FilteredCandidatesAreaProps {
   restaurants: Restaurant[];
   selectedId: string;
+  onSelect?: (id: string) => void;
 }
 
 /** Mirrors doppel_desktop's DropsView pipeline:

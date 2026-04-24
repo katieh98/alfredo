@@ -13,6 +13,8 @@ export interface AvailabilitySlot {
   remaining?: number;
 }
 
+export type ConfirmationState = "confirmed" | "seated" | "pending" | "cancelled";
+
 export interface Restaurant {
   id: string;
   name: string;
@@ -31,6 +33,12 @@ export interface Restaurant {
   topDishes: string[];
   accentColor: string;
   confirmation?: string;
+  confirmationState?: ConfirmationState;
+  bookingId?: string;
+  whenLabel?: string;
+  hostName?: string;
+  source?: string;
+  partySize?: number;
 }
 
 export interface PartyMember {
