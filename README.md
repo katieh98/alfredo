@@ -4,6 +4,8 @@
 
 Built for [Ship to Prod](https://shiptoprod.dev) · April 2026
 
+**[Watch the demo →](https://www.loom.com/share/f6a4900e0f224d92be9e03900ad1e428)**
+
 ---
 
 ## What it does
