@@ -80,14 +80,19 @@ async function callViaVapi(pick: RestaurantPick, invoker: BookingContact, demo: 
       customer: { number: DEMO_PHONE },
       assistant: {
         serverUrl: `${appUrl}/api/vapi-webhook`,
-        firstMessage: `Hi! I'm calling on behalf of ${invoker.booking_name} to make a dinner reservation at ${pick.restaurant.name} for ${pick.partySize} people on ${pick.date} at ${pick.time}. Can you help with that?`,
+        firstMessage: `Hi, I'd like to make a reservation for ${pick.partySize} people at ${pick.time} on ${pick.date} under the name ${invoker.booking_name}. Is that possible?`,
+        endCallFunctionEnabled: true,
         model: {
           provider: "openai",
           model: "gpt-4o-mini",
           messages: [
             {
               role: "system",
-              content: `You are an AI assistant calling ${pick.restaurant.name} in San Francisco to book a table for ${pick.partySize} people on ${pick.date} at ${pick.time}, under the name ${invoker.booking_name} (phone: ${invoker.booking_phone}). If that exact time isn't available, try 30 minutes earlier or later. Once booked, confirm the details and politely end the call.`,
+              content: `You are calling to book a restaurant reservation. Your only job is:
+1. You have already asked for a reservation for ${pick.partySize} people at ${pick.time} on ${pick.date} under ${invoker.booking_name}.
+2. If they confirm (say yes, sure, absolutely, confirmed, no problem, etc.) — say exactly: "Perfect, thank you so much! Goodbye!" then end the call.
+3. If they say it's not available — say: "No problem, thank you anyway! Goodbye!" then end the call.
+4. Do not say anything else. Do not ask any other questions.`,
             },
           ],
         },
