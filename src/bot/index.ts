@@ -22,6 +22,7 @@ async function handleAlfredoCommand(interaction: ChatInputCommandInteraction) {
   }
 
   const friendsInput = interaction.options.getString("friends", true);
+  const demo = interaction.options.getBoolean("demo") ?? false;
 
   const taggedIds: string[] = [];
   let match;
@@ -48,8 +49,8 @@ async function handleAlfredoCommand(interaction: ChatInputCommandInteraction) {
 
   const sessionId = crypto.randomUUID();
   await db.query(
-    `INSERT INTO sessions (id, channel_id, guild_id, invoker_id, tagged_users, context)
-     VALUES ($1, $2, $3, $4, $5, $6)`,
+    `INSERT INTO sessions (id, channel_id, guild_id, invoker_id, tagged_users, context, demo)
+     VALUES ($1, $2, $3, $4, $5, $6, $7)`,
     [
       sessionId,
       interaction.channelId,
@@ -57,6 +58,7 @@ async function handleAlfredoCommand(interaction: ChatInputCommandInteraction) {
       interaction.user.id,
       taggedIds,
       context,
+      demo,
     ],
   );
 

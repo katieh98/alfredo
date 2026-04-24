@@ -65,6 +65,13 @@ async function postResult(
         `Confirmation #${booking.confirmation}\n\n` +
         `Why Alfredo picked it:\n${pick.reasoning}`,
     );
+  } else if (booking.callInitiated) {
+    await channel.send(
+      `${pick.restaurant.name}\n` +
+        `${pick.date} - ${pick.time} - ${pick.partySize} people\n\n` +
+        `Alfredo is calling to book your table now!\n\n` +
+        `Why Alfredo picked it:\n${pick.reasoning}`,
+    );
   } else {
     const bookingLine = booking.directUrl
       ? `Book it here: ${booking.directUrl}`
@@ -167,8 +174,8 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
     [session.invoker_id],
   );
 
-  console.log("[pipeline] Attempting TinyFish booking...");
-  const booking = await bookRestaurant(pick, invokerRow.rows[0]);
+  console.log("[pipeline] Attempting booking...");
+  const booking = await bookRestaurant(pick, invokerRow.rows[0], session.demo ?? false);
   console.log(`[pipeline] Booking result: success=${booking.success}`);
 
   await sessDb.query(
