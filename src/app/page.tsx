@@ -20,9 +20,6 @@ function Hero() {
   return (
     <section className="mx-auto max-w-[1440px] px-8 pb-24 pt-48">
       <div className="max-w-[1140px]">
-        <p className="label-xs mb-8">
-          Discord bot · Hackathon build · Apr 2026
-        </p>
         <h1
           className="font-display text-[clamp(64px,9.5vw,140px)] font-normal leading-[0.9]"
           style={{ letterSpacing: "-0.04em" }}
@@ -211,7 +208,7 @@ function HowItWorks() {
               <span className="italic font-normal">table</span>.
             </h2>
           </div>
-          <p className="body-md hidden max-w-[320px] text-ink-soft lg:block">
+          <p className="body-md hidden max-w-[320px] text-ink lg:block">
             No app switching. No coordination thread. No &ldquo;where does
             everyone want to go?&rdquo;
           </p>
@@ -248,8 +245,7 @@ function ConfirmationPreview() {
           className="font-display max-w-[780px] text-[64px] font-normal"
           style={{ letterSpacing: "-0.03em" }}
         >
-          A confirmation, <span className="italic font-normal">not</span> a
-          pile of DMs.
+          reservations
         </h2>
       </div>
 

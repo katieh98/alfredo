@@ -1,8 +1,8 @@
+import Link from "next/link";
 import {
   FaShareNodes,
   FaDownload,
   FaArrowsRotate,
-  FaCircle,
   FaChevronRight,
 } from "react-icons/fa6";
 
@@ -15,13 +15,13 @@ export function Header({ sessionShortId }: HeaderProps) {
     <header className="flex h-[64px] shrink-0 items-center justify-between px-1">
       {/* Breadcrumbs — osmo pill pattern (h-8 / 14px / full-round) */}
       <div className="flex items-center gap-2">
-        <button
-          type="button"
-          className="flex h-8 items-center rounded-full bg-[var(--color-surface-hover)] px-3.5 text-[14px] font-normal text-[var(--color-fg-strong)] transition-colors hover:bg-black/10"
+        <Link
+          href="/dashboard"
+          className="flex h-8 items-center rounded-full bg-[var(--color-surface-hover)] px-3.5 text-[14px] font-normal text-[var(--color-fg-strong)] transition-colors hover:bg-black/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-border)]"
           style={{ letterSpacing: "-0.005em" }}
         >
-          Sessions
-        </button>
+          reservations
+        </Link>
         <FaChevronRight size={10} className="text-[var(--color-fg-tertiary)]" />
         <span
           className="flex h-8 items-center rounded-[4px] bg-[var(--color-surface-raised)] px-3 text-[14px] text-[var(--color-fg-strong)]"
@@ -32,12 +32,6 @@ export function Header({ sessionShortId }: HeaderProps) {
           }}
         >
           {sessionShortId}
-        </span>
-        <span
-          className="ml-1 inline-flex h-[24px] items-center gap-1.5 rounded-full border border-[rgba(46,204,113,0.25)] bg-[var(--color-status-green-light)] px-2.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--color-status-green)]"
-        >
-          <FaCircle size={6} />
-          Booked
         </span>
       </div>
 
