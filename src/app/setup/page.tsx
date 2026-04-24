@@ -119,7 +119,7 @@ function SetupForm() {
   }
 
   return (
-    <main className="mx-auto max-w-[880px] px-8 pb-24 pt-20">
+    <main className="mx-auto max-w-[880px] px-8 pb-24 pt-48">
       <p className="label-xs mb-8">Setup · One-time</p>
       <h1
         className="font-display text-[clamp(52px,7vw,96px)] font-normal leading-[0.95]"
@@ -134,7 +134,7 @@ function SetupForm() {
         changed later from your profile.
       </p>
 
-      <form onSubmit={handleSubmit} className="mt-16 space-y-14">
+      <form onSubmit={handleSubmit} className="mt-16 space-y-6">
         <Section heading="Booking contact">
           <p className="body-md text-ink-soft -mt-2 mb-2">
             Used on the OpenTable reservation under your name. Not shared with
@@ -238,7 +238,7 @@ function Section({
   children: ReactNode;
 }) {
   return (
-    <section className="border-t border-border pt-10">
+    <section className="rounded-[16px] bg-bg-card p-8 ring-1 ring-border-soft">
       <h2 className="font-display mb-6 text-[28px] font-normal leading-none">
         {heading}
       </h2>
