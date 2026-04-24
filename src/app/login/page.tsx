@@ -27,14 +27,12 @@ type Role = "restaurant" | "diner";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [showRestaurantLogin, setShowRestaurantLogin] = useState(false);
-
   function onRoleSelect(role: Role) {
     if (role === "restaurant") {
-      setShowRestaurantLogin(true);
+      router.push("/dashboard");
       return;
     }
-    router.push("/setup");
+    signIn("credentials", { callbackUrl: "/dashboard" });
   }
 
   return (
@@ -120,18 +118,6 @@ export default function LoginPage() {
         <Footer />
       </div>
 
-      {showRestaurantLogin && (
-        <RestaurantLoginModal
-          onClose={() => setShowRestaurantLogin(false)}
-          onSubmit={() => {
-            // Hand off to NextAuth's credentials provider (from main) so
-            // the existing demo auth still wires /dashboard correctly.
-            // The modal's email/password inputs are cosmetic for now —
-            // the credentials provider auto-signs as the demo user.
-            signIn("credentials", { callbackUrl: "/dashboard" });
-          }}
-        />
-      )}
     </div>
   );
 }
