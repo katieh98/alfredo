@@ -36,7 +36,7 @@ const SEATINGS: SeatingEntry[] = [
  */
 export function OpsPanel() {
   return (
-    <section className="grid grid-cols-1 gap-3 md:grid-cols-2">
+    <section className="grid shrink-0 grid-cols-1 gap-3 md:grid-cols-2">
       <Card eyebrow="Tonight's flags" icon={<FaTriangleExclamation size={11} />}>
         {FLAGS.map((f) => (
           <FlagRow key={f.flag} {...f} />

@@ -174,21 +174,11 @@ export function SessionBody({ restaurants, session }: SessionBodyProps) {
   );
 }
 
-function SessionHero({ session }: { session: Session }) {
-  // dateTime is "Sat, Apr 26 · 7:00 PM"; the time slot belongs to the
-  // selected reservation, not to the whole night, so strip it for the
-  // page header and show only the date.
-  const dateOnly = session.dateTime.split(" · ")[0];
+function SessionHero({ session: _session }: { session: Session }) {
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex shrink-0 flex-col gap-6">
       <div className="min-w-0">
-        <h1 className="hero-title whitespace-nowrap">
-          Tonight
-          <span className="text-[var(--color-fg-tertiary)]">
-            {" · "}
-            {dateOnly}
-          </span>
-        </h1>
+        <h1 className="hero-title whitespace-nowrap">Tonight</h1>
       </div>
     </section>
   );

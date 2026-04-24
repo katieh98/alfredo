@@ -14,7 +14,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import {
-  FaUtensils,
+  FaStore,
   FaUser,
   FaArrowRight,
   FaChartLine,
@@ -74,10 +74,10 @@ export default function LoginPage() {
 
         <div className="grid w-full max-w-[880px] grid-cols-1 gap-4 md:grid-cols-2">
           <RoleTile
-            icon={<FaUtensils size={22} />}
-            eyebrow="For restaurants"
+            icon={<FaStore size={22} />}
+            eyebrow="For businesses"
             title="I run a spot"
-            description="See which dinners Alfredo booked tonight, who's coming, and their dietary flags. Confirm or decline in one click."
+            description="See bookings Alfredo sent your way — who's coming, their flags, and any special requests. Confirm or decline in one click."
             cta="Open the dashboard"
             onClick={() => onRoleSelect("restaurant")}
             secondary={
@@ -93,9 +93,9 @@ export default function LoginPage() {
           />
           <RoleTile
             icon={<FaUser size={20} />}
-            eyebrow="For diners"
+            eyebrow="For friends"
             title="I'm eating out"
-            description="Set dietary restrictions, cuisine preferences, and booking info once. Alfredo uses these every time a friend tags you in Discord."
+            description="Set your preferences once — dietary, travel style, booking info. Alfredo uses them whenever a friend tags you for a group plan."
             cta="Edit my preferences"
             onClick={() => onRoleSelect("diner")}
           />
@@ -105,7 +105,7 @@ export default function LoginPage() {
           className="mt-10 text-[14px]"
           style={{ color: "rgba(225,225,225,0.55)" }}
         >
-          Diners use Discord OAuth · restaurants use account login ·{" "}
+          Friends use Discord OAuth · businesses use account login ·{" "}
           <Link
             href="/"
             className="underline underline-offset-2 transition-colors hover:text-white"
@@ -300,8 +300,8 @@ function RestaurantLoginModal({ onClose, onSubmit }: RestaurantLoginModalProps) 
             color: "rgba(225,225,225,0.55)",
           }}
         >
-          <FaUtensils size={11} />
-          For restaurants
+          <FaStore size={11} />
+          For businesses
         </div>
 
         <h2
@@ -309,7 +309,7 @@ function RestaurantLoginModal({ onClose, onSubmit }: RestaurantLoginModalProps) 
           className="font-display text-[32px] font-normal leading-[1.05]"
           style={{ letterSpacing: "-0.03em", color: "#f4f4f4" }}
         >
-          Sign in to your restaurant.
+          Sign in to your business.
         </h2>
 
         <p
