@@ -58,15 +58,24 @@ interface YelpBusiness {
   location: { display_address: string[]; city: string };
 }
 
-async function searchYelp(location: string): Promise<YelpBusiness[]> {
-  const res = await fetch(
-    `https://api.yelp.com/v3/businesses/search?location=${encodeURIComponent(location)}&categories=restaurants&limit=20&sort_by=rating`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.YELP_API_KEY}`,
-      },
-    },
-  );
+// SF city center coordinates with ~5 mile radius
+const SF_LAT = 37.7749;
+const SF_LNG = -122.4194;
+const SF_RADIUS_METERS = 8000;
+
+async function searchYelp(): Promise<YelpBusiness[]> {
+  const params = new URLSearchParams({
+    latitude: String(SF_LAT),
+    longitude: String(SF_LNG),
+    radius: String(SF_RADIUS_METERS),
+    categories: "restaurants",
+    limit: "20",
+    sort_by: "rating",
+  });
+
+  const res = await fetch(`https://api.yelp.com/v3/businesses/search?${params}`, {
+    headers: { Authorization: `Bearer ${process.env.YELP_API_KEY}` },
+  });
 
   if (!res.ok) {
     console.error("Yelp API error:", res.status, await res.text());
@@ -74,7 +83,9 @@ async function searchYelp(location: string): Promise<YelpBusiness[]> {
   }
 
   const data = await res.json();
-  return data.businesses ?? [];
+  return (data.businesses ?? []).filter(
+    (b: YelpBusiness) => b.location.city === "San Francisco",
+  );
 }
 
 function yelpPriceToRange(price?: string): string {
@@ -102,11 +113,10 @@ const resolvers = {
         }>;
       },
     ) => {
-      const yelpResults = await searchYelp(near);
+      const yelpResults = await searchYelp();
       const tf = new TinyFish({ apiKey: process.env.TINYFISH_API_KEY });
 
-      const sfOnly = yelpResults.filter((b) => b.location.city === "San Francisco");
-      const shuffled = sfOnly.sort(() => Math.random() - 0.5);
+      const shuffled = yelpResults.sort(() => Math.random() - 0.5);
       const top5 = shuffled.slice(0, 5);
 
       const enriched = await Promise.all(
