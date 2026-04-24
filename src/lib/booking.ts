@@ -78,8 +78,8 @@ async function callViaVapi(pick: RestaurantPick, invoker: BookingContact, demo: 
     body: JSON.stringify({
       phoneNumberId: vapiPhoneNumberId,
       customer: { number: DEMO_PHONE },
-      serverUrl: `${appUrl}/api/vapi-webhook`,
       assistant: {
+        serverUrl: `${appUrl}/api/vapi-webhook`,
         firstMessage: `Hi! I'm calling on behalf of ${invoker.booking_name} to make a dinner reservation at ${pick.restaurant.name} for ${pick.partySize} people on ${pick.date} at ${pick.time}. Can you help with that?`,
         model: {
           provider: "openai",

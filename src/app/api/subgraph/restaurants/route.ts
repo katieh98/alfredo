@@ -55,7 +55,7 @@ interface YelpBusiness {
   rating: number;
   phone?: string;
   url: string;
-  location: { display_address: string[] };
+  location: { display_address: string[]; city: string };
 }
 
 async function searchYelp(location: string): Promise<YelpBusiness[]> {
@@ -105,7 +105,8 @@ const resolvers = {
       const yelpResults = await searchYelp(near);
       const tf = new TinyFish({ apiKey: process.env.TINYFISH_API_KEY });
 
-      const shuffled = yelpResults.sort(() => Math.random() - 0.5);
+      const sfOnly = yelpResults.filter((b) => b.location.city === "San Francisco");
+      const shuffled = sfOnly.sort(() => Math.random() - 0.5);
       const top5 = shuffled.slice(0, 5);
 
       const enriched = await Promise.all(
