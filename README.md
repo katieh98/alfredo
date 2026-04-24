@@ -95,3 +95,9 @@ Run `/alfredo @friend demo:True` to skip TinyFish and go straight to the VAPI ph
 | `/dashboard` | Restaurant operator view — live session data, party members, dietary flags, confirmation status pulled from Ghost |
 | `/profile` | Update dietary restrictions, cuisine preferences, and booking contact info |
 | `/setup?token=...` | One-time profile setup for new users (linked from Discord DM) |
+
+---
+
+## Future: hotels
+
+The same pipeline generalizes beyond restaurants. Run `/alfredo @friends type:hotels` and Alfredo shifts into trip-planning mode — collecting hotel check-in availability (Friday night, Saturday night, or full weekend), searching Yelp for SF hotels, and having AI pick the best fit for the group. The architecture is already in place; actual hotel booking would be the next integration.
