@@ -9,6 +9,12 @@ const command = new SlashCommandBuilder()
       .setName("friends")
       .setDescription("Tag your friends with @mentions")
       .setRequired(true),
+  )
+  .addBooleanOption((option) =>
+    option
+      .setName("demo")
+      .setDescription("Skip TinyFish and call to book instantly")
+      .setRequired(false),
   );
 
 async function register() {

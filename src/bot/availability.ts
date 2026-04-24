@@ -59,13 +59,12 @@ export async function dmUser(
 
     const setupUrl = `${process.env.APP_URL}/setup?token=${token}`;
 
-    await user.send({
-      content: `Hey ${user.username}! ${invokerName} is planning a night out.\n\nSet up your food profile first:\n${setupUrl}\n\nThen pick your availability:`,
-      components: [buildAvailabilityRow(sessionId)],
-    });
+    await user.send(
+      `hey ${user.username}! 🍝 **${invokerName}** is planning a night out and wants you there.\n\nset up your food profile first and we'll ask when you're free:\n${setupUrl}`,
+    );
   } else {
     await user.send({
-      content: `Hey ${user.username}! ${invokerName} is planning a night out.\nYour profile is all set.\n\nWhen are you free?`,
+      content: `hey ${user.username}! 🍝 **${invokerName}** is planning a night out and wants you there.\n\nwhen are you free this weekend? 👇`,
       components: [buildAvailabilityRow(sessionId)],
     });
   }

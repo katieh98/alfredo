@@ -6,6 +6,7 @@ import {
 } from "discord.js";
 import crypto from "crypto";
 import { getSessionsDb } from "@/lib/db";
+import { setBotClient } from "@/lib/bot-client";
 import { dmUser } from "./availability";
 import { runAgentPipeline } from "./pipeline";
 
@@ -22,6 +23,7 @@ async function handleAlfredoCommand(interaction: ChatInputCommandInteraction) {
   }
 
   const friendsInput = interaction.options.getString("friends", true);
+  const demo = interaction.options.getBoolean("demo") ?? false;
 
   const taggedIds: string[] = [];
   let match;
@@ -44,12 +46,12 @@ async function handleAlfredoCommand(interaction: ChatInputCommandInteraction) {
     .map((m) => `${m.author.username}: ${m.content}`)
     .join("\n");
 
-  await interaction.reply("Alfredo is on it! Checking in with your crew...");
+  await interaction.reply("🍝 alfredo is on it! checking in with your crew...");
 
   const sessionId = crypto.randomUUID();
   await db.query(
-    `INSERT INTO sessions (id, channel_id, guild_id, invoker_id, tagged_users, context)
-     VALUES ($1, $2, $3, $4, $5, $6)`,
+    `INSERT INTO sessions (id, channel_id, guild_id, invoker_id, tagged_users, context, demo)
+     VALUES ($1, $2, $3, $4, $5, $6, $7)`,
     [
       sessionId,
       interaction.channelId,
@@ -57,6 +59,7 @@ async function handleAlfredoCommand(interaction: ChatInputCommandInteraction) {
       interaction.user.id,
       taggedIds,
       context,
+      demo,
     ],
   );
 
@@ -73,8 +76,8 @@ async function handleAlfredoCommand(interaction: ChatInputCommandInteraction) {
     }
   }
 
-  // Timeout: fire pipeline with whoever responded after 2 minutes
-  const TIMEOUT_MS = 2 * 60 * 1000;
+  // Timeout: fire pipeline with whoever responded after 2 hours
+  const TIMEOUT_MS = 2 * 60 * 60 * 1000;
   setTimeout(async () => {
     try {
       const session = await db.query(
@@ -116,13 +119,20 @@ async function handleAvailabilityButton(interaction: ButtonInteraction) {
     [sessionId],
   );
 
+  // Skip duplicate status posts if this user already had a response recorded
+  const alreadyResponded = responsesResult.rows.filter(
+    (r: { discord_id: string }) => r.discord_id !== interaction.user.id,
+  );
+  const isFirstResponse = alreadyResponded.length === responsesResult.rows.length - 1;
+
   const session = sessionResult.rows[0];
   const taggedUsers: string[] = session.tagged_users;
   const respondedIds = responsesResult.rows.map(
     (r: { discord_id: string }) => r.discord_id,
   );
 
-  // Post update to the original channel
+  // Post update to the original channel (only once per new response)
+  if (!isFirstResponse) return;
   try {
     const channel = (await interaction.client.channels.fetch(session.channel_id)) as import("discord.js").TextChannel;
     const respondedNames = await Promise.all(
@@ -139,11 +149,11 @@ async function handleAvailabilityButton(interaction: ButtonInteraction) {
       }),
     );
 
-    let status = `Checked in: ${respondedNames.join(", ")}`;
+    let status = `✅ checked in: **${respondedNames.join(", ")}**`;
     if (waitingNames.length > 0) {
-      status += `\nWaiting on: ${waitingNames.join(", ")}`;
+      status += `\n⏳ waiting on: ${waitingNames.join(", ")}`;
     } else {
-      status += `\nEveryone's in! Finding the perfect spot...`;
+      status += `\n🎉 everyone's in! finding the perfect spot...`;
     }
     await channel.send(status);
   } catch (err) {
@@ -174,6 +184,7 @@ export function startBot() {
   });
 
   client.on("ready", () => {
+    setBotClient(client);
     console.log(`Alfredo bot logged in as ${client.user?.tag}`);
   });
 

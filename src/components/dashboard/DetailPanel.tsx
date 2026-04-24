@@ -44,6 +44,8 @@ function stateLabel(state: Restaurant["confirmationState"]): {
       return { text: "Pending", color: "var(--color-status-amber)" };
     case "cancelled":
       return { text: "Cancelled", color: "var(--color-status-red)" };
+    default:
+      return { text: "Unknown", color: "var(--color-fg-faint)" };
   }
 }
 

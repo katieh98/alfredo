@@ -13,6 +13,7 @@ interface Restaurant {
   cuisine: string;
   priceRange: string;
   rating: number;
+  phone?: string;
   openTableId?: string;
   enrichment?: {
     topDishes: string[];
@@ -79,7 +80,7 @@ Return ONLY valid JSON:
   "slotKey": "sat_evening",
   "date": "Saturday, April 26, 2026",
   "time": "7:00 PM",
-  "reasoning": "One or two sentences explaining why this fits this specific group."
+  "reasoning": "One short sentence (max 15 words) explaining why this fits the group."
 }`,
       },
     ],

@@ -30,10 +30,12 @@ const resolvers = {
       const db = getUsersDb();
       if (!db) throw new Error("Users DB not configured");
 
+      console.log(`[ghost:users-db] querying ${ids.length} user(s): ${ids.join(", ")}`);
       const result = await db.query(
         "SELECT * FROM users WHERE discord_id = ANY($1)",
         [ids],
       );
+      console.log(`[ghost:users-db] returned ${result.rows.length} user(s)`);
 
       return result.rows.map((row: Record<string, unknown>) => ({
         discordId: row.discord_id,

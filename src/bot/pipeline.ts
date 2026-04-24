@@ -18,7 +18,7 @@ async function querySubgraphs(
   };
 
   const restaurantsGql = {
-    query: `query Restaurants($near: String!, $partySize: Int!, $availableIn: [TimeSlotInput!]!) { restaurants(near: $near, partySize: $partySize, availableIn: $availableIn) { id name cuisine priceRange rating openTableId availableSlots { date time } enrichment { topDishes vibeSummary transitInfo } } }`,
+    query: `query Restaurants($near: String!, $partySize: Int!, $availableIn: [TimeSlotInput!]!) { restaurants(near: $near, partySize: $partySize, availableIn: $availableIn) { id name cuisine priceRange rating phone openTableId availableSlots { date time } enrichment { topDishes vibeSummary transitInfo } } }`,
     variables: { near: "San Francisco, CA", partySize, availableIn: slots },
   };
 
@@ -59,19 +59,30 @@ async function postResult(
 
   if (booking.success) {
     await channel.send(
-      `Booked!\n\n` +
-        `${pick.restaurant.name}\n` +
-        `${pick.date} - ${pick.time} - ${pick.partySize} people\n` +
-        `Confirmation #${booking.confirmation}\n\n` +
-        `Why Alfredo picked it:\n${pick.reasoning}`,
+      `🍝 **you're going out!**\n\n` +
+        `**${pick.restaurant.name}**\n` +
+        `📅 ${pick.date} · ${pick.time} · ${pick.partySize} people\n` +
+        `🎟️ Confirmation \`${booking.confirmation}\`\n\n` +
+        `> ${pick.reasoning}`,
+    );
+  } else if (booking.callInitiated) {
+    await channel.send(
+      `🍝 **alfredo found your spot!**\n\n` +
+        `**${pick.restaurant.name}**\n` +
+        `📅 ${pick.date} · ${pick.time} · ${pick.partySize} people\n\n` +
+        `📞 calling to lock in your reservation now...\n\n` +
+        `> ${pick.reasoning}`,
     );
   } else {
+    const bookingLine = booking.directUrl
+      ? `👉 [book here](${booking.directUrl})`
+      : `📞 call to book: 703-915-6060`;
     await channel.send(
-      `${pick.restaurant.name}\n` +
-        `${pick.date} - ${pick.time} - ${pick.partySize} people\n\n` +
-        `Alfredo found the perfect spot but couldn't grab the reservation automatically.\n` +
-        `Book it here: ${booking.directUrl}\n\n` +
-        `Why Alfredo picked it:\n${pick.reasoning}`,
+      `🍝 **alfredo found your spot!**\n\n` +
+        `**${pick.restaurant.name}**\n` +
+        `📅 ${pick.date} · ${pick.time} · ${pick.partySize} people\n\n` +
+        `couldn't snag the rez automatically — ${bookingLine}\n\n` +
+        `> ${pick.reasoning}`,
     );
   }
 }
@@ -87,6 +98,7 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
 
   try {
 
+  console.log(`[ghost:sessions-db] fetching session + responses for ${sessionId}`);
   const [sessionResult, responsesResult] = await Promise.all([
     sessDb.query("SELECT * FROM sessions WHERE id = $1", [sessionId]),
     sessDb.query(
@@ -94,6 +106,7 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
       [sessionId],
     ),
   ]);
+  console.log(`[ghost:sessions-db] got session status=${sessionResult.rows[0]?.status}, responses=${responsesResult.rows.length}`);
 
   const session = sessionResult.rows[0];
   if (session.status !== "collecting") {
@@ -123,14 +136,12 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
     const channel = (await client.channels.fetch(
       session.channel_id,
     )) as TextChannel;
-    await channel.send(
-      "Couldn't find a time that works for everyone this weekend.",
-    );
+    await channel.send("😔 no overlapping times this weekend — try again when everyone's free!");
     return;
   }
 
   const taggedUsers: string[] = session.tagged_users;
-  const partySize = taggedUsers.length + 1;
+  const partySize = taggedUsers.length;
 
   const data = await querySubgraphs(
     taggedUsers,
@@ -145,7 +156,7 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
 
   if (data.restaurants.length === 0) {
     const channel = (await client.channels.fetch(session.channel_id)) as TextChannel;
-    await channel.send("Couldn't find any restaurants nearby. Try again later.");
+    await channel.send("😵 couldn't find any restaurants nearby right now — try again in a bit!");
     return;
   }
 
@@ -159,18 +170,35 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
   });
   console.log(`[pipeline] OpenAI picked: ${pick.restaurant?.name}`);
 
+  console.log(`[ghost:users-db] fetching invoker profile for ${session.invoker_id}`);
   const invokerRow = await usrDb.query(
     "SELECT * FROM users WHERE discord_id = $1",
     [session.invoker_id],
   );
+  console.log(`[ghost:users-db] invoker profile found=${!!invokerRow.rows[0]}`);
 
-  console.log("[pipeline] Attempting TinyFish booking...");
-  const booking = await bookRestaurant(pick, invokerRow.rows[0]);
+  if (!invokerRow.rows[0]) {
+    const appUrl = process.env.APP_URL ?? "http://localhost:3000";
+    const invokerUser = await client.users.fetch(session.invoker_id);
+    await invokerUser.send(
+      `hey! before alfredo can book, you need to set up your profile first:\n${appUrl}/setup\n\nthen run \`/alfredo\` again! 🍝`,
+    );
+    const channel = (await client.channels.fetch(session.channel_id)) as TextChannel;
+    await channel.send("⚠️ hey <@" + session.invoker_id + ">, you need to set up your profile before alfredo can book for you!");
+    await sessDb.query("UPDATE sessions SET status = 'failed' WHERE id = $1", [sessionId]);
+    return;
+  }
+
+  const invoker = invokerRow.rows[0];
+
+  console.log("[pipeline] Attempting booking...");
+  const booking = await bookRestaurant(pick, invoker, session.demo ?? false);
   console.log(`[pipeline] Booking result: success=${booking.success}`);
 
+  console.log(`[ghost:sessions-db] writing booking result status=${booking.success ? "booked" : "fallback"}`);
   await sessDb.query(
-    "UPDATE sessions SET status = $1, confirmation = $2 WHERE id = $3",
-    [booking.success ? "booked" : "fallback", booking.confirmation ?? null, sessionId],
+    "UPDATE sessions SET status = $1, confirmation = $2, vapi_call_id = $3 WHERE id = $4",
+    [booking.success ? "booked" : "fallback", booking.confirmation ?? null, booking.vapiCallId ?? null, sessionId],
   );
 
   await postResult(client, session.channel_id, pick, booking);
@@ -181,7 +209,7 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
       const channel = (await client.channels.fetch(
         (await sessDb.query("SELECT channel_id FROM sessions WHERE id = $1", [sessionId])).rows[0]?.channel_id,
       )) as TextChannel;
-      await channel.send("Something went wrong while finding a restaurant. Please try again.");
+      await channel.send("😬 something went wrong on alfredo's end — give it another shot!");
     } catch {
       // can't even post error to channel
     }

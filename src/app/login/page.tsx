@@ -2,14 +2,15 @@
 
 /**
  * Login / role selection.
- * - Restaurant → opens an inline login form, then routes to /dashboard
- *   on submit. Matches what an operator expects: an account-owner login,
- *   not a one-click public demo.
+ * - Restaurant → opens an inline login form; submit hands off to NextAuth
+ *   credentials provider (from main) so the demo auth flow from
+ *   /dashboard still works.
  * - Diner → routes directly to /setup. The diner flow is Discord OAuth
  *   only (the tagline at the bottom of the page), so there's nothing to
  *   fill in here — just a pass-through.
  */
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import {
@@ -123,8 +124,11 @@ export default function LoginPage() {
         <RestaurantLoginModal
           onClose={() => setShowRestaurantLogin(false)}
           onSubmit={() => {
-            setShowRestaurantLogin(false);
-            router.push("/dashboard");
+            // Hand off to NextAuth's credentials provider (from main) so
+            // the existing demo auth still wires /dashboard correctly.
+            // The modal's email/password inputs are cosmetic for now —
+            // the credentials provider auto-signs as the demo user.
+            signIn("credentials", { callbackUrl: "/dashboard" });
           }}
         />
       )}

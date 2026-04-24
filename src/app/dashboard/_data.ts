@@ -33,7 +33,9 @@ export interface AvailabilitySlot {
  * retained because the DetailPanel still consumes them as "what the booker
  * matched on" — they describe the booking's match criteria, not competing
  * restaurants. The booking-level fields (bookingId, partySize, whenLabel,
- * source, hostName) drive the reservation-centric list view.
+ * source, hostName, confirmationState) drive the reservation-centric list
+ * view. Required fields are safe because every mock row populates them,
+ * and main's getLatestSession() override supplies them from real DB data.
  */
 export interface Restaurant {
   id: string;
