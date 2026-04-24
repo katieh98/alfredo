@@ -1,0 +1,11 @@
+version: 1
+subgraphs:
+  - name: users
+    routing_url: http://localhost:3000/api/subgraph/users
+    schema:
+      file: /Users/katie/Projects/alfredo/alfredo-default/subgraphs/users.graphql
+  - name: restaurants
+    routing_url: http://localhost:3000/api/subgraph/restaurants
+    schema:
+      file: >-
+        /Users/katie/Projects/alfredo/alfredo-default/subgraphs/restaurants.graphql
