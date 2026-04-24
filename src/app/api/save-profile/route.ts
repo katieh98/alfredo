@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUsersDb } from "@/lib/db";
+import { getUsersDb, getSessionsDb } from "@/lib/db";
+import { getBotClient } from "@/lib/bot-client";
+import { buildAvailabilityRow } from "@/bot/availability";
 
 export async function POST(req: NextRequest) {
   const db = getUsersDb();
@@ -68,6 +70,27 @@ export async function POST(req: NextRequest) {
   );
 
   await db.query("DELETE FROM setup_tokens WHERE token = $1", [token]);
+
+  // Send availability DM if there's an active session waiting on this user
+  try {
+    const sessDb = getSessionsDb();
+    const botClient = getBotClient();
+    if (sessDb && botClient) {
+      const activeSessions = await sessDb.query(
+        `SELECT id FROM sessions WHERE status = 'collecting' AND $1 = ANY(tagged_users)`,
+        [discord_id],
+      );
+      for (const row of activeSessions.rows) {
+        const user = await botClient.users.fetch(discord_id);
+        await user.send({
+          content: `you're all set! now pick when you're free this weekend 👇`,
+          components: [buildAvailabilityRow(row.id)],
+        });
+      }
+    }
+  } catch (err) {
+    console.error("Failed to send post-registration availability DM:", err);
+  }
 
   return NextResponse.json({ success: true });
 }

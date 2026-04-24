@@ -6,6 +6,7 @@ import {
 } from "discord.js";
 import crypto from "crypto";
 import { getSessionsDb } from "@/lib/db";
+import { setBotClient } from "@/lib/bot-client";
 import { dmUser } from "./availability";
 import { runAgentPipeline } from "./pipeline";
 
@@ -176,6 +177,7 @@ export function startBot() {
   });
 
   client.on("ready", () => {
+    setBotClient(client);
     console.log(`Alfredo bot logged in as ${client.user?.tag}`);
   });
 
