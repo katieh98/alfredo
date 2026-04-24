@@ -99,7 +99,7 @@ export function DetailPanel({
             </span>
             <span className="text-[var(--color-fg-faint)]">·</span>
             <span>
-              {r.whenLabel} · Party of {r.partySize}
+              {r.whenLabel} · Party of {s.members.length}
             </span>
           </div>
         </div>
@@ -138,7 +138,7 @@ export function DetailPanel({
         <Section label="Seating & timing">
           <dl className="flex flex-col gap-1.5">
             <KVRow label="Requested">{s.dateTime}</KVRow>
-            <KVRow label="Party size">{r.partySize} covers</KVRow>
+            <KVRow label="Party size">{s.members.length} covers</KVRow>
             <KVRow label="Location">{s.location}</KVRow>
             <KVRow label="Picked by Alfredo">{s.pickedAt}</KVRow>
           </dl>

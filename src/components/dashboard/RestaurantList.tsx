@@ -1,298 +1,331 @@
 import type { ReactNode } from "react";
 import {
-  FaStar,
   FaChevronRight,
+  FaHashtag,
+  FaClock,
+  FaUsers,
+  FaUser,
+  FaArrowRightArrowLeft,
+  FaCircleDot,
   FaCircle,
-  FaCircleCheck,
-  FaBan,
 } from "react-icons/fa6";
-import type { Restaurant } from "@/app/dashboard/_data";
+import type {
+  BookingSource,
+  ConfirmationState,
+  Restaurant,
+} from "@/app/dashboard/_data";
 
 interface RestaurantListProps {
   restaurants: Restaurant[];
   selectedId: string;
+  onSelect?: (id: string) => void;
 }
+
+// Columns: booking · owner · party · when · source · confirmation · chevron
+// Everything in a single row — no stacked text inside a cell. Owner takes
+// the flex (`1fr`) so names don't clip; every other column is sized to its
+// content so the table fits the middle pane at 1440w without horizontal
+// scroll. Gap tightened to 8px so Owner has room for "Victoria Wang"-length
+// names after the avatar.
+const GRID_COLUMNS =
+  "88px minmax(0,1fr) 56px 96px 84px 88px 14px";
 
 export function RestaurantList({
   restaurants,
   selectedId,
+  onSelect,
 }: RestaurantListProps) {
-  const candidates = restaurants.filter((r) => r.status !== "filtered");
-  const filtered = restaurants.filter((r) => r.status === "filtered");
+  // Active bookings first, cancelled appended. Same grid applies to both.
+  const active = restaurants.filter((r) => r.status !== "filtered");
+  const cancelled = restaurants.filter((r) => r.status === "filtered");
+  const rows = [...active, ...cancelled];
 
   return (
-    <div className="flex flex-col gap-4">
-      {/* Header — osmo eyebrow row outside the card */}
-      <div className="flex items-center justify-between pl-4 pr-3">
-        <div className="eyebrow-strong">
-          {candidates.length} candidates · ranked by score
-        </div>
-        <div className="eyebrow-strong">Filtered · {filtered.length}</div>
+    <div className="dop-card overflow-hidden">
+      <div
+        className="grid items-center gap-2 border-b border-[var(--color-border-subtle)] bg-[var(--color-surface-raised)] px-5 py-3 normal-case text-[14px]"
+        style={{
+          gridTemplateColumns: GRID_COLUMNS,
+          fontWeight: 600,
+          fontVariationSettings: "'wght' 600",
+          letterSpacing: "-0.005em",
+          color: "var(--color-fg-tertiary)",
+        }}
+      >
+        <HeaderCell icon={<FaHashtag size={11} />} label="Booking" />
+        <HeaderCell icon={<FaUser size={11} />} label="Owner" />
+        <HeaderCell icon={<FaUsers size={11} />} label="Party" />
+        <HeaderCell icon={<FaClock size={11} />} label="When" />
+        <HeaderCell icon={<FaArrowRightArrowLeft size={11} />} label="Source" />
+        <HeaderCell icon={<FaCircleDot size={11} />} label="Status" />
+        <span />
       </div>
 
-      {/* Candidates card */}
-      <div className="dop-card overflow-hidden">
-        <div className="grid grid-cols-[minmax(0,1fr)_52px_112px_118px_112px_20px] items-center gap-4 border-b border-[var(--color-border-subtle)] bg-[var(--color-surface-raised)] px-5 py-3 eyebrow-strong">
-          <span>Restaurant</span>
-          <span>Price</span>
-          <span>Rating</span>
-          <span>Availability</span>
-          <span className="text-right">Score</span>
-          <span />
-        </div>
-        <div>
-          {candidates.map((r, i) => (
-            <RestaurantRow
-              key={r.id}
-              restaurant={r}
-              selected={r.id === selectedId}
-              isLast={i === candidates.length - 1}
-            />
-          ))}
-        </div>
+      <div>
+        {rows.map((r, i) => (
+          <BookingRow
+            key={r.id}
+            booking={r}
+            selected={r.id === selectedId}
+            isLast={i === rows.length - 1}
+            onSelect={onSelect}
+          />
+        ))}
       </div>
-
-      {/* Filtered out */}
-      {filtered.length > 0 && (
-        <div className="dop-card overflow-hidden">
-          <div className="flex items-center gap-2 border-b border-[var(--color-border-subtle)] bg-[var(--color-surface-raised)] px-4 py-2.5 eyebrow-strong">
-            <FaBan size={10} style={{ color: "var(--color-status-red)" }} />
-            <span>Filtered out · dietary constraints</span>
-          </div>
-          <div>
-            {filtered.map((r) => (
-              <FilteredRow key={r.id} restaurant={r} />
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
 
-interface RestaurantRowProps {
-  restaurant: Restaurant;
+interface RowProps {
+  booking: Restaurant;
   selected: boolean;
   isLast: boolean;
+  onSelect?: (id: string) => void;
 }
 
-function RestaurantRow({ restaurant: r, selected, isLast }: RestaurantRowProps) {
-  const topSlot = r.availability.find((s) => s.available);
+function BookingRow({ booking: r, selected, isLast, onSelect }: RowProps) {
+  const interactive = Boolean(onSelect);
+  const isCancelled = r.status === "filtered";
+
+  // Selected-row treatment diverges for cancelled vs active so the left
+  // accent bar reads as "you're viewing THIS booking" regardless of its
+  // state, without conflicting with the confirmation colour coding.
+  const selectedBg = isCancelled
+    ? "bg-[var(--color-status-red-light)]"
+    : "bg-[var(--color-accent-light)]";
+  const selectedBar = isCancelled
+    ? "var(--color-status-red)"
+    : "var(--color-accent)";
+
   return (
-    <div
-      className={`relative grid grid-cols-[minmax(0,1fr)_52px_112px_118px_112px_20px] items-center gap-4 px-5 py-4 transition-colors ${
-        isLast ? "" : "border-b border-[var(--color-border-subtle)]"
-      } ${
+    <button
+      type="button"
+      data-restaurant-row="true"
+      onClick={() => onSelect?.(r.id)}
+      aria-pressed={selected}
+      className={`relative grid w-full items-center gap-2 px-5 py-4 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:ring-inset ${
+        interactive ? "cursor-pointer" : ""
+      } ${isLast ? "" : "border-b border-[var(--color-border-subtle)]"} ${
         selected
-          ? "bg-[var(--color-accent-light)]"
-          : "hover:bg-[var(--color-surface-hover)]"
+          ? selectedBg
+          : isCancelled
+            ? "opacity-80 hover:bg-[var(--color-surface-hover)] hover:opacity-100"
+            : "hover:bg-[var(--color-surface-hover)]"
       }`}
+      style={{ gridTemplateColumns: GRID_COLUMNS }}
     >
-      {/* Accent bar — 3px left stripe for the picked row */}
       {selected && (
         <span
           className="pointer-events-none absolute left-0 top-0 h-full w-[3px]"
-          style={{ background: "var(--color-accent)" }}
+          style={{ background: selectedBar }}
           aria-hidden
         />
       )}
 
-      {/* Name column — avatar + title + subtitle (cuisine · neighborhood) */}
-      <div className="flex min-w-0 items-center gap-3.5">
+      {/* Booking ID — plain sans text so the whole row reads in one
+       *  typographic voice. Avatar lives in the Owner column. */}
+      <div
+        className="truncate text-[14px] tabular-nums"
+        style={{
+          fontWeight: 510,
+          fontVariationSettings: "'wght' 510",
+          letterSpacing: "-0.005em",
+          color: isCancelled
+            ? "var(--color-fg-muted)"
+            : "var(--color-fg-strong)",
+          textDecoration: isCancelled ? "line-through" : undefined,
+          textDecorationColor: "var(--color-fg-tertiary)",
+          textDecorationThickness: "1.5px",
+        }}
+      >
+        {r.bookingId}
+      </div>
+
+      {/* Owner — avatar + name, single row */}
+      <div className="flex min-w-0 items-center gap-2.5">
         <div
-          className="flex size-11 shrink-0 items-center justify-center rounded-[10px] text-[15px] font-semibold text-white"
+          className={`flex size-7 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold text-white ${
+            isCancelled ? "grayscale" : ""
+          }`}
           style={{
             background: r.accentColor,
             fontVariationSettings: "'wght' 600",
           }}
           aria-hidden
         >
-          {r.name.slice(0, 1)}
+          {initials(r.hostName)}
         </div>
-        <div className="min-w-0">
-          <div className="flex items-center gap-2">
-            <span
-              className="row-title truncate"
-              style={{ color: "var(--color-fg-strong)" }}
-            >
-              {r.name}
-            </span>
-          </div>
-          <div className="row-subtitle flex items-center gap-1.5 truncate">
-            {r.status === "picked" && (
-              <span
-                className="inline-flex shrink-0 items-center gap-1 text-[10.5px] font-semibold uppercase tracking-[0.06em]"
-                style={{ color: "var(--color-accent)" }}
-              >
-                <FaCircleCheck size={9} />
-                Picked
-              </span>
-            )}
-            {r.status === "picked" && (
-              <span className="shrink-0 text-[var(--color-fg-tertiary)]">·</span>
-            )}
-            <span className="truncate">
-              {r.cuisine} · {r.neighborhood}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Price */}
-      <div
-        className="text-[15px] text-[var(--color-fg-strong)]"
-        style={{ fontWeight: 510, fontVariationSettings: "'wght' 510" }}
-      >
-        {r.priceRange}
-      </div>
-
-      {/* Rating + dietary */}
-      <div className="flex items-center gap-2">
-        <FaStar size={13} style={{ color: "#F5A623" }} />
         <span
-          className="text-[14px] tabular-nums text-[var(--color-fg-strong)]"
-          style={{ fontWeight: 510, fontVariationSettings: "'wght' 510" }}
+          className="truncate text-[14px]"
+          style={{
+            color: isCancelled
+              ? "var(--color-fg-muted)"
+              : "var(--color-fg-strong)",
+            fontWeight: 510,
+            fontVariationSettings: "'wght' 510",
+            letterSpacing: "-0.005em",
+          }}
         >
-          {r.rating.toFixed(1)}
+          {r.hostName}
         </span>
-        <DietaryBadges dietary={r.dietary} />
       </div>
 
-      {/* Availability */}
-      <div className="flex items-center gap-2 text-[13px]">
-        {topSlot ? (
-          <>
-            <FaCircle size={7} style={{ color: "var(--color-status-green)" }} />
-            <span
-              className="text-[var(--color-fg-strong)]"
-              style={{ fontWeight: 510, fontVariationSettings: "'wght' 510" }}
-            >
-              {topSlot.time}
-            </span>
-            <span className="text-[var(--color-fg-faint)]">
-              · {topSlot.remaining}
-            </span>
-          </>
-        ) : (
-          <>
-            <FaCircle size={7} style={{ color: "var(--color-status-amber)" }} />
-            <span className="text-[var(--color-fg-muted)]">Limited</span>
-          </>
-        )}
+      {/* Party */}
+      <div
+        className="text-[14px] tabular-nums"
+        style={{
+          fontWeight: 510,
+          fontVariationSettings: "'wght' 510",
+          color: isCancelled
+            ? "var(--color-fg-tertiary)"
+            : "var(--color-fg-strong)",
+        }}
+      >
+        {r.partySize}
       </div>
 
-      {/* Score */}
-      <div className="flex items-center justify-end gap-2">
-        <ScoreBar value={r.score} highlight={selected} />
+      {/* When */}
+      <div
+        className="truncate text-[14px]"
+        style={{
+          fontWeight: 510,
+          fontVariationSettings: "'wght' 510",
+          color: isCancelled
+            ? "var(--color-fg-tertiary)"
+            : "var(--color-fg-strong)",
+        }}
+      >
+        {r.whenLabel}
+      </div>
+
+      {/* Source */}
+      <div className="flex items-center">
+        <SourcePill source={r.source} dimmed={isCancelled} />
+      </div>
+
+      {/* Confirmation */}
+      <div className="flex items-center">
+        <ConfirmationPill state={r.confirmationState} />
       </div>
 
       {/* Chevron */}
       <div
         className={`flex justify-end ${
-          selected ? "text-[var(--color-accent)]" : "text-[var(--color-fg-faint)]"
+          selected
+            ? isCancelled
+              ? "text-[var(--color-status-red)]"
+              : "text-[var(--color-accent)]"
+            : "text-[var(--color-fg-faint)]"
         }`}
       >
         <FaChevronRight size={13} />
       </div>
-    </div>
+    </button>
   );
 }
 
-function FilteredRow({ restaurant: r }: { restaurant: Restaurant }) {
-  return (
-    <div className="flex items-center gap-3.5 px-5 py-4 opacity-80">
-      <div
-        className="flex size-11 shrink-0 items-center justify-center rounded-[10px] text-[15px] font-semibold text-white/70 grayscale"
-        style={{ background: r.accentColor }}
-        aria-hidden
-      >
-        {r.name.slice(0, 1)}
-      </div>
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2">
-          <span className="row-title truncate line-through decoration-[var(--color-fg-tertiary)] decoration-[1.5px]">
-            {r.name}
-          </span>
-          <span className="text-[12px] text-[var(--color-fg-tertiary)]">
-            {r.cuisine} · {r.priceRange}
-          </span>
-        </div>
-        <div className="row-subtitle truncate">{r.filteredReason}</div>
-      </div>
-      <span
-        className="inline-flex h-[22px] items-center gap-1.5 rounded-full border px-2.5 text-[10.5px] font-semibold uppercase tracking-[0.06em]"
-        style={{
-          color: "var(--color-status-red)",
-          background: "var(--color-status-red-light)",
-          borderColor: "rgba(240, 78, 85, 0.25)",
-        }}
-      >
-        <FaCircle size={6} />
-        Filtered
-      </span>
-    </div>
-  );
-}
-
-interface DietaryBadgesProps {
-  dietary: { vegetarian: boolean; vegan: boolean; glutenFree: boolean };
-}
-
-function DietaryBadges({ dietary }: DietaryBadgesProps) {
-  return (
-    <div className="ml-1 flex items-center gap-1">
-      {dietary.vegetarian && <MiniBadge label="V" tooltip="vegetarian" />}
-      {dietary.vegan && <MiniBadge label="VG" tooltip="vegan" />}
-      {dietary.glutenFree && <MiniBadge label="GF" tooltip="gluten-free" />}
-    </div>
-  );
-}
-
-function MiniBadge({ label, tooltip }: { label: string; tooltip: string }) {
+/** Source channel chip — solid fill, white text, notion-tag radius (6px,
+ *  not fully round). Only the Status pill is fully rounded, so shape alone
+ *  tells the user "this is the live state" vs. "this is a category tag."
+ *  Alfredo uses the app's accent so bookings that came through the platform
+ *  (the ones restaurants pay to promote on) are instantly scannable. */
+function SourcePill({
+  source,
+  dimmed,
+}: {
+  source: BookingSource;
+  dimmed: boolean;
+}) {
+  const bg = SOURCE_COLORS[source];
   return (
     <span
-      title={tooltip}
-      className="inline-flex h-[18px] min-w-[20px] items-center justify-center rounded-[4px] px-1 text-[10px] font-bold uppercase tracking-wide"
+      className="inline-flex h-[22px] items-center rounded-[2px] px-2 text-[11px]"
       style={{
-        color: "var(--color-status-green)",
-        background: "var(--color-status-green-light)",
+        background: bg,
+        color: "#ffffff",
+        fontWeight: 600,
+        fontVariationSettings: "'wght' 600",
+        letterSpacing: "-0.005em",
+        opacity: dimmed ? 0.55 : 1,
       }}
     >
+      {source}
+    </span>
+  );
+}
+
+const SOURCE_COLORS: Record<BookingSource, string> = {
+  Alfredo: "var(--color-accent)",
+  OpenTable: "#DA3743",
+  Resy: "#C72F1A",
+  Direct: "#201D1D",
+  Phone: "#6B6B6B",
+};
+
+/** Status chip — solid fill, white text, with a small inset circle á la
+ *  Notion's status property. Mixed case (not uppercase) so it reads like
+ *  a badge, not a shouting eyebrow. Colours map to the booking's step in
+ *  the restaurant's night: Confirmed / Seated / Pending / Cancelled. */
+function ConfirmationPill({ state }: { state: ConfirmationState }) {
+  const { label, bg } = CONFIRMATION_STYLES[state];
+  return (
+    <span
+      className="inline-flex h-[22px] items-center gap-1.5 rounded-full pl-2 pr-2.5 text-[12px]"
+      style={{
+        background: bg,
+        color: "#ffffff",
+        fontWeight: 600,
+        fontVariationSettings: "'wght' 600",
+        letterSpacing: "-0.005em",
+      }}
+    >
+      <FaCircle size={6} style={{ color: "#ffffff", opacity: 0.9 }} />
       {label}
     </span>
   );
 }
 
-function ScoreBar({ value, highlight }: { value: number; highlight: boolean }) {
-  const barColor = highlight
-    ? "var(--color-accent)"
-    : value >= 85
-      ? "var(--color-status-green)"
-      : value >= 70
-        ? "var(--color-fg-secondary)"
-        : "var(--color-fg-tertiary)";
-  return (
-    <div className="flex items-center gap-2.5">
-      <div className="h-[5px] w-20 overflow-hidden rounded-full bg-[var(--color-border-subtle)]">
-        <div
-          className="h-full rounded-full transition-all"
-          style={{ width: `${value}%`, background: barColor }}
-        />
-      </div>
-      <span
-        className="min-w-[26px] text-right text-[14px] tabular-nums"
-        style={{
-          fontWeight: 510,
-          fontVariationSettings: "'wght' 510",
-          color: highlight ? "var(--color-accent)" : "var(--color-fg-strong)",
-        }}
-      >
-        {value}
-      </span>
-    </div>
-  );
+const CONFIRMATION_STYLES: Record<
+  ConfirmationState,
+  { label: string; bg: string }
+> = {
+  confirmed: { label: "Confirmed", bg: "var(--color-status-green)" },
+  seated: { label: "Seated", bg: "var(--color-purple)" },
+  pending: { label: "Pending", bg: "var(--color-status-amber)" },
+  cancelled: { label: "Cancelled", bg: "var(--color-status-red)" },
+};
+
+/** Two-letter initials from "First Last", fallback to first char. */
+function initials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+  return (parts[0]?.[0] ?? "?").toUpperCase();
 }
 
 export function HeaderEyebrow({ children }: { children: ReactNode }) {
   return <div className="eyebrow-strong">{children}</div>;
+}
+
+interface HeaderCellProps {
+  icon: ReactNode;
+  label: string;
+  align?: "left" | "right";
+}
+
+function HeaderCell({ icon, label, align = "left" }: HeaderCellProps) {
+  return (
+    <span
+      className={`flex items-center gap-1.5 ${
+        align === "right" ? "justify-end" : ""
+      }`}
+    >
+      <span
+        aria-hidden
+        className="flex shrink-0 items-center text-[var(--color-fg-faint)]"
+      >
+        {icon}
+      </span>
+      <span className="truncate">{label}</span>
+    </span>
+  );
 }
