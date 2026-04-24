@@ -120,7 +120,6 @@ function SetupForm() {
 
   return (
     <div className="mx-auto max-w-[880px] px-8 pb-24 pt-48">
-        <p className="label-xs mb-8">Setup · One-time</p>
         <h1
           className="font-display text-[clamp(52px,7vw,96px)] font-normal leading-[0.95]"
           style={{ letterSpacing: "-0.035em" }}
@@ -265,7 +264,14 @@ function Section({
 }
 
 function Label({ children }: { children: ReactNode }) {
-  return <label className="label-sm mb-3 block">{children}</label>;
+  return (
+    <label
+      className="mb-3 block text-[14px] font-semibold text-ink"
+      style={{ fontVariationSettings: '"wght" 600' }}
+    >
+      {children}
+    </label>
+  );
 }
 
 function Field({
