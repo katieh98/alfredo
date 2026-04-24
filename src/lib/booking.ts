@@ -65,8 +65,7 @@ async function callViaVapi(pick: RestaurantPick, invoker: BookingContact, demo: 
     };
   }
 
-  const callNumber = demo ? DEMO_PHONE : (pick.restaurant.phone ?? DEMO_PHONE);
-  console.log(`[booking] VAPI calling ${callNumber} for ${pick.restaurant.name}`);
+  console.log(`[booking] VAPI calling ${DEMO_PHONE} for ${pick.restaurant.name}`);
 
   const res = await fetch("https://api.vapi.ai/call/phone", {
     method: "POST",
@@ -76,7 +75,7 @@ async function callViaVapi(pick: RestaurantPick, invoker: BookingContact, demo: 
     },
     body: JSON.stringify({
       phoneNumberId: vapiPhoneNumberId,
-      customer: { number: callNumber },
+      customer: { number: DEMO_PHONE },
       assistant: {
         firstMessage: `Hi! I'm calling on behalf of ${invoker.booking_name} to make a dinner reservation at ${pick.restaurant.name} for ${pick.partySize} people on ${pick.date} at ${pick.time}. Can you help with that?`,
         model: {
