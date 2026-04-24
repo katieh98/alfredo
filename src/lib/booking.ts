@@ -15,6 +15,7 @@ export interface BookingResult {
   confirmation?: string;
   directUrl?: string;
   callInitiated?: boolean;
+  vapiCallId?: string;
 }
 
 async function tryTinyFish(
@@ -65,6 +66,7 @@ async function callViaVapi(pick: RestaurantPick, invoker: BookingContact, demo: 
     };
   }
 
+  const appUrl = process.env.APP_URL ?? "http://localhost:3000";
   console.log(`[booking] VAPI calling ${DEMO_PHONE} for ${pick.restaurant.name}`);
 
   const res = await fetch("https://api.vapi.ai/call/phone", {
@@ -76,6 +78,7 @@ async function callViaVapi(pick: RestaurantPick, invoker: BookingContact, demo: 
     body: JSON.stringify({
       phoneNumberId: vapiPhoneNumberId,
       customer: { number: DEMO_PHONE },
+      serverUrl: `${appUrl}/api/vapi-webhook`,
       assistant: {
         firstMessage: `Hi! I'm calling on behalf of ${invoker.booking_name} to make a dinner reservation at ${pick.restaurant.name} for ${pick.partySize} people on ${pick.date} at ${pick.time}. Can you help with that?`,
         model: {
@@ -101,7 +104,8 @@ async function callViaVapi(pick: RestaurantPick, invoker: BookingContact, demo: 
     };
   }
 
-  return { success: false, callInitiated: true };
+  const data = await res.json();
+  return { success: false, callInitiated: true, vapiCallId: data.id };
 }
 
 export async function bookRestaurant(

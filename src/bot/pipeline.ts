@@ -192,8 +192,8 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
   console.log(`[pipeline] Booking result: success=${booking.success}`);
 
   await sessDb.query(
-    "UPDATE sessions SET status = $1, confirmation = $2 WHERE id = $3",
-    [booking.success ? "booked" : "fallback", booking.confirmation ?? null, sessionId],
+    "UPDATE sessions SET status = $1, confirmation = $2, vapi_call_id = $3 WHERE id = $4",
+    [booking.success ? "booked" : "fallback", booking.confirmation ?? null, booking.vapiCallId ?? null, sessionId],
   );
 
   await postResult(client, session.channel_id, pick, booking);
