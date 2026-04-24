@@ -119,13 +119,20 @@ async function handleAvailabilityButton(interaction: ButtonInteraction) {
     [sessionId],
   );
 
+  // Skip duplicate status posts if this user already had a response recorded
+  const alreadyResponded = responsesResult.rows.filter(
+    (r: { discord_id: string }) => r.discord_id !== interaction.user.id,
+  );
+  const isFirstResponse = alreadyResponded.length === responsesResult.rows.length - 1;
+
   const session = sessionResult.rows[0];
   const taggedUsers: string[] = session.tagged_users;
   const respondedIds = responsesResult.rows.map(
     (r: { discord_id: string }) => r.discord_id,
   );
 
-  // Post update to the original channel
+  // Post update to the original channel (only once per new response)
+  if (!isFirstResponse) return;
   try {
     const channel = (await interaction.client.channels.fetch(session.channel_id)) as import("discord.js").TextChannel;
     const respondedNames = await Promise.all(
