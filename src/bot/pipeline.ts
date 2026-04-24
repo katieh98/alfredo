@@ -1,6 +1,6 @@
 import { type Client, type TextChannel } from "discord.js";
 import { getUsersDb, getSessionsDb } from "@/lib/db";
-import { computeOverlap } from "@/lib/slots";
+import { computeOverlap, computeHotelOverlap } from "@/lib/slots";
 import { pickRestaurant, type RestaurantPick } from "@/lib/claude";
 import { bookRestaurant, type BookingResult } from "@/lib/booking";
 
@@ -8,9 +8,45 @@ async function querySubgraphs(
   userIds: string[],
   slots: Array<{ date: string; startTime: string; endTime: string }>,
   partySize: number,
+  bookingType = "restaurants",
 ) {
+  const cosmoRouterUrl = process.env.COSMO_ROUTER_URL;
   const appUrl = process.env.APP_URL ?? "http://localhost:3000";
-  console.log("querySubgraphs called, appUrl:", appUrl);
+
+  if (cosmoRouterUrl) {
+    console.log("[cosmo-router] routing through Cosmo federated graph:", cosmoRouterUrl);
+    // Single federated query through Cosmo router — this is what generates analytics
+    const federatedQuery = {
+      query: `
+        query AlfredoPipeline($ids: [ID!]!, $near: String!, $partySize: Int!, $availableIn: [TimeSlotInput!]!, $bookingType: String) {
+          users(ids: $ids) { discordId dietaryRestrictions cuisinePreferences priceRange bookingName bookingPhone bookingEmail }
+          restaurants(near: $near, partySize: $partySize, availableIn: $availableIn, bookingType: $bookingType) { id name cuisine priceRange rating phone openTableId availableSlots { date time } enrichment { topDishes vibeSummary transitInfo } }
+        }
+      `,
+      variables: {
+        ids: userIds,
+        near: "San Francisco, CA",
+        partySize,
+        availableIn: slots,
+        bookingType,
+      },
+    };
+
+    const res = await fetch(cosmoRouterUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(federatedQuery),
+    });
+    const json = await res.json();
+    console.log("[cosmo-router] response:", JSON.stringify(json).slice(0, 500));
+    return {
+      users: json.data?.users ?? [],
+      restaurants: json.data?.restaurants ?? [],
+    };
+  }
+
+  // Fallback: direct subgraph calls (no Cosmo analytics)
+  console.log("[subgraphs] direct call, appUrl:", appUrl);
 
   const usersGql = {
     query: `query Users($ids: [ID!]!) { users(ids: $ids) { discordId dietaryRestrictions cuisinePreferences priceRange bookingName bookingPhone bookingEmail } }`,
@@ -18,8 +54,8 @@ async function querySubgraphs(
   };
 
   const restaurantsGql = {
-    query: `query Restaurants($near: String!, $partySize: Int!, $availableIn: [TimeSlotInput!]!) { restaurants(near: $near, partySize: $partySize, availableIn: $availableIn) { id name cuisine priceRange rating phone openTableId availableSlots { date time } enrichment { topDishes vibeSummary transitInfo } } }`,
-    variables: { near: "San Francisco, CA", partySize, availableIn: slots },
+    query: `query Restaurants($near: String!, $partySize: Int!, $availableIn: [TimeSlotInput!]!, $bookingType: String) { restaurants(near: $near, partySize: $partySize, availableIn: $availableIn, bookingType: $bookingType) { id name cuisine priceRange rating phone openTableId availableSlots { date time } enrichment { topDishes vibeSummary transitInfo } } }`,
+    variables: { near: "San Francisco, CA", partySize, availableIn: slots, bookingType },
   };
 
   const [usersRes, restaurantsRes] = await Promise.all([
@@ -87,6 +123,21 @@ async function postResult(
   }
 }
 
+async function postHotelResult(
+  client: Client,
+  channelId: string,
+  pick: RestaurantPick,
+) {
+  const channel = (await client.channels.fetch(channelId)) as TextChannel;
+  await channel.send(
+    `🏨 **you're going to SF!**\n\n` +
+      `**${pick.restaurant.name}**\n` +
+      `📅 ${pick.date} · ${pick.partySize} people\n\n` +
+      `📞 call to book: ${pick.restaurant.phone ?? "check their website"}\n\n` +
+      `> ${pick.reasoning}`,
+  );
+}
+
 export async function runAgentPipeline(client: Client, sessionId: string) {
   console.log(`[pipeline] Starting for session ${sessionId}`);
   const sessDb = getSessionsDb();
@@ -128,29 +179,41 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
     (r: { slots: string[] }) => !r.slots.includes("none"),
   );
 
-  const overlappingSlots = computeOverlap(
-    responses.length > 0 ? responses : [{ slots: ["sat_evening"] }],
-  );
+  const isHotels = session.booking_type === "hotels";
+
+  const overlappingSlots = isHotels
+    ? computeHotelOverlap(responses.length > 0 ? responses : [{ slots: ["full_weekend"] }])
+    : computeOverlap(responses.length > 0 ? responses : [{ slots: ["sat_evening"] }]);
 
   if (overlappingSlots.length === 0) {
     const channel = (await client.channels.fetch(
       session.channel_id,
     )) as TextChannel;
-    await channel.send("😔 no overlapping times this weekend — try again when everyone's free!");
+    await channel.send("😔 no overlapping times — try again when everyone's free!");
     return;
   }
 
   const taggedUsers: string[] = session.tagged_users;
   const partySize = taggedUsers.length;
 
+  // Map slots to the shape querySubgraphs expects
+  const slotsForQuery = isHotels
+    ? (overlappingSlots as import("@/lib/slots").HotelSlot[]).map((s) => ({
+        date: s.checkIn,
+        startTime: "15:00",
+        endTime: "11:00",
+      }))
+    : (overlappingSlots as import("@/lib/slots").Slot[]).map((s) => ({
+        date: s.date,
+        startTime: s.startTime,
+        endTime: s.endTime,
+      }));
+
   const data = await querySubgraphs(
     taggedUsers,
-    overlappingSlots.map((s) => ({
-      date: s.date,
-      startTime: s.startTime,
-      endTime: s.endTime,
-    })),
+    slotsForQuery,
     partySize,
+    session.booking_type ?? "restaurants",
   );
   console.log(`[pipeline] Got ${data.restaurants.length} restaurants, ${data.users.length} users`);
 
@@ -161,14 +224,34 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
   }
 
   console.log("[pipeline] Calling OpenAI to pick restaurant...");
+  const slotsForPick = isHotels
+    ? (overlappingSlots as import("@/lib/slots").HotelSlot[]).map((s) => ({
+        key: s.key,
+        label: s.label,
+        date: s.checkIn,
+        startTime: "15:00",
+        endTime: "11:00",
+      }))
+    : (overlappingSlots as import("@/lib/slots").Slot[]);
+
   const pick = await pickRestaurant({
     restaurants: data.restaurants,
     users: data.users,
     context: session.context ?? "",
-    slots: overlappingSlots,
+    slots: slotsForPick,
     partySize,
   });
   console.log(`[pipeline] OpenAI picked: ${pick.restaurant?.name}`);
+
+  if (isHotels) {
+    await sessDb.query(
+      "UPDATE sessions SET status = 'booked' WHERE id = $1",
+      [sessionId],
+    );
+    await postHotelResult(client, session.channel_id, pick);
+    console.log(`[pipeline] Completed hotel session ${sessionId}`);
+    return;
+  }
 
   console.log(`[ghost:users-db] fetching invoker profile for ${session.invoker_id}`);
   const invokerRow = await usrDb.query(

@@ -7,6 +7,7 @@ type Restaurant {
   cuisine: String!
   priceRange: String!
   rating: Float!
+  phone: String
   openTableId: String
   availableSlots: [TimeSlot!]!
   enrichment: RestaurantEnrichment!
@@ -30,5 +31,5 @@ input TimeSlotInput {
 }
 
 type Query {
-  restaurants(near: String!, partySize: Int!, availableIn: [TimeSlotInput!]!): [Restaurant!]!
+  restaurants(near: String!, partySize: Int!, availableIn: [TimeSlotInput!]!, bookingType: String): [Restaurant!]!
 }

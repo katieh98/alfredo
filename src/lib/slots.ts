@@ -71,3 +71,46 @@ export function computeOverlap(
     .filter(([key]) => responses.every((r) => r.slots.includes(key)))
     .map(([, slot]) => slot);
 }
+
+export interface HotelSlot {
+  key: string;
+  label: string;
+  checkIn: string;
+  checkOut: string;
+}
+
+export function buildHotelSlots(): Record<string, HotelSlot> {
+  const now = new Date();
+  const daysUntilFri = ((5 - now.getDay()) + 7) % 7 || 7;
+
+  const fri = new Date(now);
+  fri.setDate(now.getDate() + daysUntilFri);
+  const sat = new Date(fri);
+  sat.setDate(fri.getDate() + 1);
+  const sun = new Date(fri);
+  sun.setDate(fri.getDate() + 2);
+
+  const fmt = (d: Date) =>
+    d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+
+  return {
+    fri_night: { key: "fri_night", label: "Friday night", checkIn: fmt(fri), checkOut: fmt(sat) },
+    sat_night: { key: "sat_night", label: "Saturday night", checkIn: fmt(sat), checkOut: fmt(sun) },
+    full_weekend: { key: "full_weekend", label: "Full weekend", checkIn: fmt(fri), checkOut: fmt(sun) },
+  };
+}
+
+export function computeHotelOverlap(
+  responses: Array<{ slots: string[] }>,
+): HotelSlot[] {
+  const allSlots = buildHotelSlots();
+  // Expand full_weekend to cover both nights
+  const expanded = responses.map((r) => ({
+    slots: r.slots.includes("full_weekend")
+      ? [...r.slots, "fri_night", "sat_night"]
+      : r.slots,
+  }));
+  return Object.entries(allSlots)
+    .filter(([key]) => key !== "full_weekend" && expanded.every((r) => r.slots.includes(key)))
+    .map(([, slot]) => slot);
+}

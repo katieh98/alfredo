@@ -24,7 +24,7 @@ No app to download. No coordination overhead. One slash command.
   │
   ├── All responded (or 2hr timeout) → Agent Pipeline
   │     ├── Compute overlapping time slots
-  │     ├── Query subgraphs in parallel (WunderGraph Cosmo)
+  │     ├── Single federated query → Cosmo Router → subgraphs in parallel
   │     │     ├── Users subgraph  → dietary restrictions + booking contact (Ghost DB)
   │     │     └── Restaurants subgraph → Yelp Fusion top SF picks + TinyFish enrichment
   │     ├── OpenAI picks best restaurant for the group
@@ -48,11 +48,12 @@ The restaurant operator dashboard (`/dashboard`) reads live session and user dat
 Ghost's MCP server was used entirely from within Claude Code to provision both databases, manage schema, run ad-hoc queries, and clear test data during development — no web console needed.
 
 ### WunderGraph Cosmo · Federated GraphQL
-Two Apollo Federation v2 subgraphs composed by Cosmo:
+Three Apollo Federation v2 subgraphs composed by Cosmo, traffic routed through a dedicated Cosmo Router deployed on Railway:
 - **Users subgraph** (`/api/subgraph/users`) — serves user profiles from Ghost DB
 - **Restaurants subgraph** (`/api/subgraph/restaurants`) — queries Yelp Fusion for SF restaurants (lat/lng + 8km radius, best_match sort), enriches top picks with TinyFish
+- **Hotels subgraph** (`/api/subgraph/hotels`) — queries Yelp for SF hotels, enriches with TinyFish for the hotel booking use case
 
-The agent pipeline queries both subgraphs in parallel via `Promise.all`, getting user preferences and restaurant options in a single round trip.
+The agent pipeline sends a single federated GraphQL query to the Cosmo Router, which fans out to the relevant subgraphs in parallel and merges the response. All traffic flows through the router, so query analytics, tracing, and schema coverage metrics are visible in the WunderGraph Cosmo dashboard in real time.
 
 ### TinyFish · Browser automation
 Used for two things:
@@ -95,3 +96,9 @@ Run `/alfredo @friend demo:True` to skip TinyFish and go straight to the VAPI ph
 | `/dashboard` | Restaurant operator view — live session data, party members, dietary flags, confirmation status pulled from Ghost |
 | `/profile` | Update dietary restrictions, cuisine preferences, and booking contact info |
 | `/setup?token=...` | One-time profile setup for new users (linked from Discord DM) |
+
+---
+
+## Hotels use case
+
+Run `/alfredo @friends type:hotels` and Alfredo shifts into trip-planning mode — collecting hotel check-in availability (Friday night, Saturday night, or full weekend), searching the Hotels subgraph for SF picks, and having AI recommend the best fit for the group. The full pipeline is wired up; actual hotel booking (via VAPI or browser automation) would be the next integration.

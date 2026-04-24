@@ -125,7 +125,7 @@ export async function bookRestaurant(
       console.log("[booking] TinyFish failed or timed out, falling back to VAPI");
     }
   } else {
-    console.log("[booking] Demo mode — skipping TinyFish since it takes too long, going straight to VAPI call");
+    console.log("[booking] Demo mode — skipping TinyFish, going straight to VAPI call");
   }
 
   return callViaVapi(pick, invoker, demo);

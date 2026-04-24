@@ -24,6 +24,7 @@ async function handleAlfredoCommand(interaction: ChatInputCommandInteraction) {
 
   const friendsInput = interaction.options.getString("friends", true);
   const demo = interaction.options.getBoolean("demo") ?? false;
+  const bookingType = (interaction.options.getString("type") ?? "restaurants") as "restaurants" | "hotels";
 
   const taggedIds: string[] = [];
   let match;
@@ -50,8 +51,8 @@ async function handleAlfredoCommand(interaction: ChatInputCommandInteraction) {
 
   const sessionId = crypto.randomUUID();
   await db.query(
-    `INSERT INTO sessions (id, channel_id, guild_id, invoker_id, tagged_users, context, demo)
-     VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+    `INSERT INTO sessions (id, channel_id, guild_id, invoker_id, tagged_users, context, demo, booking_type)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
     [
       sessionId,
       interaction.channelId,
@@ -60,6 +61,7 @@ async function handleAlfredoCommand(interaction: ChatInputCommandInteraction) {
       taggedIds,
       context,
       demo,
+      bookingType,
     ],
   );
 
@@ -69,7 +71,7 @@ async function handleAlfredoCommand(interaction: ChatInputCommandInteraction) {
     try {
       const user = await interaction.client.users.fetch(userId);
       console.log(`DMing user ${user.username} (${userId})`);
-      await dmUser(user, sessionId, interaction.user.username);
+      await dmUser(user, sessionId, interaction.user.username, bookingType);
       console.log(`DM sent to ${user.username}`);
     } catch (err) {
       console.error(`Failed to DM user ${userId}:`, err);

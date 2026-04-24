@@ -9,42 +9,35 @@ const typeDefs = gql`
   extend schema
     @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key"])
 
-  type Restaurant {
+  type Hotel {
     id: ID!
     name: String!
-    cuisine: String!
+    category: String!
     priceRange: String!
     rating: Float!
     phone: String
-    openTableId: String
-    availableSlots: [TimeSlot!]!
-    enrichment: RestaurantEnrichment!
+    availableNights: [HotelNight!]!
+    enrichment: HotelEnrichment!
   }
 
-  type TimeSlot {
-    date: String!
-    time: String!
+  type HotelNight {
+    checkIn: String!
+    checkOut: String!
   }
 
-  type RestaurantEnrichment {
-    topDishes: [String!]!
+  type HotelEnrichment {
+    amenities: [String!]!
     vibeSummary: String!
-    transitInfo: String!
+    address: String!
   }
 
-  input TimeSlotInput {
-    date: String!
-    startTime: String!
-    endTime: String!
+  input HotelSlotInput {
+    checkIn: String!
+    checkOut: String!
   }
 
   type Query {
-    restaurants(
-      near: String!
-      partySize: Int!
-      availableIn: [TimeSlotInput!]!
-      bookingType: String
-    ): [Restaurant!]!
+    hotels(near: String!, partySize: Int!, availableIn: [HotelSlotInput!]!): [Hotel!]!
   }
 `;
 
@@ -55,21 +48,19 @@ interface YelpBusiness {
   price?: string;
   rating: number;
   phone?: string;
-  url: string;
   location: { display_address: string[]; city: string };
 }
 
-// SF city center coordinates with ~5 mile radius
 const SF_LAT = 37.7749;
 const SF_LNG = -122.4194;
 const SF_RADIUS_METERS = 8000;
 
-async function searchYelp(category = "restaurants"): Promise<YelpBusiness[]> {
+async function searchYelpHotels(): Promise<YelpBusiness[]> {
   const params = new URLSearchParams({
     latitude: String(SF_LAT),
     longitude: String(SF_LNG),
     radius: String(SF_RADIUS_METERS),
-    categories: category,
+    categories: "hotels",
     limit: "20",
     sort_by: "best_match",
   });
@@ -79,7 +70,7 @@ async function searchYelp(category = "restaurants"): Promise<YelpBusiness[]> {
   });
 
   if (!res.ok) {
-    console.error("Yelp API error:", res.status, await res.text());
+    console.error("Yelp hotels API error:", res.status, await res.text());
     return [];
   }
 
@@ -98,25 +89,18 @@ function yelpPriceToRange(price?: string): string {
 
 const resolvers = {
   Query: {
-    restaurants: async (
+    hotels: async (
       _: unknown,
       {
-        near,
-        partySize,
         availableIn,
-        bookingType,
+        partySize,
       }: {
         near: string;
         partySize: number;
-        availableIn: Array<{
-          date: string;
-          startTime: string;
-          endTime: string;
-        }>;
-        bookingType?: string;
+        availableIn: Array<{ checkIn: string; checkOut: string }>;
       },
     ) => {
-      const yelpResults = await searchYelp(bookingType === "hotels" ? "hotels" : "restaurants");
+      const yelpResults = await searchYelpHotels();
       const tf = new TinyFish({ apiKey: process.env.TINYFISH_API_KEY });
 
       const shuffled = yelpResults.sort(() => Math.random() - 0.5);
@@ -125,20 +109,16 @@ const resolvers = {
       const enriched = await Promise.all(
         top5.map(async (biz) => {
           let enrichment = {
-            topDishes: [] as string[],
+            amenities: [] as string[],
             vibeSummary: biz.categories.map((c) => c.title).join(", "),
-            transitInfo: biz.location.display_address.join(", "),
+            address: biz.location.display_address.join(", "),
           };
 
-          const openTableSlug = biz.name
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, "-");
+          const slug = biz.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
           try {
             const page = await tf.fetch.getContents({
-              urls: [
-                `https://www.opentable.com/r/${openTableSlug}`,
-              ],
+              urls: [`https://www.yelp.com/biz/${slug}`],
               format: "json",
             });
 
@@ -147,17 +127,17 @@ const resolvers = {
               if ("data" in result && result.data) {
                 const data = result.data as Record<string, unknown>;
                 enrichment = {
-                  topDishes: Array.isArray(data.popularDishes)
-                    ? (data.popularDishes as string[]).slice(0, 3)
+                  amenities: Array.isArray(data.amenities)
+                    ? (data.amenities as string[]).slice(0, 5)
                     : [],
                   vibeSummary:
                     typeof data.description === "string"
                       ? data.description
                       : enrichment.vibeSummary,
-                  transitInfo:
+                  address:
                     typeof data.address === "string"
                       ? data.address
-                      : enrichment.transitInfo,
+                      : enrichment.address,
                 };
               }
             }
@@ -168,20 +148,17 @@ const resolvers = {
           return {
             id: biz.id,
             name: biz.name,
-            cuisine: biz.categories[0]?.title ?? "Restaurant",
+            category: biz.categories[0]?.title ?? "Hotel",
             priceRange: yelpPriceToRange(biz.price),
             rating: biz.rating,
             phone: biz.phone ?? null,
-            openTableId: openTableSlug,
-            availableSlots: availableIn.map((slot) => ({
-              date: slot.date,
-              time: slot.startTime,
-            })),
+            availableNights: availableIn,
             enrichment,
           };
         }),
       );
 
+      void partySize;
       return enriched;
     },
   },

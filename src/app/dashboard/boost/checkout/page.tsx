@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Mock Stripe Checkout.
  *
@@ -32,7 +34,7 @@ const TIERS: Record<Tier, { name: string; monthly: number; annually: number }> =
     featured: { name: "Featured", monthly: 499, annually: 399 },
   };
 
-export default function CheckoutPage() {
+function CheckoutInner() {
   const router = useRouter();
   const params = useSearchParams();
   const tier: Tier = params.get("tier") === "featured" ? "featured" : "promoted";
@@ -464,5 +466,14 @@ function SuccessState({ tierName }: { tierName: string }) {
         <span style={{ color: "#635bff", fontWeight: 700 }}>stripe</span>
       </div>
     </div>
+  );
+}
+
+import { Suspense } from "react";
+export default function CheckoutPage() {
+  return (
+    <Suspense>
+      <CheckoutInner />
+    </Suspense>
   );
 }
