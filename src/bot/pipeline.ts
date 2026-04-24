@@ -139,7 +139,7 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
   }
 
   const taggedUsers: string[] = session.tagged_users;
-  const partySize = taggedUsers.length + 1;
+  const partySize = taggedUsers.length;
 
   const data = await querySubgraphs(
     taggedUsers,
