@@ -70,7 +70,7 @@ async function searchYelp(): Promise<YelpBusiness[]> {
     radius: String(SF_RADIUS_METERS),
     categories: "restaurants",
     limit: "20",
-    sort_by: "rating",
+    sort_by: "best_match",
   });
 
   const res = await fetch(`https://api.yelp.com/v3/businesses/search?${params}`, {
