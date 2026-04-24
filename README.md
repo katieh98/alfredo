@@ -40,10 +40,12 @@ No app to download. No coordination overhead. One slash command.
 
 ### Ghost · Database
 Two managed Postgres databases (Timescale-backed):
-- **Users DB** — Discord profiles: booking name, email, phone, dietary restrictions, cuisine preferences, price range. Also stores one-time setup tokens for the profile page.
+- **Users DB** — Discord profiles: booking name, email, phone, dietary restrictions, cuisine preferences, price range. Also stores one-time setup tokens for the profile setup page. Accessible at `/profile` after logging in.
 - **Sessions DB** — every `/alfredo` invocation: who invoked it, which channel, who was tagged, availability responses, booking status, VAPI call ID for webhook correlation.
 
-Ghost's MCP server was used to provision both databases and manage schema during development.
+The restaurant operator dashboard (`/dashboard`) reads live session and user data directly from Ghost — party members, dietary flags, confirmation codes, and booking status all pulled in real time.
+
+Ghost's MCP server was used entirely from within Claude Code to provision both databases, manage schema, run ad-hoc queries, and clear test data during development — no web console needed.
 
 ### WunderGraph Cosmo · Federated GraphQL
 Two Apollo Federation v2 subgraphs composed by Cosmo:
@@ -86,4 +88,10 @@ Run `/alfredo @friend demo:True` to skip TinyFish and go straight to the VAPI ph
 
 ## Web app
 
-Users can log in at `/profile` with their Discord account to update their dietary restrictions, cuisine preferences, and booking contact info. New users are also sent a setup link via Discord DM when they're first tagged in a booking.
+| Route | Purpose |
+|---|---|
+| `/` | Marketing landing page |
+| `/login` | Sign in |
+| `/dashboard` | Restaurant operator view — live session data, party members, dietary flags, confirmation status pulled from Ghost |
+| `/profile` | Update dietary restrictions, cuisine preferences, and booking contact info |
+| `/setup?token=...` | One-time profile setup for new users (linked from Discord DM) |
