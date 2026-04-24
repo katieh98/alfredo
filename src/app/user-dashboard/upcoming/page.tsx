@@ -5,7 +5,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getSessionsDb, getUsersDb } from "@/lib/db";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { redirect } from "next/navigation";
-import { FaUtensils, FaHotel, FaCircleCheck, FaCircleXmark, FaClock } from "react-icons/fa6";
+import { FaUtensils, FaHotel, FaClock } from "react-icons/fa6";
 import type { ReactNode } from "react";
 
 interface SessionRow {
@@ -13,10 +13,8 @@ interface SessionRow {
   invoker_id: string;
   tagged_users: string[];
   status: string;
-  confirmation: string | null;
   created_at: string;
   booking_type: string;
-  context: string | null;
 }
 
 interface UserRow {
@@ -24,15 +22,16 @@ interface UserRow {
   booking_name: string;
 }
 
-async function getUserSessions(discordId: string) {
+async function getUpcomingSessions(discordId: string) {
   const sessDb = getSessionsDb();
   const usrDb = getUsersDb();
   if (!sessDb || !usrDb) return [];
 
   const result = await sessDb.query(
-    `SELECT id, invoker_id, tagged_users, status, confirmation, created_at, booking_type, context
+    `SELECT id, invoker_id, tagged_users, status, created_at, booking_type
      FROM sessions
-     WHERE invoker_id = $1 OR $1 = ANY(tagged_users)
+     WHERE (invoker_id = $1 OR $1 = ANY(tagged_users))
+       AND status IN ('collecting', 'processing', 'fallback')
      ORDER BY created_at DESC
      LIMIT 20`,
     [discordId],
@@ -54,7 +53,6 @@ async function getUserSessions(discordId: string) {
     id: row.id,
     shortId: row.id.slice(0, 6).toUpperCase(),
     status: row.status,
-    confirmation: row.confirmation,
     bookingType: row.booking_type ?? "restaurants",
     createdAt: new Date(row.created_at).toLocaleString("en-US", {
       month: "short",
@@ -69,15 +67,13 @@ async function getUserSessions(discordId: string) {
   }));
 }
 
-function StatusBadge({ status }: { status: string }) {
-  const styles: Record<string, { bg: string; text: string; icon: ReactNode; label: string }> = {
-    booked:     { bg: "rgba(46,204,113,0.12)",   text: "#2ecc71",                  icon: <FaCircleCheck size={11} />, label: "Booked" },
-    fallback:   { bg: "rgba(245,158,11,0.12)",   text: "#f59e0b",                  icon: <FaClock size={11} />,       label: "Call in progress" },
-    processing: { bg: "rgba(104,64,255,0.12)",   text: "#6840ff",                  icon: <FaClock size={11} />,       label: "Processing" },
-    collecting: { bg: "rgba(225,225,225,0.08)",  text: "rgba(225,225,225,0.55)",   icon: <FaClock size={11} />,       label: "Waiting on crew" },
-    failed:     { bg: "rgba(240,78,85,0.12)",    text: "#f04e55",                  icon: <FaCircleXmark size={11} />, label: "Failed" },
+function StatusPill({ status }: { status: string }) {
+  const map: Record<string, { bg: string; text: string; label: string; icon: ReactNode }> = {
+    collecting: { bg: "rgba(225,225,225,0.08)", text: "rgba(225,225,225,0.6)", label: "Waiting on crew",    icon: <FaClock size={10} /> },
+    processing: { bg: "rgba(104,64,255,0.12)",  text: "#6840ff",               label: "Alfredo is on it",  icon: <FaClock size={10} /> },
+    fallback:   { bg: "rgba(245,158,11,0.12)",  text: "#f59e0b",               label: "Call in progress",  icon: <FaClock size={10} /> },
   };
-  const s = styles[status] ?? styles.collecting;
+  const s = map[status] ?? map.collecting;
   return (
     <span
       className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-medium"
@@ -89,7 +85,7 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
-export default async function UserDashboardPage() {
+export default async function UpcomingPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user) redirect("/login");
 
@@ -99,36 +95,34 @@ export default async function UserDashboardPage() {
     "";
   const userName = session.user.name ?? undefined;
   const userHandle = userName?.toLowerCase().replace(/\s+/g, "") ?? undefined;
-  const reservations = await getUserSessions(discordId);
+  const upcoming = await getUpcomingSessions(discordId);
 
   return (
     <div className="flex h-screen w-full gap-3 overflow-hidden bg-[var(--color-bg-alt)] p-3">
-      <Sidebar activePage="tonight" variant="user" userName={userName} userHandle={userHandle} />
+      <Sidebar activePage="upcoming" variant="user" userName={userName} userHandle={userHandle} />
 
       <main className="flex flex-1 flex-col overflow-y-auto rounded-[14px] bg-[var(--color-surface-raised)] p-6">
         <h1
           className="font-display text-[28px] font-normal"
           style={{ letterSpacing: "-0.03em", color: "var(--color-fg-strong)" }}
         >
-          Your reservations
+          Upcoming
         </h1>
         <p className="mt-1 text-[14px]" style={{ color: "var(--color-fg-muted)" }}>
-          Every group plan Alfredo ran for you or with you.
+          Plans in progress — waiting on your crew or being worked on by Alfredo.
         </p>
 
-        {reservations.length === 0 ? (
+        {upcoming.length === 0 ? (
           <div
             className="mt-12 flex flex-col items-center gap-3 text-center"
             style={{ color: "var(--color-fg-faint)" }}
           >
-            <FaUtensils size={32} />
-            <p className="text-[15px]">
-              No reservations yet — tag your friends in Discord to get started.
-            </p>
+            <FaClock size={32} />
+            <p className="text-[15px]">Nothing in the pipeline right now.</p>
           </div>
         ) : (
           <div className="mt-6 flex flex-col gap-3">
-            {reservations.map((r) => (
+            {upcoming.map((r) => (
               <div
                 key={r.id}
                 className="flex items-start gap-4 rounded-[12px] p-4"
@@ -140,18 +134,11 @@ export default async function UserDashboardPage() {
                 <div
                   className="flex size-10 shrink-0 items-center justify-center rounded-[10px]"
                   style={{
-                    background:
-                      r.bookingType === "hotels"
-                        ? "rgba(104,64,255,0.12)"
-                        : "rgba(240,78,85,0.12)",
+                    background: r.bookingType === "hotels" ? "rgba(104,64,255,0.12)" : "rgba(240,78,85,0.12)",
                     color: r.bookingType === "hotels" ? "#6840ff" : "#f04e55",
                   }}
                 >
-                  {r.bookingType === "hotels" ? (
-                    <FaHotel size={16} />
-                  ) : (
-                    <FaUtensils size={16} />
-                  )}
+                  {r.bookingType === "hotels" ? <FaHotel size={16} /> : <FaUtensils size={16} />}
                 </div>
 
                 <div className="flex min-w-0 flex-1 flex-col gap-1">
@@ -160,14 +147,12 @@ export default async function UserDashboardPage() {
                       className="text-[15px]"
                       style={{ fontWeight: 510, color: "var(--color-fg-strong)" }}
                     >
-                      {r.bookingType === "hotels" ? "SF trip" : "Night out"} ·{" "}
-                      {r.partySize} people
+                      {r.bookingType === "hotels" ? "SF trip" : "Night out"} · {r.partySize} people
                     </span>
-                    <StatusBadge status={r.status} />
+                    <StatusPill status={r.status} />
                   </div>
                   <div className="text-[13px]" style={{ color: "var(--color-fg-muted)" }}>
-                    {r.createdAt} · organized by{" "}
-                    {r.isInvoker ? "you" : r.invokerName}
+                    Started {r.createdAt} · organized by {r.isInvoker ? "you" : r.invokerName}
                   </div>
                   <div className="mt-1 flex flex-wrap gap-1.5">
                     {r.members.map((name) => (
@@ -183,13 +168,10 @@ export default async function UserDashboardPage() {
                       </span>
                     ))}
                   </div>
-                  {r.confirmation && (
-                    <div
-                      className="mt-1 text-[12px]"
-                      style={{ color: "var(--color-fg-faint)" }}
-                    >
-                      Confirmation <code>{r.confirmation}</code>
-                    </div>
+                  {r.status === "collecting" && (
+                    <p className="mt-1 text-[12px]" style={{ color: "var(--color-fg-faint)" }}>
+                      Waiting for everyone to respond via Discord DM
+                    </p>
                   )}
                 </div>
 

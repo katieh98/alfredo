@@ -7,6 +7,7 @@ import {
   FaAddressBook,
   FaChartLine,
   FaGear,
+  FaSliders,
 } from "react-icons/fa6";
 import { Wordmark } from "@/components/site-chrome";
 
@@ -21,6 +22,8 @@ export type DashboardPage =
 interface SidebarProps {
   activePage?: DashboardPage;
   variant?: "operator" | "user";
+  userName?: string;
+  userHandle?: string;
 }
 
 interface NavItemProps {
@@ -66,7 +69,7 @@ function NavItem({ icon, label, href, active, badge }: NavItemProps) {
   );
 }
 
-export function Sidebar({ activePage = "tonight", variant = "operator" }: SidebarProps) {
+export function Sidebar({ activePage = "tonight", variant = "operator", userName, userHandle }: SidebarProps) {
   const isUser = variant === "user";
   const tonightHref = isUser ? "/user-dashboard" : "/dashboard";
   const upcomingHref = isUser ? "/user-dashboard/upcoming" : "/dashboard/upcoming";
@@ -90,7 +93,14 @@ export function Sidebar({ activePage = "tonight", variant = "operator" }: Sideba
           href={upcomingHref}
           active={activePage === "upcoming"}
         />
-        {!isUser && (
+        {isUser ? (
+          <NavItem
+            icon={<FaSliders size={18} />}
+            label="Preferences"
+            href="/profile"
+            active={false}
+          />
+        ) : (
           <>
             <NavItem
               icon={<FaBolt size={20} />}
@@ -120,38 +130,65 @@ export function Sidebar({ activePage = "tonight", variant = "operator" }: Sideba
 
       {/* Bottom */}
       <div className="mt-auto flex flex-col gap-0.5 pt-5">
-        <NavItem
-          icon={<FaGear size={20} />}
-          label="Settings"
-          href="/dashboard/settings"
-          active={activePage === "settings"}
-        />
-        <Link
-          href="/dashboard/settings"
-          className="mt-3 flex items-center gap-3 rounded-[12px] bg-[var(--color-surface)] px-3 py-2.5 shadow-[0_1px_3px_rgba(0,0,0,0.05)] transition-shadow hover:shadow-[0_2px_6px_rgba(0,0,0,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-border)]"
-        >
-          <div
-            className="flex size-9 shrink-0 items-center justify-center rounded-full text-[14px] font-semibold text-white"
-            style={{
-              background: "#F04E55",
-              fontVariationSettings: "'wght' 600",
-            }}
-            aria-hidden
+        {!isUser && (
+          <NavItem
+            icon={<FaGear size={20} />}
+            label="Settings"
+            href="/dashboard/settings"
+            active={activePage === "settings"}
+          />
+        )}
+        {isUser && userName ? (
+          <Link
+            href="/profile"
+            className="mt-3 flex items-center gap-3 rounded-[12px] bg-[var(--color-surface)] px-3 py-2.5 shadow-[0_1px_3px_rgba(0,0,0,0.05)] transition-shadow hover:shadow-[0_2px_6px_rgba(0,0,0,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-border)]"
           >
-            V
-          </div>
-          <div className="min-w-0 flex-1">
             <div
-              className="truncate text-[14px] leading-[1.2] text-[var(--color-fg-strong)]"
-              style={{ fontWeight: 510, fontVariationSettings: "'wght' 510" }}
+              className="flex size-9 shrink-0 items-center justify-center rounded-full text-[14px] font-semibold text-white"
+              style={{ background: "#6840FF", fontVariationSettings: "'wght' 600" }}
+              aria-hidden
             >
-              Victoria
+              {userName[0].toUpperCase()}
             </div>
-            <div className="truncate text-[12px] leading-[1.3] text-[var(--color-fg-faint)]">
-              @victoria · FoH manager
+            <div className="min-w-0 flex-1">
+              <div
+                className="truncate text-[14px] leading-[1.2] text-[var(--color-fg-strong)]"
+                style={{ fontWeight: 510, fontVariationSettings: "'wght' 510" }}
+              >
+                {userName}
+              </div>
+              {userHandle && (
+                <div className="truncate text-[12px] leading-[1.3] text-[var(--color-fg-faint)]">
+                  @{userHandle}
+                </div>
+              )}
             </div>
-          </div>
-        </Link>
+          </Link>
+        ) : !isUser ? (
+          <Link
+            href="/dashboard/settings"
+            className="mt-3 flex items-center gap-3 rounded-[12px] bg-[var(--color-surface)] px-3 py-2.5 shadow-[0_1px_3px_rgba(0,0,0,0.05)] transition-shadow hover:shadow-[0_2px_6px_rgba(0,0,0,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-border)]"
+          >
+            <div
+              className="flex size-9 shrink-0 items-center justify-center rounded-full text-[14px] font-semibold text-white"
+              style={{ background: "#F04E55", fontVariationSettings: "'wght' 600" }}
+              aria-hidden
+            >
+              V
+            </div>
+            <div className="min-w-0 flex-1">
+              <div
+                className="truncate text-[14px] leading-[1.2] text-[var(--color-fg-strong)]"
+                style={{ fontWeight: 510, fontVariationSettings: "'wght' 510" }}
+              >
+                Victoria
+              </div>
+              <div className="truncate text-[12px] leading-[1.3] text-[var(--color-fg-faint)]">
+                @victoria · FoH manager
+              </div>
+            </div>
+          </Link>
+        ) : null}
       </div>
     </aside>
   );
