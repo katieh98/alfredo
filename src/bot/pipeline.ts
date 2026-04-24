@@ -172,11 +172,20 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
     "SELECT * FROM users WHERE discord_id = $1",
     [session.invoker_id],
   );
-  const invoker = invokerRow.rows[0] ?? {
-    booking_name: "Guest",
-    booking_phone: "",
-    booking_email: "",
-  };
+
+  if (!invokerRow.rows[0]) {
+    const appUrl = process.env.APP_URL ?? "http://localhost:3000";
+    const invokerUser = await client.users.fetch(session.invoker_id);
+    await invokerUser.send(
+      `hey! before alfredo can book, you need to set up your profile first:\n${appUrl}/setup\n\nthen run \`/alfredo\` again! 🍝`,
+    );
+    const channel = (await client.channels.fetch(session.channel_id)) as TextChannel;
+    await channel.send("⚠️ hey <@" + session.invoker_id + ">, you need to set up your profile before alfredo can book for you!");
+    await sessDb.query("UPDATE sessions SET status = 'failed' WHERE id = $1", [sessionId]);
+    return;
+  }
+
+  const invoker = invokerRow.rows[0];
 
   console.log("[pipeline] Attempting booking...");
   const booking = await bookRestaurant(pick, invoker, session.demo ?? false);
