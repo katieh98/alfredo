@@ -53,7 +53,7 @@ export default function LoginPage() {
         >
           <div className="flex flex-col gap-2">
             <button
-              onClick={() => signIn("credentials", { callbackUrl: "/profile" })}
+              onClick={() => signIn("credentials", { callbackUrl: "/dashboard" })}
               className="stagger-btn flex h-14 w-full items-center justify-center rounded-[8px] text-[16px] font-semibold"
               style={{
                 background: "var(--color-electric)",

@@ -8,6 +8,7 @@ import {
   FaChartLine,
   FaGear,
   FaCircle,
+  FaUser,
 } from "react-icons/fa6";
 import { Wordmark } from "@/components/site-chrome";
 
@@ -201,9 +202,10 @@ export function Sidebar() {
 
       {/* Bottom */}
       <div className="mt-auto flex flex-col gap-0.5 pt-5">
+        <NavItem icon={<FaUser size={20} />} label="Profile" href="/profile" />
         <NavItem icon={<FaGear size={20} />} label="Settings" href="/setup" />
         <Link
-          href="/setup"
+          href="/profile"
           className="mt-3 flex items-center gap-3 rounded-[12px] bg-[var(--color-surface)] px-3 py-2.5 shadow-[0_1px_3px_rgba(0,0,0,0.05)] transition-shadow hover:shadow-[0_2px_6px_rgba(0,0,0,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-border)]"
         >
           <div
