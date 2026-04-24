@@ -1,12 +1,7 @@
-/**
- * Login / OAuth handoff screen.
- * 1:1 visual pattern with osmo.supply/login:
- *   - dark hero (#151313) takes full viewport
- *   - centered elevated form card (#312e2e, 16px radius, 32px padding)
- *   - stacked fields / CTAs inside
- * Adapted for Alfredo's single-provider (Discord OAuth) auth flow.
- */
+"use client";
+
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 import { Footer, TopBar } from "@/components/site-chrome";
 import { StaggerText } from "@/components/stagger-text";
 
@@ -57,69 +52,17 @@ export default function LoginPage() {
           }}
         >
           <div className="flex flex-col gap-2">
-            <FieldLabel>Continue with</FieldLabel>
-            <a
-              href="https://discord.com/oauth2/authorize"
-              className="stagger-btn flex h-14 w-full items-center justify-center gap-3 rounded-[8px] text-[16px] font-semibold"
-              style={{
-                background: "#5865F2",
-                color: "#ffffff",
-              }}
-            >
-              <DiscordGlyph />
-              <StaggerText text="Discord" />
-            </a>
-            <a
-              href="https://discord.com/oauth2/authorize"
+            <button
+              onClick={() => signIn("credentials", { callbackUrl: "/profile" })}
               className="stagger-btn flex h-14 w-full items-center justify-center rounded-[8px] text-[16px] font-semibold"
               style={{
                 background: "var(--color-electric)",
                 color: "var(--color-bg-dark-2)",
               }}
             >
-              <StaggerText text="Continue as guest — magic link" />
-            </a>
-          </div>
-
-          <div className="relative my-1 flex items-center gap-3">
-            <span
-              className="h-px flex-1"
-              style={{ background: "rgba(244,244,244,0.08)" }}
-            />
-            <span
-              className="text-[13px] font-semibold uppercase tracking-wide"
-              style={{
-                color: "rgba(225,225,225,0.55)",
-                letterSpacing: "0.08em",
-              }}
-            >
-              or with email
-            </span>
-            <span
-              className="h-px flex-1"
-              style={{ background: "rgba(244,244,244,0.08)" }}
-            />
-          </div>
-
-          <form className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <FieldLabel htmlFor="email">Email</FieldLabel>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="yourname@email.com"
-                className="h-14 w-full rounded-[8px] bg-white/5 px-4 text-[16px] text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
-              />
-            </div>
-            <button
-              type="submit"
-              className="stagger-btn flex h-14 w-full items-center justify-center rounded-[8px] text-[16px] font-semibold text-white"
-              style={{ background: "rgba(244,244,244,0.08)" }}
-            >
-              <StaggerText text="Email me a magic link" />
+              <StaggerText text="Sign in" />
             </button>
-          </form>
+          </div>
 
           <p
             className="text-center text-[13px]"
