@@ -3,14 +3,25 @@ import type { ReactNode } from "react";
 import {
   FaClock,
   FaCalendarDays,
-  FaTriangleExclamation,
+  FaBolt,
   FaAddressBook,
   FaChartLine,
   FaGear,
-  FaCircle,
   FaUser,
 } from "react-icons/fa6";
 import { Wordmark } from "@/components/site-chrome";
+
+export type DashboardPage =
+  | "tonight"
+  | "upcoming"
+  | "boost"
+  | "guests"
+  | "reports"
+  | "settings";
+
+interface SidebarProps {
+  activePage?: DashboardPage;
+}
 
 interface NavItemProps {
   icon: ReactNode;
@@ -55,74 +66,7 @@ function NavItem({ icon, label, href, active, badge }: NavItemProps) {
   );
 }
 
-interface FlagRowProps {
-  flag: string;
-  table: string;
-  time: string;
-  severity: "critical" | "warning" | "info";
-}
-
-// Red = anaphylaxis-risk (nuts, shellfish), amber = medical (celiac),
-// green = preference (vegan, halal, kosher).
-function FlagRow({ flag, table, time, severity }: FlagRowProps) {
-  const dot =
-    severity === "critical"
-      ? "var(--color-status-red)"
-      : severity === "warning"
-        ? "var(--color-status-amber)"
-        : "var(--color-status-green)";
-  return (
-    <div className="flex h-10 items-center gap-2.5 rounded-[10px] px-3 transition-colors hover:bg-[var(--color-surface-hover)]">
-      <FaCircle size={7} style={{ color: dot }} className="shrink-0" />
-      <span
-        className="flex-1 truncate text-[14px] text-[var(--color-fg-strong)]"
-        style={{
-          fontWeight: 510,
-          fontVariationSettings: "'wght' 510",
-          letterSpacing: "-0.01em",
-        }}
-      >
-        {flag}
-        <span
-          className="ml-1.5 text-[var(--color-fg-faint)]"
-          style={{ fontWeight: 430, fontVariationSettings: "'wght' 430" }}
-        >
-          {table}
-        </span>
-      </span>
-      <span className="shrink-0 text-[12px] tabular-nums text-[var(--color-fg-faint)]">
-        {time}
-      </span>
-    </div>
-  );
-}
-
-interface SeatingRowProps {
-  time: string;
-  covers: number;
-  parties: number;
-}
-
-function SeatingRow({ time, covers, parties }: SeatingRowProps) {
-  return (
-    <div className="flex h-10 items-center gap-2.5 rounded-[10px] px-3 transition-colors hover:bg-[var(--color-surface-hover)]">
-      <span
-        className="w-[58px] shrink-0 text-[13px] tabular-nums text-[var(--color-fg-strong)]"
-        style={{ fontWeight: 510, fontVariationSettings: "'wght' 510" }}
-      >
-        {time}
-      </span>
-      <span className="flex-1 truncate text-[14px] text-[var(--color-fg-strong)]">
-        {covers} covers
-      </span>
-      <span className="shrink-0 text-[12px] text-[var(--color-fg-faint)]">
-        {parties} parties
-      </span>
-    </div>
-  );
-}
-
-export function Sidebar() {
+export function Sidebar({ activePage = "tonight" }: SidebarProps) {
   return (
     <aside className="flex h-full w-[296px] shrink-0 flex-col rounded-[14px] bg-[var(--color-surface-raised)] p-3">
       {/* Brand — shares the exact SVG wordmark from the marketing topbar
@@ -139,71 +83,53 @@ export function Sidebar() {
           icon={<FaClock size={20} />}
           label="Tonight"
           href="/dashboard"
-          active
+          active={activePage === "tonight"}
           badge="3"
         />
         <NavItem
           icon={<FaCalendarDays size={20} />}
           label="Upcoming"
           href="/dashboard#upcoming"
+          active={activePage === "upcoming"}
           badge="14"
         />
         <NavItem
-          icon={<FaTriangleExclamation size={20} />}
-          label="Allergies"
-          href="/dashboard#allergies"
-          badge="4"
+          icon={<FaBolt size={20} />}
+          label="Boost panel"
+          href="/dashboard/boost"
+          active={activePage === "boost"}
         />
         <NavItem
           icon={<FaAddressBook size={20} />}
           label="Guest book"
           href="/dashboard#guests"
+          active={activePage === "guests"}
         />
         <NavItem
           icon={<FaChartLine size={20} />}
           label="Reports"
           href="/dashboard#reports"
+          active={activePage === "reports"}
         />
       </nav>
 
-      {/* Kitchen-critical dietary flags for tonight's service */}
-      <div className="eyebrow-strong mt-7 mb-2.5 px-3">
-        Tonight&apos;s flags
-      </div>
-      <div className="flex flex-col gap-0.5">
-        <FlagRow
-          flag="Peanut allergy"
-          table="T14"
-          time="8:00"
-          severity="critical"
-        />
-        <FlagRow
-          flag="Shellfish"
-          table="T7"
-          time="7:30"
-          severity="critical"
-        />
-        <FlagRow
-          flag="Celiac / GF"
-          table="T3"
-          time="9:15"
-          severity="warning"
-        />
-        <FlagRow flag="Vegan ×2" table="T11" time="8:45" severity="info" />
-      </div>
-
-      {/* Upcoming turn times — pacing & prep */}
-      <div className="eyebrow-strong mt-6 mb-2.5 px-3">Next seatings</div>
-      <div className="flex flex-col gap-0.5">
-        <SeatingRow time="7:30 PM" covers={14} parties={4} />
-        <SeatingRow time="8:00 PM" covers={22} parties={6} />
-        <SeatingRow time="8:45 PM" covers={10} parties={3} />
-      </div>
+      {/* Tonight's flags + Next seatings now live above the reservations
+       *  table in the main content area — see OpsPanel. Keeping the
+       *  sidebar to nav only keeps it scannable at a glance. */}
 
       {/* Bottom */}
       <div className="mt-auto flex flex-col gap-0.5 pt-5">
-        <NavItem icon={<FaUser size={20} />} label="Profile" href="/profile" />
-        <NavItem icon={<FaGear size={20} />} label="Settings" href="/setup" />
+        <NavItem
+          icon={<FaUser size={20} />}
+          label="Profile"
+          href="/profile"
+        />
+        <NavItem
+          icon={<FaGear size={20} />}
+          label="Settings"
+          href="/setup"
+          active={activePage === "settings"}
+        />
         <Link
           href="/profile"
           className="mt-3 flex items-center gap-3 rounded-[12px] bg-[var(--color-surface)] px-3 py-2.5 shadow-[0_1px_3px_rgba(0,0,0,0.05)] transition-shadow hover:shadow-[0_2px_6px_rgba(0,0,0,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-border)]"

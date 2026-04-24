@@ -1,5 +1,18 @@
 export type RestaurantStatus = "picked" | "candidate" | "filtered";
 
+export type BookingSource =
+  | "Alfredo"
+  | "OpenTable"
+  | "Direct"
+  | "Resy"
+  | "Phone";
+
+export type ConfirmationState =
+  | "confirmed"
+  | "seated"
+  | "pending"
+  | "cancelled";
+
 export interface DietaryFit {
   vegetarian: boolean;
   vegan: boolean;
@@ -13,8 +26,17 @@ export interface AvailabilitySlot {
   remaining?: number;
 }
 
-export type ConfirmationState = "confirmed" | "seated" | "pending" | "cancelled";
-
+/**
+ * Each "Restaurant" is now a reservation at the operator's restaurant
+ * (Cotogna in this demo). The restaurant-metadata fields (name, cuisine,
+ * priceRange, neighborhood, rating, reviewCount, dietary, topDishes) are
+ * retained because the DetailPanel still consumes them as "what the booker
+ * matched on" — they describe the booking's match criteria, not competing
+ * restaurants. The booking-level fields (bookingId, partySize, whenLabel,
+ * source, hostName, confirmationState) drive the reservation-centric list
+ * view. Required fields are safe because every mock row populates them,
+ * and main's getLatestSession() override supplies them from real DB data.
+ */
 export interface Restaurant {
   id: string;
   name: string;
@@ -33,12 +55,13 @@ export interface Restaurant {
   topDishes: string[];
   accentColor: string;
   confirmation?: string;
-  confirmationState?: ConfirmationState;
-  bookingId?: string;
-  whenLabel?: string;
-  hostName?: string;
-  source?: string;
-  partySize?: number;
+  // Booking-level fields (per-row, restaurant-operator view)
+  bookingId: string;
+  partySize: number;
+  whenLabel: string;
+  source: BookingSource;
+  hostName: string;
+  confirmationState: ConfirmationState;
 }
 
 export interface PartyMember {
@@ -102,7 +125,7 @@ export const session: Session = {
   pipelineTiming: [
     { label: "Overlap computed", value: "42 ms" },
     { label: "WunderGraph query", value: "1.9 s" },
-    { label: "Claude selection", value: "1.2 s" },
+    { label: "OpenAI", value: "1.2 s" },
     { label: "TinyFish booking", value: "14.3 s" },
   ],
 };
@@ -121,6 +144,12 @@ export const restaurants: Restaurant[] = [
     score: 94,
     status: "picked",
     confirmation: "A47X9KLM",
+    bookingId: "A47X9KLM",
+    partySize: 5,
+    whenLabel: "Sat · 7:00 PM",
+    source: "Alfredo",
+    hostName: "Victoria Wang",
+    confirmationState: "confirmed",
     availability: [
       { label: "Sat · 6:30", time: "6:30 PM", available: true, remaining: 3 },
       { label: "Sat · 7:00", time: "7:00 PM", available: true, remaining: 5 },
@@ -148,6 +177,12 @@ export const restaurants: Restaurant[] = [
     dietary: { vegetarian: true, vegan: false, glutenFree: true },
     score: 88,
     status: "candidate",
+    bookingId: "B2Q4P8NM",
+    partySize: 2,
+    whenLabel: "Sat · 6:30 PM",
+    source: "OpenTable",
+    hostName: "Marcus Chen",
+    confirmationState: "seated",
     availability: [
       { label: "Sat · 7:00", time: "7:00 PM", available: true, remaining: 2 },
       { label: "Sat · 7:30", time: "7:30 PM", available: false },
@@ -169,6 +204,12 @@ export const restaurants: Restaurant[] = [
     dietary: { vegetarian: true, vegan: false, glutenFree: true },
     score: 82,
     status: "candidate",
+    bookingId: "C9R8T2KL",
+    partySize: 8,
+    whenLabel: "Sat · 8:00 PM",
+    source: "Direct",
+    hostName: "Priya Mehta",
+    confirmationState: "confirmed",
     availability: [
       { label: "Sat · 7:00", time: "7:00 PM", available: true, remaining: 6 },
       { label: "Sat · 7:30", time: "7:30 PM", available: true, remaining: 4 },
@@ -189,6 +230,12 @@ export const restaurants: Restaurant[] = [
     dietary: { vegetarian: true, vegan: true, glutenFree: true },
     score: 80,
     status: "candidate",
+    bookingId: "D1M5N7QP",
+    partySize: 3,
+    whenLabel: "Sat · 7:30 PM",
+    source: "Resy",
+    hostName: "Jordan Kim",
+    confirmationState: "pending",
     availability: [
       { label: "Sat · 6:30", time: "6:30 PM", available: true, remaining: 2 },
       { label: "Sat · 7:00", time: "7:00 PM", available: false },
@@ -209,6 +256,12 @@ export const restaurants: Restaurant[] = [
     dietary: { vegetarian: true, vegan: false, glutenFree: false },
     score: 74,
     status: "candidate",
+    bookingId: "E4K6B9WX",
+    partySize: 6,
+    whenLabel: "Sat · 6:45 PM",
+    source: "Alfredo",
+    hostName: "Alex Rivera",
+    confirmationState: "seated",
     availability: [
       { label: "Sat · 7:00", time: "7:00 PM", available: true, remaining: 8 },
     ],
@@ -228,6 +281,12 @@ export const restaurants: Restaurant[] = [
     dietary: { vegetarian: true, vegan: false, glutenFree: true },
     score: 71,
     status: "candidate",
+    bookingId: "F3H8L2DQ",
+    partySize: 4,
+    whenLabel: "Sat · 8:30 PM",
+    source: "Phone",
+    hostName: "Sam Osei",
+    confirmationState: "confirmed",
     availability: [
       { label: "Sat · 7:00", time: "7:00 PM", available: true, remaining: 5 },
       { label: "Sat · 8:00", time: "8:00 PM", available: true, remaining: 3 },
@@ -249,7 +308,13 @@ export const restaurants: Restaurant[] = [
     score: 0,
     status: "filtered",
     filteredReason:
-      "No reliable gluten-free menu — Carol's hard constraint filters this out.",
+      "Customer cancelled 2h ago — dietary conflict couldn't be accommodated.",
+    bookingId: "G7V4X1RM",
+    partySize: 2,
+    whenLabel: "Sat · 9:00 PM",
+    source: "OpenTable",
+    hostName: "Ben Ortiz",
+    confirmationState: "cancelled",
     availability: [],
     reasoning: "",
     topDishes: [],

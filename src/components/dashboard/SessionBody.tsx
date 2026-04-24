@@ -7,6 +7,7 @@ import type { Restaurant, Session } from "@/app/dashboard/_data";
 import { FilteredCandidatesArea } from "@/components/dashboard/FilteredCandidatesArea";
 import { DetailPanel } from "@/components/dashboard/DetailPanel";
 import { Header } from "@/components/dashboard/Header";
+import { OpsPanel } from "@/components/dashboard/OpsPanel";
 
 gsap.registerPlugin(useGSAP);
 
@@ -139,6 +140,7 @@ export function SessionBody({ restaurants, session }: SessionBodyProps) {
         <Header sessionShortId={session.shortId} />
         <main className="dop-no-scrollbar flex min-h-0 flex-1 flex-col gap-8 overflow-y-auto px-2 pb-10 pt-6">
           <SessionHero session={session} />
+          <OpsPanel />
           <FilteredCandidatesArea
             restaurants={restaurants}
             selectedId={selected.id}
@@ -173,20 +175,21 @@ export function SessionBody({ restaurants, session }: SessionBodyProps) {
 }
 
 function SessionHero({ session }: { session: Session }) {
+  // dateTime is "Sat, Apr 26 · 7:00 PM"; the time slot belongs to the
+  // selected reservation, not to the whole night, so strip it for the
+  // page header and show only the date.
+  const dateOnly = session.dateTime.split(" · ")[0];
   return (
     <section className="flex flex-col gap-6">
       <div className="min-w-0">
         <h1 className="hero-title whitespace-nowrap">
-          {session.title}
+          Tonight
           <span className="text-[var(--color-fg-tertiary)]">
             {" · "}
-            {session.partySize} people
+            {dateOnly}
           </span>
         </h1>
       </div>
-      {/* Party avatars, chat-context line, and pipeline-timing stats all
-       * removed — this dashboard is the restaurant operator's view of a
-       * reservation, not the diner's view of Alfredo's deliberation. */}
     </section>
   );
 }
