@@ -32,7 +32,7 @@ export default function LoginPage() {
       router.push("/dashboard");
       return;
     }
-    signIn("credentials", { callbackUrl: "/dashboard" });
+    signIn("credentials", { callbackUrl: "/user-dashboard" });
   }
 
   return (

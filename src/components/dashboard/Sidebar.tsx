@@ -20,6 +20,7 @@ export type DashboardPage =
 
 interface SidebarProps {
   activePage?: DashboardPage;
+  variant?: "operator" | "user";
 }
 
 interface NavItemProps {
@@ -65,51 +66,52 @@ function NavItem({ icon, label, href, active, badge }: NavItemProps) {
   );
 }
 
-export function Sidebar({ activePage = "tonight" }: SidebarProps) {
+export function Sidebar({ activePage = "tonight", variant = "operator" }: SidebarProps) {
+  const isUser = variant === "user";
+  const tonightHref = isUser ? "/user-dashboard" : "/dashboard";
+  const upcomingHref = isUser ? "/user-dashboard/upcoming" : "/dashboard/upcoming";
+
   return (
     <aside className="flex h-full w-[296px] shrink-0 flex-col rounded-[14px] bg-[var(--color-surface-raised)] p-3">
-      {/* Brand — shares the exact SVG wordmark from the marketing topbar
-          (see site-chrome.tsx `Wordmark`) so the mark reads identically in
-          both surfaces. Wordmark renders its own <Link href="/">, so we just
-          wrap it in a padded box for the sidebar's inset. */}
       <div className="flex items-center px-3 pb-4 pt-2.5">
         <Wordmark />
       </div>
 
-      {/* Primary nav — restaurant operator surfaces */}
       <nav className="flex flex-col gap-0.5">
         <NavItem
           icon={<FaClock size={20} />}
           label="Tonight"
-          href="/dashboard"
+          href={tonightHref}
           active={activePage === "tonight"}
-          badge="3"
         />
         <NavItem
           icon={<FaCalendarDays size={20} />}
           label="Upcoming"
-          href="/dashboard/upcoming"
+          href={upcomingHref}
           active={activePage === "upcoming"}
-          badge="14"
         />
-        <NavItem
-          icon={<FaBolt size={20} />}
-          label="Boost panel"
-          href="/dashboard/boost"
-          active={activePage === "boost"}
-        />
-        <NavItem
-          icon={<FaAddressBook size={20} />}
-          label="Guestbook"
-          href="/dashboard/guests"
-          active={activePage === "guests"}
-        />
-        <NavItem
-          icon={<FaChartLine size={20} />}
-          label="Reports"
-          href="/dashboard/reports"
-          active={activePage === "reports"}
-        />
+        {!isUser && (
+          <>
+            <NavItem
+              icon={<FaBolt size={20} />}
+              label="Boost panel"
+              href="/dashboard/boost"
+              active={activePage === "boost"}
+            />
+            <NavItem
+              icon={<FaAddressBook size={20} />}
+              label="Guestbook"
+              href="/dashboard/guests"
+              active={activePage === "guests"}
+            />
+            <NavItem
+              icon={<FaChartLine size={20} />}
+              label="Reports"
+              href="/dashboard/reports"
+              active={activePage === "reports"}
+            />
+          </>
+        )}
       </nav>
 
       {/* Tonight's flags + Next seatings now live above the reservations
