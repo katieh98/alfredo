@@ -30,5 +30,5 @@ input TimeSlotInput {
 }
 
 type Query {
-  restaurants(near: String!, partySize: Int!, availableIn: [TimeSlotInput!]!): [Restaurant!]!
+  restaurants(near: String!, partySize: Int!, availableIn: [TimeSlotInput!]!, bookingType: String): [Restaurant!]!
 }
