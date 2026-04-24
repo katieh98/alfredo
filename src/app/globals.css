@@ -1,26 +1,296 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@font-face {
+  font-family: "Haffer XH";
+  src: url("/fonts/HafferXHRegular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+  /* Osmo neutrals — warm, not pure */
+  --color-bg: #f4f4f4;
+  --color-bg-alt: #eaeaea;
+  --color-bg-muted: #e1e1e1;
+  --color-bg-card: #ffffff;
+  --color-bg-dark: #151313;
+  --color-bg-dark-2: #201d1d;
+
+  --color-ink: #201d1d;
+  --color-ink-soft: #4f4c4c;
+  --color-ink-mute: #817f7f;
+  --color-ink-placeholder: #b8b8b8;
+
+  --color-border: #d8d8d8;
+  --color-border-soft: #eaeaea;
+
+  /* Osmo accents — purple is primary, lime is success */
+  --color-purple: #6840ff;
+  --color-electric: #a1ff62;
+  --color-coral: #f84131;
+  --color-dot: #f84131; /* brand dot now uses coral to sit in the Osmo palette */
+
+  --font-display: "Haffer XH", var(--font-geist-sans), ui-sans-serif,
+    system-ui, sans-serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Doppel-inspired dashboard tokens (namespaced to avoid clashing with
+   * osmo-styled landing). See /dashboard route. */
+  --color-surface: #ffffff;
+  --color-surface-raised: #f4f4f4;
+  --color-surface-hover: rgba(40, 40, 40, 0.055);
+  --color-fg-strong: #1f1d1d;
+  --color-fg-secondary: rgba(31, 29, 29, 0.7);
+  --color-fg-tertiary: rgba(31, 29, 29, 0.5);
+  --color-fg-muted: #6b6b6b;
+  --color-fg-faint: #817f7f;
+  --color-border-subtle: rgba(32, 29, 29, 0.06);
+  --color-border-strong: rgba(32, 29, 29, 0.1);
+  --color-accent: #1132f5;
+  --color-accent-light: rgba(17, 50, 245, 0.08);
+  --color-accent-border: rgba(17, 50, 245, 0.18);
+  --color-accent-hover: #0d28cc;
+  --color-status-green: #2ecc71;
+  --color-status-green-light: rgba(46, 204, 113, 0.12);
+  --color-status-amber: #f59e0b;
+  --color-status-amber-light: rgba(245, 158, 11, 0.12);
+  --color-status-red: #f04e55;
+  --color-status-red-light: rgba(240, 78, 85, 0.1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    background: var(--color-bg);
+    color: var(--color-ink);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+    font-variation-settings: "wght" 460;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  ::selection {
+    background: var(--color-purple);
+    color: #ffffff;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font-family: inherit;
+    letter-spacing: inherit;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility label-xs {
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  color: var(--color-ink-mute);
+  font-weight: 500;
+  font-variation-settings: "wght" 500;
+}
+
+@utility label-sm {
+  font-size: 14px;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  color: var(--color-ink);
+  /* Field-name weight — explicit so it overrides the body's wght:460 lock. */
+  font-weight: 600;
+  font-variation-settings: "wght" 600;
+}
+
+/* Osmo paragraph scale (ported from .p-m / .p-l in osmo-v2.shared.css).
+ * Apply to body copy — slightly lighter weight than labels, tight tracking. */
+@utility body-md {
+  font-size: 17px;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  font-variation-settings: "wght" 430;
+}
+
+@utility body-lg {
+  font-size: 19px;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  font-variation-settings: "wght" 420;
+}
+
+/* Button character stagger animation — port of
+ * osmo.supply/demo/button-with-css-character-stagger
+ * Each char wraps in a span; on parent hover each translates -1.3em with
+ * a 10ms per-index delay. text-shadow at 0 1.3em currentColor creates the
+ * ghost copy below so the swap reads as letters sliding in, not leaving. */
+@layer components {
+  .stagger-wrap {
+    display: inline-flex;
+    overflow: hidden;
+    line-height: 1;
+    vertical-align: bottom;
+  }
+
+  .stagger-char {
+    display: inline-block;
+    transition: transform 0.6s cubic-bezier(0.625, 0.05, 0, 1);
+    text-shadow: 0 1.3em currentColor;
+    will-change: transform;
+  }
+
+  .stagger-btn:hover .stagger-char,
+  .stagger-btn:focus-visible .stagger-char {
+    transform: translateY(-1.3em) rotate(0.001deg);
+  }
+}
+
+/* ============================================================
+ * Doppel-desktop ported utilities — used by /dashboard.
+ * Numbers are lifted from doppel_desktop/src/styles/index.css
+ * and verified against osmo.supply/demo via DevTools.
+ * ============================================================ */
+
+@utility dop-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+@utility dop-frame {
+  background: var(--color-surface-raised);
+  border-radius: 14px;
+  padding: 6px;
+}
+
+@utility eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  color: var(--color-fg-faint);
+}
+
+@utility eyebrow-strong {
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-fg-faint);
+}
+
+@utility row-title {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.003em;
+  color: var(--color-fg-strong);
+}
+
+@utility row-subtitle {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 17px;
+  color: var(--color-fg-tertiary);
+}
+
+@utility stat-num {
+  font-size: 20px;
+  font-weight: 510;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-fg-strong);
+}
+
+@utility hero-title {
+  font-family: var(--font-display);
+  font-size: 42px;
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--color-fg-strong);
+}
+
+@utility dop-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-fg-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  transition: background 0.12s ease;
+}
+
+@utility dop-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 6px;
+  border: 0;
+  background: var(--color-fg-strong);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  transition: opacity 0.12s ease;
+}
+
+@utility dop-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 9px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-fg-muted);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+@utility dop-chip-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 9px;
+  border-radius: 6px;
+  border: 1px solid var(--color-accent-border);
+  background: var(--color-accent-light);
+  color: var(--color-accent);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
 }
