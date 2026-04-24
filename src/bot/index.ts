@@ -45,7 +45,7 @@ async function handleAlfredoCommand(interaction: ChatInputCommandInteraction) {
     .map((m) => `${m.author.username}: ${m.content}`)
     .join("\n");
 
-  await interaction.reply("Alfredo is on it! Checking in with your crew...");
+  await interaction.reply("🍝 alfredo is on it! checking in with your crew...");
 
   const sessionId = crypto.randomUUID();
   await db.query(
@@ -141,11 +141,11 @@ async function handleAvailabilityButton(interaction: ButtonInteraction) {
       }),
     );
 
-    let status = `Checked in: ${respondedNames.join(", ")}`;
+    let status = `✅ checked in: **${respondedNames.join(", ")}**`;
     if (waitingNames.length > 0) {
-      status += `\nWaiting on: ${waitingNames.join(", ")}`;
+      status += `\n⏳ waiting on: ${waitingNames.join(", ")}`;
     } else {
-      status += `\nEveryone's in! Finding the perfect spot...`;
+      status += `\n🎉 everyone's in! finding the perfect spot...`;
     }
     await channel.send(status);
   } catch (err) {

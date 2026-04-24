@@ -59,29 +59,30 @@ async function postResult(
 
   if (booking.success) {
     await channel.send(
-      `Booked!\n\n` +
-        `${pick.restaurant.name}\n` +
-        `${pick.date} - ${pick.time} - ${pick.partySize} people\n` +
-        `Confirmation #${booking.confirmation}\n\n` +
-        `Why Alfredo picked it:\n${pick.reasoning}`,
+      `🍝 **you're going out!**\n\n` +
+        `**${pick.restaurant.name}**\n` +
+        `📅 ${pick.date} · ${pick.time} · ${pick.partySize} people\n` +
+        `🎟️ Confirmation \`${booking.confirmation}\`\n\n` +
+        `> ${pick.reasoning}`,
     );
   } else if (booking.callInitiated) {
     await channel.send(
-      `${pick.restaurant.name}\n` +
-        `${pick.date} - ${pick.time} - ${pick.partySize} people\n\n` +
-        `Alfredo is calling to book your table now!\n\n` +
-        `Why Alfredo picked it:\n${pick.reasoning}`,
+      `🍝 **alfredo found your spot!**\n\n` +
+        `**${pick.restaurant.name}**\n` +
+        `📅 ${pick.date} · ${pick.time} · ${pick.partySize} people\n\n` +
+        `📞 calling to lock in your reservation now...\n\n` +
+        `> ${pick.reasoning}`,
     );
   } else {
     const bookingLine = booking.directUrl
-      ? `Book it here: ${booking.directUrl}`
-      : `Call to book: 703-915-6060`;
+      ? `👉 [book here](${booking.directUrl})`
+      : `📞 call to book: 703-915-6060`;
     await channel.send(
-      `${pick.restaurant.name}\n` +
-        `${pick.date} - ${pick.time} - ${pick.partySize} people\n\n` +
-        `Alfredo found the perfect spot but couldn't grab the reservation automatically.\n` +
-        `${bookingLine}\n\n` +
-        `Why Alfredo picked it:\n${pick.reasoning}`,
+      `🍝 **alfredo found your spot!**\n\n` +
+        `**${pick.restaurant.name}**\n` +
+        `📅 ${pick.date} · ${pick.time} · ${pick.partySize} people\n\n` +
+        `couldn't snag the rez automatically — ${bookingLine}\n\n` +
+        `> ${pick.reasoning}`,
     );
   }
 }
@@ -133,9 +134,7 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
     const channel = (await client.channels.fetch(
       session.channel_id,
     )) as TextChannel;
-    await channel.send(
-      "Couldn't find a time that works for everyone this weekend.",
-    );
+    await channel.send("😔 no overlapping times this weekend — try again when everyone's free!");
     return;
   }
 
@@ -155,7 +154,7 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
 
   if (data.restaurants.length === 0) {
     const channel = (await client.channels.fetch(session.channel_id)) as TextChannel;
-    await channel.send("Couldn't find any restaurants nearby. Try again later.");
+    await channel.send("😵 couldn't find any restaurants nearby right now — try again in a bit!");
     return;
   }
 
@@ -191,7 +190,7 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
       const channel = (await client.channels.fetch(
         (await sessDb.query("SELECT channel_id FROM sessions WHERE id = $1", [sessionId])).rows[0]?.channel_id,
       )) as TextChannel;
-      await channel.send("Something went wrong while finding a restaurant. Please try again.");
+      await channel.send("😬 something went wrong on alfredo's end — give it another shot!");
     } catch {
       // can't even post error to channel
     }
