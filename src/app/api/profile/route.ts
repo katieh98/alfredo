@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
+import { getServerSession, type Session } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getUsersDb } from "@/lib/db";
 
-function getDiscordId(session: Awaited<ReturnType<typeof getServerSession>>): string | null {
+function getDiscordId(session: Session | null): string | null {
   if (!session?.user) return null;
   return (session.user as { id?: string }).id ?? null;
 }
