@@ -48,8 +48,6 @@ export function FilteredCandidatesArea({
 
   return (
     <section className="flex shrink-0 flex-col">
-      {/* Section title — sits above the filter row so the table reads as
-          "Tonight's reservations → narrow with filters → table". */}
       <header className="mb-4">
         <h2
           className="text-[20px] text-[var(--color-fg-strong)]"
@@ -60,7 +58,7 @@ export function FilteredCandidatesArea({
             lineHeight: 1,
           }}
         >
-          Tonight&apos;s reservations
+          Top customers
         </h2>
       </header>
 

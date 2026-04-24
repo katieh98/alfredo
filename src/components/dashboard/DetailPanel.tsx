@@ -73,8 +73,12 @@ export function DetailPanel({
         {/* Heading — booking ID is the anchor; time/party live as a subtitle. */}
         <div>
           <div
-            className="mb-2 text-[12px] uppercase tracking-[0.06em] text-[var(--color-fg-faint)]"
-            style={{ fontWeight: 600 }}
+            className="mb-2 text-[12px] text-[var(--color-fg-faint)]"
+            style={{
+              fontWeight: 600,
+              fontVariationSettings: "'wght' 600",
+              letterSpacing: "-0.005em",
+            }}
           >
             Booking ID
           </div>

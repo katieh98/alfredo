@@ -1,56 +1,79 @@
 import type { Restaurant } from "@/app/dashboard/_data";
 import type { FieldDef } from "./types";
 
-/** Static schema. Dynamic option lists (cuisine, neighborhood) are
- *  populated at runtime from the actual restaurant set — see
- *  `buildRestaurantFields`. Mirrors doppel_desktop's workflow-fields.ts. */
+/**
+ * Filter schema for the reservations table. Every field here maps 1:1 to
+ * a visible table column (Booking ID · Owner · Party · When · Source ·
+ * Status) so the Filter and Sort menus always offer exactly what's on
+ * screen. Restaurant-metadata fields (cuisine, rating, neighborhood)
+ * intentionally aren't here — they describe the booking's match context
+ * and live on the DetailPanel, not the list view.
+ */
 const STATIC_FIELDS: ReadonlyArray<FieldDef> = [
-  { id: "name",         label: "Name",         type: "text",        icon: "type",        visible: true },
-  { id: "cuisine",      label: "Cuisine",      type: "select",      icon: "tag",         visible: true, options: [] },
-  { id: "priceRange",   label: "Price",        type: "select",      icon: "hash",        visible: true, options: ["$", "$$", "$$$", "$$$$"] },
-  { id: "dietary",      label: "Dietary",      type: "multiselect", icon: "grid",        visible: true, options: ["Vegetarian", "Vegan", "Gluten-free"] },
-  { id: "neighborhood", label: "Neighborhood", type: "select",      icon: "align-left",  visible: true, options: [] },
-  { id: "rating",       label: "Rating",       type: "number",      icon: "hash",        visible: true },
-  { id: "score",        label: "Score",        type: "number",      icon: "hash",        visible: true },
-  { id: "available",    label: "Availability", type: "boolean",     icon: "boolean",     visible: true },
+  {
+    id: "bookingId",
+    label: "Booking ID",
+    type: "text",
+    icon: "hash",
+    visible: true,
+  },
+  {
+    id: "hostName",
+    label: "Owner",
+    type: "text",
+    icon: "type",
+    visible: true,
+  },
+  {
+    id: "partySize",
+    label: "Party",
+    type: "number",
+    icon: "hash",
+    visible: true,
+  },
+  {
+    id: "whenLabel",
+    label: "When",
+    type: "text",
+    icon: "clock",
+    visible: true,
+  },
+  {
+    id: "source",
+    label: "Source",
+    type: "select",
+    icon: "tag",
+    visible: true,
+    options: ["Alfredo", "OpenTable", "Direct", "Resy", "Phone"],
+  },
+  {
+    id: "confirmationState",
+    label: "Status",
+    type: "select",
+    icon: "status",
+    visible: true,
+    options: ["confirmed", "seated", "pending", "cancelled"],
+  },
 ];
 
-/** Schema with select/multiselect option lists populated from the actual
- *  restaurants in scope (sorted, deduped). */
-export function buildRestaurantFields(restaurants: ReadonlyArray<Restaurant>): FieldDef[] {
-  const cuisines = new Set<string>();
-  const neighborhoods = new Set<string>();
-  for (const r of restaurants) {
-    if (r.cuisine) cuisines.add(r.cuisine);
-    if (r.neighborhood) neighborhoods.add(r.neighborhood);
-  }
-  const cuisineOpts = [...cuisines].sort();
-  const neighborhoodOpts = [...neighborhoods].sort();
-
-  return STATIC_FIELDS.map((f) => {
-    if (f.id === "cuisine") return { ...f, options: cuisineOpts };
-    if (f.id === "neighborhood") return { ...f, options: neighborhoodOpts };
-    return { ...f };
-  });
+/** Select-field options are constants today (enums on Restaurant). Keeping
+ *  the builder signature so callers don't have to change when/if we move
+ *  a field back to dynamic options. */
+export function buildRestaurantFields(
+  _restaurants: ReadonlyArray<Restaurant>,
+): FieldDef[] {
+  return STATIC_FIELDS.map((f) => ({ ...f }));
 }
 
-/** Project a Restaurant into a plain record the filter engine can read.
- *  The filter engine treats records as `Record<string, unknown>` and looks
- *  up fields by id — so as long as the keys match `FieldDef.id` we're set. */
+/** Project a Restaurant (really a booking row) into a plain record the
+ *  filter engine reads by field id. Keys here MUST match `FieldDef.id`. */
 export function restaurantToFilterRow(r: Restaurant): Record<string, unknown> {
-  const dietaryTags: string[] = [];
-  if (r.dietary.vegetarian) dietaryTags.push("Vegetarian");
-  if (r.dietary.vegan) dietaryTags.push("Vegan");
-  if (r.dietary.glutenFree) dietaryTags.push("Gluten-free");
-
   return {
-    name: r.name,
-    cuisine: r.cuisine,
-    priceRange: r.priceRange,
-    dietary: dietaryTags,
-    neighborhood: r.neighborhood,
-    rating: r.rating,
-    score: r.score,
-    available: r.availability.some((s) => s.available) ? "true" : "false",
+    bookingId: r.bookingId,
+    hostName: r.hostName,
+    partySize: r.partySize,
+    whenLabel: r.whenLabel,
+    source: r.source,
+    confirmationState: r.confirmationState,
   };
 }

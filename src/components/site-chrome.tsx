@@ -75,8 +75,8 @@ export function TopBar() {
           <nav className="absolute left-0 top-[calc(100%+8px)] w-60 rounded-[8px] bg-bg-dark-2 p-2 text-[15px] shadow-lg ring-1 ring-inset ring-white/10">
             <NavLink href="/#how">How it works</NavLink>
             <NavLink href="/#preview">Preview</NavLink>
-            <NavLink href="/setup">Setup</NavLink>
-            <NavLink href="/login">Sign in</NavLink>
+            <NavLink href="/restaurants">For restaurants</NavLink>
+            <NavLink href="/plans">Pricing</NavLink>
             <div className="my-1 border-t border-white/10" />
             <NavLink href="https://github.com/katieh98/alfredo">
               GitHub

@@ -64,11 +64,10 @@ function Card({ eyebrow, icon, children }: CardProps) {
         className="flex items-center gap-1.5 border-b border-[var(--color-border-subtle)] bg-[var(--color-surface-raised)] px-4 py-2.5"
         style={{
           color: "var(--color-fg-tertiary)",
-          fontSize: 11,
+          fontSize: 13,
           fontWeight: 600,
           fontVariationSettings: "'wght' 600",
-          letterSpacing: "0.08em",
-          textTransform: "uppercase",
+          letterSpacing: "-0.005em",
         }}
       >
         <span className="flex items-center text-[var(--color-fg-faint)]">

@@ -155,13 +155,14 @@ export function ReportsPanel() {
                       />
                     </div>
                     <span
-                      className="text-[11px] uppercase"
+                      className="text-[12px]"
                       style={{
-                        letterSpacing: "0.06em",
+                        letterSpacing: "-0.005em",
                         color: isToday
                           ? "var(--color-accent)"
                           : "var(--color-fg-tertiary)",
-                        fontWeight: isToday ? 600 : 500,
+                        fontWeight: 600,
+                        fontVariationSettings: "'wght' 600",
                       }}
                     >
                       {d.day}
