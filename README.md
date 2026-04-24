@@ -66,10 +66,7 @@ The agent pipeline queries both subgraphs in parallel via `Promise.all`. WunderG
 
 ### TinyFish — Browser automation
 
-TinyFish is used in two places:
-
-1. **Restaurant enrichment** (best-effort): `tf.fetch.getContents()` scrapes OpenTable for dish descriptions and vibe summaries to give OpenAI richer context for picking.
-2. **Booking** (primary path): `tf.agent.run()` navigates OpenTable, searches for the restaurant, and fills in the reservation form. Has a 2-minute timeout before falling back to VAPI.
+TinyFish handles the actual restaurant booking. `tf.agent.run()` navigates OpenTable, searches for the restaurant, and fills in the reservation form with the party size, date, time, and contact details. Has a 2-minute timeout before falling back to a VAPI phone call.
 
 ### VAPI — AI phone calls
 
