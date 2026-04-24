@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getUsersDb, getSessionsDb } from "@/lib/db";
 import { getBotClient } from "@/lib/bot-client";
 import { buildAvailabilityRow } from "@/bot/availability";
+import { runAgentPipeline } from "@/bot/pipeline";
 
 export async function POST(req: NextRequest) {
   const db = getUsersDb();
@@ -71,25 +72,37 @@ export async function POST(req: NextRequest) {
 
   await db.query("DELETE FROM setup_tokens WHERE token = $1", [token]);
 
-  // Send availability DM if there's an active session waiting on this user
   try {
     const sessDb = getSessionsDb();
     const botClient = getBotClient();
     if (sessDb && botClient) {
-      const activeSessions = await sessDb.query(
+      // Send availability DM if tagged in a collecting session
+      const taggedSessions = await sessDb.query(
         `SELECT id FROM sessions WHERE status = 'collecting' AND $1 = ANY(tagged_users)`,
         [discord_id],
       );
-      for (const row of activeSessions.rows) {
+      for (const row of taggedSessions.rows) {
         const user = await botClient.users.fetch(discord_id);
         await user.send({
           content: `you're all set! now pick when you're free this weekend 👇`,
           components: [buildAvailabilityRow(row.id)],
         });
       }
+
+      // Re-run pipeline if invoker just registered and session was paused waiting for them
+      const failedSessions = await sessDb.query(
+        `SELECT id FROM sessions WHERE status = 'failed' AND invoker_id = $1`,
+        [discord_id],
+      );
+      for (const row of failedSessions.rows) {
+        await sessDb.query("UPDATE sessions SET status = 'collecting' WHERE id = $1", [row.id]);
+        runAgentPipeline(botClient, row.id).catch((err) =>
+          console.error("Failed to re-run pipeline after invoker registration:", err),
+        );
+      }
     }
   } catch (err) {
-    console.error("Failed to send post-registration availability DM:", err);
+    console.error("Failed to handle post-registration actions:", err);
   }
 
   return NextResponse.json({ success: true });
