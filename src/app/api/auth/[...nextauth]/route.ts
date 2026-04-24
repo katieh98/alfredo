@@ -3,6 +3,7 @@ import DiscordProvider from "next-auth/providers/discord";
 
 export const authOptions: AuthOptions = {
   debug: true,
+  useSecureCookies: true,
   providers: [
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID!,
