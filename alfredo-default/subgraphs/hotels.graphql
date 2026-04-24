@@ -1,0 +1,33 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key"])
+
+type Hotel {
+  id: ID!
+  name: String!
+  category: String!
+  priceRange: String!
+  rating: Float!
+  phone: String
+  availableNights: [HotelNight!]!
+  enrichment: HotelEnrichment!
+}
+
+type HotelNight {
+  checkIn: String!
+  checkOut: String!
+}
+
+type HotelEnrichment {
+  amenities: [String!]!
+  vibeSummary: String!
+  address: String!
+}
+
+input HotelSlotInput {
+  checkIn: String!
+  checkOut: String!
+}
+
+type Query {
+  hotels(near: String!, partySize: Int!, availableIn: [HotelSlotInput!]!): [Hotel!]!
+}

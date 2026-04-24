@@ -15,6 +15,7 @@ type User {
 type Query {
   users(ids: [ID!]!): [User!]!
   restaurants(near: String!, partySize: Int!, availableIn: [TimeSlotInput!]!): [Restaurant!]!
+  hotels(near: String!, partySize: Int!, availableIn: [HotelSlotInput!]!): [Hotel!]!
 }
 
 type Restaurant {
@@ -43,4 +44,31 @@ input TimeSlotInput {
   date: String!
   startTime: String!
   endTime: String!
+}
+
+type Hotel {
+  id: ID!
+  name: String!
+  category: String!
+  priceRange: String!
+  rating: Float!
+  phone: String
+  availableNights: [HotelNight!]!
+  enrichment: HotelEnrichment!
+}
+
+type HotelNight {
+  checkIn: String!
+  checkOut: String!
+}
+
+type HotelEnrichment {
+  amenities: [String!]!
+  vibeSummary: String!
+  address: String!
+}
+
+input HotelSlotInput {
+  checkIn: String!
+  checkOut: String!
 }

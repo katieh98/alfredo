@@ -1,11 +1,18 @@
 version: 1
 subgraphs:
   - name: users
-    routing_url: http://localhost:3000/api/subgraph/users
+    routing_url: >-
+      https://zoological-delight-production-93e0.up.railway.app/api/subgraph/users
     schema:
       file: /Users/katie/Projects/alfredo/alfredo-default/subgraphs/users.graphql
   - name: restaurants
-    routing_url: http://localhost:3000/api/subgraph/restaurants
+    routing_url: >-
+      https://zoological-delight-production-93e0.up.railway.app/api/subgraph/restaurants
     schema:
       file: >-
         /Users/katie/Projects/alfredo/alfredo-default/subgraphs/restaurants.graphql
+  - name: hotels
+    routing_url: >-
+      https://zoological-delight-production-93e0.up.railway.app/api/subgraph/hotels
+    schema:
+      file: /Users/katie/Projects/alfredo/alfredo-default/subgraphs/hotels.graphql
