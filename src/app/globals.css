@@ -321,4 +321,187 @@
     font-weight: 510;
     line-height: 1;
   }
+
+  /* ─── Filter chip bar — Attio-inspired, ported from doppel_desktop ───── */
+  .dop-filter-pill {
+    display: inline-flex;
+    align-items: stretch;
+    position: relative;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    flex-shrink: 0;
+    transition: border-color 0.12s, background 0.12s;
+  }
+  .dop-filter-pill:hover { border-color: rgba(32, 29, 29, 0.18); }
+  .dop-filter-pill > :first-child,
+  .dop-filter-pill > :first-child > .dop-filter-segment {
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+  }
+  .dop-filter-pill > :last-child,
+  .dop-filter-pill > :last-child > .dop-filter-segment {
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+  }
+
+  .dop-filter-segment {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+    padding: 0 10px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.005em;
+    color: var(--color-fg-strong);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.12s;
+  }
+  .dop-filter-segment:hover { background: var(--color-surface-hover); }
+  .dop-filter-segment:disabled { cursor: default; }
+  .dop-filter-segment + .dop-filter-segment {
+    border-left: 1px solid var(--color-border-strong);
+  }
+  .dop-filter-segment-muted { color: var(--color-fg-muted); }
+
+  .dop-filter-input {
+    height: 100%;
+    min-width: 80px;
+    max-width: 180px;
+    padding: 0 10px;
+    background: transparent;
+    border: 0;
+    border-left: 1px solid var(--color-border-strong);
+    outline: none;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.005em;
+    color: var(--color-fg-strong);
+  }
+  .dop-filter-input::placeholder { color: var(--color-fg-faint); }
+
+  .dop-filter-pill-add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px dashed var(--color-border-strong);
+    color: var(--color-fg-muted);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, color 0.12s;
+  }
+  .dop-filter-pill-add:hover {
+    background: var(--color-surface-hover);
+    border-color: rgba(32, 29, 29, 0.20);
+    color: var(--color-fg-strong);
+  }
+
+  .dop-filter-menu {
+    position: absolute;
+    z-index: 100;
+    min-width: 200px;
+    padding: 4px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+  .dop-filter-menu-search {
+    width: 100%;
+    height: 32px;
+    padding: 0 8px;
+    margin-bottom: 4px;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+    border-radius: 0;
+    outline: none;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--color-fg-strong);
+  }
+  .dop-filter-menu-search::placeholder { color: var(--color-fg-faint); }
+
+  .dop-filter-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    height: 30px;
+    padding: 0 8px;
+    border-radius: 6px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--color-fg-strong);
+    text-align: left;
+    letter-spacing: -0.005em;
+  }
+  .dop-filter-menu-item:hover { background: var(--color-surface-hover); }
+  .dop-filter-menu-item--active {
+    background: var(--color-accent-light);
+    color: var(--color-accent);
+  }
+  .dop-filter-menu-item--danger { color: var(--color-status-red); }
+  .dop-filter-menu-item--danger:hover { background: var(--color-status-red-light); }
+
+  .dop-filter-menu-divider {
+    height: 1px;
+    margin: 4px 0;
+    background: var(--color-border-subtle);
+  }
+  .dop-filter-menu-section-label {
+    padding: 6px 8px 2px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-fg-faint);
+  }
+
+  .dop-filter-checkbox {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid var(--color-border-strong);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.12s, border-color 0.12s;
+  }
+  .dop-filter-checkbox--on {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+  }
+
+  .dop-no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .dop-no-scrollbar::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
 }
