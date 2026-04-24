@@ -167,7 +167,7 @@ Designed in Figma as components with variants. Implementation contract: each map
 
 - `AvailabilityChip` — pill button; default state outlined, selected state `accent-primary` fill, disabled state `bg-muted` + strikethrough.
 - `PartyMemberRow` — Avatar + name + dietary `Tag` inline (e.g., "Alice · 🥗 vegetarian").
-- `RestaurantCard` — square image top (aspect 4:3, 20r), name (`title`), metadata row, tag row — used in listings and confirmation.
+- `RestaurantCard` — image top (aspect 4:3, 20r), name (`title`), metadata row, tag row — used in listings and confirmation.
 - `ConfirmationBlock` — dark `ink-primary` card, cherry accent label, oversized mono confirmation number — reuses the visual treatment from the existing `screenshot-booked.png` but with updated palette.
 - `PromoSticker` — rotated StickerBlock for "NEW", "TRENDING", dietary-friendly callouts.
 
@@ -196,7 +196,7 @@ All frames designed at **1440w**, happy-path state, light mode, desktop only.
 | # | Screen | Purpose | Key components |
 |---|---|---|---|
 | R1 | Signup / OAuth | Restaurant creates account (email + OAuth) | Centered card, trust microcopy |
-| R2 | Onboarding wizard (represented as single frame showing 3 stepped states side-by-side) | Cuisine, vibe, hours, photos | Step indicator, FormRow stacks, chip pickers |
+| R2 | Onboarding wizard — 3 adjacent frames (R2a, R2b, R2c) representing steps 1/3, 2/3, 3/3 of the same flow | Cuisine, vibe, hours, photos | Step indicator, FormRow stacks, chip pickers |
 | R3 | Restaurant profile editor | Primary dashboard landing | Two-column: editor + live preview card |
 | R4 | Menu editor | Dishes list (name, dietary tags, price) | Repeating FormRow with delete, dietary chip picker, add-dish CTA |
 | R5 | Settings | Account, notifications, booking contacts | Settings section list, FormRow stacks |
@@ -218,7 +218,7 @@ File: `b5aMUZrylQNRSKtt6IXoWP` (Mochi).
 
 Each frame: 1440w × auto height, `bg-base` fill, `grain-overlay` optional, frame name format `U1 / Landing`.
 
-Color tokens defined as Figma variables (`Color/bg/base`, `Color/ink/primary`, etc.) so they carry into instances and can export to CSS variables for shadcn consumption.
+Color tokens defined as Figma variables using slash-nested namespaces (`Color/bg/base`, `Color/ink/primary`, `Color/accent/primary`). When exported to CSS for shadcn consumption, translate to kebab-case (`--bg-base`, `--ink-primary`, `--accent-primary`). Section 4 uses the kebab form as the canonical token identifier.
 
 Type styles defined as Figma text styles matching the scale table.
 
