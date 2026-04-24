@@ -2,15 +2,22 @@ import Link from "next/link";
 import { StaggerText } from "@/components/stagger-text";
 
 export function Wordmark({ variant = "dark" }: { variant?: "dark" | "light" }) {
-  const textColor = variant === "light" ? "#f4f4f4" : "var(--color-ink)";
+  const color = variant === "light" ? "#f4f4f4" : "var(--color-ink)";
   return (
-    <Link href="/" className="inline-flex items-center gap-[6px]">
-      <span
-        className="font-display text-[22px] leading-none"
-        style={{ letterSpacing: "-0.04em", color: textColor }}
+    <Link
+      href="/"
+      aria-label="Alfredo"
+      className="inline-flex items-end gap-[6px]"
+      style={{ color }}
+    >
+      <svg
+        viewBox="0 0 2903 580"
+        className="h-[20px] w-auto"
+        fill="currentColor"
+        aria-hidden
       >
-        alfredo
-      </span>
+        <path d="M482.4 569.6H349.6L325.6 472.8H151.2L126.4 569.6H0L124.8 126.4C147.2 47.1999 174.4 3.99999 244.8 3.99999C310.4 3.99999 341.6 46.3999 362.4 124.8L482.4 569.6ZM240.8 127.2L179.2 366.4H299.2L240.8 127.2ZM779.312 569.6H601.712C513.712 569.6 484.112 537.6 484.112 448.8V9.59997H608.912V456.8H779.312V569.6ZM913.887 569.6H789.887V9.59997H1071.49V122.4H913.887V228H1058.69V340.8H913.887V569.6ZM1403.53 322.4L1498.73 569.6H1361.93L1286.73 348H1222.73V569.6H1098.73V9.59997H1297.93C1417.13 9.59997 1483.53 85.6 1483.53 178.4C1483.53 237.6 1457.13 292 1403.53 322.4ZM1293.13 121.6H1222.73V244.8H1293.13C1337.13 244.8 1361.93 217.6 1361.93 184C1361.93 148 1337.13 121.6 1293.13 121.6ZM1828.17 569.6H1516.17V9.59997H1828.17V122.4H1640.17V229.6H1814.57V340.8H1640.17V456.8H1828.17V569.6ZM1990.49 569.6H1863.29V9.59997H1990.49C2209.69 9.59997 2311.29 132 2311.29 289.6C2311.29 445.6 2209.69 569.6 1990.49 569.6ZM1987.29 122.4V456.8H2001.69C2106.49 456.8 2180.89 402.4 2180.89 289.6C2180.89 177.6 2107.29 122.4 2003.29 122.4H1987.29ZM2605 579.2C2439.4 579.2 2307.4 449.6 2307.4 289.6C2307.4 129.6 2440.2 0 2605 0C2769.8 0 2902.6 132 2902.6 289.6C2902.6 449.6 2770.6 579.2 2605 579.2ZM2605 460C2700.2 460 2768.2 384.8 2768.2 289.6C2768.2 194.4 2699.4 119.2 2605 119.2C2509.8 119.2 2441.8 194.4 2441.8 289.6C2441.8 384.8 2509.8 460 2605 460Z" />
+      </svg>
       <span
         className="size-[7px] rounded-full"
         style={{ background: "var(--color-dot)" }}
