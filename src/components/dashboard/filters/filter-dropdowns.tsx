@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { FaCheck } from "react-icons/fa6";
+import { Check } from "lucide-react";
 import type { FieldDef, FieldType, FilterOperator } from "@/lib/filters/types";
 import { getOperatorsForType, operatorLabel } from "@/lib/filters/operators";
 import { FieldIcon } from "./FieldIcon";
@@ -164,7 +164,7 @@ export function ValueMultiSelect({
             className="dop-filter-menu-item"
           >
             <span className={`dop-filter-checkbox ${on ? "dop-filter-checkbox--on" : ""}`}>
-              {on && <FaCheck size={8} />}
+              {on && <Check size={10} strokeWidth={3} />}
             </span>
             <span style={{ textTransform: "capitalize" }}>{opt}</span>
           </button>

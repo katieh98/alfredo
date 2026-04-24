@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { FaXmark } from "react-icons/fa6";
+import { X } from "lucide-react";
 import type { FieldType, FilterOperator } from "@/lib/filters/types";
 import {
   defaultOperatorForType,
@@ -203,7 +203,7 @@ export function BuildingFilterChip({
         style={{ paddingInline: 8 }}
         aria-label="Cancel"
       >
-        <FaXmark size={12} />
+        <X size={14} strokeWidth={1.75} />
       </button>
     </div>
   );

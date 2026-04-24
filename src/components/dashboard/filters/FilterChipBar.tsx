@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { FaPlus, FaFilter } from "react-icons/fa6";
+import { Plus, Filter as FilterIcon } from "lucide-react";
 import type { FieldDef, FilterGroup, FilterOperator, FilterRule } from "@/lib/filters/types";
 import {
   addConditionToGroup,
@@ -114,7 +114,7 @@ export function FilterChipBar({ fields, group, onChange }: FilterChipBarProps) {
           onClick={() => setPickerOpen((v) => !v)}
           className="dop-filter-pill-add"
         >
-          <FaFilter size={11} />
+          <FilterIcon size={13} strokeWidth={1.75} />
           Filter
         </button>
         <PopoverShell open={pickerOpen} onClose={() => setPickerOpen(false)}>
@@ -156,7 +156,7 @@ export function FilterChipBar({ fields, group, onChange }: FilterChipBarProps) {
             className="dop-filter-pill-add"
             aria-label="Add filter"
           >
-            <FaPlus size={11} />
+            <Plus size={13} strokeWidth={2} />
           </button>
           <PopoverShell open={pickerOpen} onClose={() => setPickerOpen(false)}>
             <FieldPicker fields={availableFields} onSelect={startBuilding} />

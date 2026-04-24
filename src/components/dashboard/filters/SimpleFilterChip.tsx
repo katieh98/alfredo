@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaEllipsis, FaTrash } from "react-icons/fa6";
+import { MoreHorizontal, Trash2 } from "lucide-react";
 import type { FieldDef, FilterOperator, FilterRule } from "@/lib/filters/types";
 import { operatorRequiresValue } from "@/lib/filters/operators";
 import { getFilterChipLabel } from "@/lib/filters/chip-label";
@@ -144,7 +144,7 @@ export function SimpleFilterChip({ rule, field, onUpdate, onRemove }: SimpleFilt
           className="dop-filter-segment dop-filter-segment-muted"
           style={{ paddingInline: 8 }}
         >
-          <FaEllipsis size={12} />
+          <MoreHorizontal size={14} strokeWidth={1.75} />
         </button>
         <PopoverShell open={menuOpen} onClose={() => setMenuOpen(false)} align="right">
           <button
@@ -155,7 +155,7 @@ export function SimpleFilterChip({ rule, field, onUpdate, onRemove }: SimpleFilt
             }}
             className="dop-filter-menu-item dop-filter-menu-item--danger"
           >
-            <FaTrash size={11} />
+            <Trash2 size={13} strokeWidth={1.75} />
             Delete filter
           </button>
         </PopoverShell>

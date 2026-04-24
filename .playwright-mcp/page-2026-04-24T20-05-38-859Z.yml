@@ -1,0 +1,405 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e5]: alfredo
+      - navigation [ref=e7]:
+        - generic [ref=e8]:
+          - img [ref=e10]
+          - generic [ref=e12]: Home
+        - generic [ref=e13]:
+          - img [ref=e15]
+          - generic [ref=e17]: Sessions
+          - generic [ref=e18]: "7"
+        - generic [ref=e19]:
+          - img [ref=e21]
+          - generic [ref=e23]: Restaurants
+        - generic [ref=e24]:
+          - img [ref=e26]
+          - generic [ref=e28]: Party members
+        - generic [ref=e29]:
+          - img [ref=e31]
+          - generic [ref=e33]: Activity
+      - generic [ref=e34]: Recent sessions
+      - generic [ref=e35]:
+        - generic [ref=e36]:
+          - img [ref=e37]
+          - generic [ref=e39]: Saturday dinner
+          - generic [ref=e40]: now
+        - generic [ref=e41]:
+          - img [ref=e42]
+          - generic [ref=e44]: Brunch, Apr 18
+          - generic [ref=e45]: 6d
+        - generic [ref=e46]:
+          - img [ref=e47]
+          - generic [ref=e49]: Mini golf, Apr 12
+          - generic [ref=e50]: 12d
+        - generic [ref=e51]:
+          - img [ref=e52]
+          - generic [ref=e54]: Team lunch, Apr 3
+          - generic [ref=e55]: 21d
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - img [ref=e59]
+          - generic [ref=e61]: Settings
+        - generic [ref=e62]:
+          - generic [ref=e63]: V
+          - generic [ref=e64]:
+            - generic [ref=e65]: Victoria
+            - generic [ref=e66]: "@victoria · host"
+    - generic [ref=e67]:
+      - generic [ref=e68]:
+        - banner [ref=e69]:
+          - generic [ref=e70]:
+            - button "Back" [ref=e71]:
+              - img [ref=e72]
+              - text: Back
+            - generic [ref=e74]: /
+            - button "Sessions" [ref=e75]
+            - generic [ref=e76]: /
+            - generic [ref=e77]: 7A3F-D2
+            - generic [ref=e78]:
+              - img [ref=e79]
+              - text: Booked
+          - generic [ref=e81]:
+            - button "Share" [ref=e82]:
+              - img [ref=e83]
+              - text: Share
+            - button "Export" [ref=e85]:
+              - img [ref=e86]
+              - text: Export
+            - button "Rerun pipeline" [ref=e88]:
+              - img [ref=e89]
+              - text: Rerun pipeline
+        - main [ref=e91]:
+          - generic [ref=e92]:
+            - generic [ref=e93]:
+              - generic [ref=e94]:
+                - generic [ref=e95]:
+                  - generic [ref=e96]: Session
+                  - generic [ref=e97]: ·
+                  - generic [ref=e98]: 7A3F-D2
+                  - generic [ref=e99]: ·
+                  - generic [ref=e100]: created 2 hours ago
+                - heading "Saturday dinner · 5 people" [level=1] [ref=e101]:
+                  - text: Saturday dinner
+                  - generic [ref=e102]: · 5 people
+                - generic [ref=e103]:
+                  - img [ref=e104]
+                  - generic [ref=e106]: …craving handmade pasta · anything italian · mid-budget · Alice is vegetarian · carol said gluten-free
+              - generic [ref=e107]:
+                - generic [ref=e108]: Party
+                - generic [ref=e109]:
+                  - generic "Victoria" [ref=e110]: V
+                  - generic "Alice · vegetarian" [ref=e111]: A
+                  - generic "Bob" [ref=e112]: B
+                  - generic "Carol · gluten-free" [ref=e113]: C
+                  - generic "Dave" [ref=e114]: D
+            - generic [ref=e115]:
+              - generic [ref=e116]:
+                - generic [ref=e117]: Overlap computed
+                - generic [ref=e118]: 42 ms
+              - generic [ref=e119]:
+                - generic [ref=e120]: WunderGraph query
+                - generic [ref=e121]: 1.9 s
+              - generic [ref=e122]:
+                - generic [ref=e123]: Claude selection
+                - generic [ref=e124]: 1.2 s
+              - generic [ref=e125]:
+                - generic [ref=e126]: TinyFish booking
+                - generic [ref=e127]: 14.3 s
+          - generic [ref=e128]:
+            - generic [ref=e129]:
+              - generic [ref=e130]:
+                - img [ref=e131]
+                - text: Filters
+              - generic [ref=e133]:
+                - text: Italian
+                - img [ref=e134]
+              - generic [ref=e136]:
+                - text: Mid-range
+                - img [ref=e137]
+              - generic [ref=e139]:
+                - text: Vegetarian OK
+                - img [ref=e140]
+              - generic [ref=e142]:
+                - text: Gluten-free OK
+                - img [ref=e143]
+              - generic [ref=e145]: SF · Downtown
+              - button "Add filter" [ref=e146]:
+                - img [ref=e147]
+                - text: Add filter
+            - generic [ref=e149]:
+              - button "Best match" [ref=e150]:
+                - img [ref=e151]
+                - text: Best match
+                - img [ref=e153]
+              - generic [ref=e155]:
+                - button "List view" [ref=e156]:
+                  - img [ref=e157]
+                - button "Grid view" [ref=e160]:
+                  - img [ref=e161]
+          - generic [ref=e164]:
+            - generic [ref=e165]:
+              - generic [ref=e166]: 6 candidates · ranked by score
+              - generic [ref=e167]: Filtered · 1
+            - generic [ref=e168]:
+              - generic [ref=e169]:
+                - generic [ref=e170]: Restaurant
+                - generic [ref=e171]: Cuisine
+                - generic [ref=e172]: Price
+                - generic [ref=e173]: Rating
+                - generic [ref=e174]: Availability
+                - generic [ref=e175]: Score
+              - generic [ref=e176]:
+                - generic [ref=e177]:
+                  - generic [ref=e178]:
+                    - generic [ref=e179]: C
+                    - generic:
+                      - generic:
+                        - generic: Cotogna
+                        - generic [ref=e180]:
+                          - img [ref=e181]
+                          - text: Picked
+                      - generic: Jackson Square · 2,847 reviews
+                  - generic [ref=e183]: Italian · Rustic
+                  - generic [ref=e184]: $$
+                  - generic [ref=e185]:
+                    - img [ref=e186]
+                    - generic [ref=e188]: "4.6"
+                    - generic [ref=e189]:
+                      - generic "vegetarian" [ref=e190]: V
+                      - generic "gluten-free" [ref=e191]: GF
+                  - generic [ref=e192]:
+                    - img [ref=e193]
+                    - generic [ref=e195]: 6:30 PM
+                    - generic [ref=e196]: · 3
+                  - generic [ref=e201]: "94"
+                  - img [ref=e203]
+                - generic [ref=e205]:
+                  - generic [ref=e206]:
+                    - generic [ref=e207]: F
+                    - generic:
+                      - generic:
+                        - generic: Flour + Water
+                      - generic: Mission · 3,120 reviews
+                  - generic [ref=e208]: Italian · Pasta
+                  - generic [ref=e209]: $$
+                  - generic [ref=e210]:
+                    - img [ref=e211]
+                    - generic [ref=e213]: "4.5"
+                    - generic [ref=e214]:
+                      - generic "vegetarian" [ref=e215]: V
+                      - generic "gluten-free" [ref=e216]: GF
+                  - generic [ref=e217]:
+                    - img [ref=e218]
+                    - generic [ref=e220]: 7:00 PM
+                    - generic [ref=e221]: · 2
+                  - generic [ref=e226]: "88"
+                  - img [ref=e228]
+                - generic [ref=e230]:
+                  - generic [ref=e231]:
+                    - generic [ref=e232]: A
+                    - generic:
+                      - generic:
+                        - generic: A16
+                      - generic: Marina · 1,950 reviews
+                  - generic [ref=e233]: Italian · Southern
+                  - generic [ref=e234]: $$$
+                  - generic [ref=e235]:
+                    - img [ref=e236]
+                    - generic [ref=e238]: "4.4"
+                    - generic [ref=e239]:
+                      - generic "vegetarian" [ref=e240]: V
+                      - generic "gluten-free" [ref=e241]: GF
+                  - generic [ref=e242]:
+                    - img [ref=e243]
+                    - generic [ref=e245]: 7:00 PM
+                    - generic [ref=e246]: · 6
+                  - generic [ref=e251]: "82"
+                  - img [ref=e253]
+                - generic [ref=e255]:
+                  - generic [ref=e256]:
+                    - generic [ref=e257]: R
+                    - generic:
+                      - generic:
+                        - generic: Rich Table
+                      - generic: Hayes Valley · 2,210 reviews
+                  - generic [ref=e258]: Californian
+                  - generic [ref=e259]: $$$
+                  - generic [ref=e260]:
+                    - img [ref=e261]
+                    - generic [ref=e263]: "4.6"
+                    - generic [ref=e264]:
+                      - generic "vegetarian" [ref=e265]: V
+                      - generic "vegan" [ref=e266]: VG
+                      - generic "gluten-free" [ref=e267]: GF
+                  - generic [ref=e268]:
+                    - img [ref=e269]
+                    - generic [ref=e271]: 6:30 PM
+                    - generic [ref=e272]: · 2
+                  - generic [ref=e277]: "80"
+                  - img [ref=e279]
+                - generic [ref=e281]:
+                  - generic [ref=e282]:
+                    - generic [ref=e283]: P
+                    - generic:
+                      - generic:
+                        - generic: Perbacco
+                      - generic: FiDi · 1,605 reviews
+                  - generic [ref=e284]: Italian · Piemontese
+                  - generic [ref=e285]: $$$
+                  - generic [ref=e286]:
+                    - img [ref=e287]
+                    - generic [ref=e289]: "4.5"
+                    - generic "vegetarian" [ref=e291]: V
+                  - generic [ref=e292]:
+                    - img [ref=e293]
+                    - generic [ref=e295]: 7:00 PM
+                    - generic [ref=e296]: · 8
+                  - generic [ref=e301]: "74"
+                  - img [ref=e303]
+                - generic [ref=e305]:
+                  - generic [ref=e306]:
+                    - generic [ref=e307]: "N"
+                    - generic:
+                      - generic:
+                        - generic: Nopa
+                      - generic: NoPa · 4,100 reviews
+                  - generic [ref=e308]: Californian
+                  - generic [ref=e309]: $$
+                  - generic [ref=e310]:
+                    - img [ref=e311]
+                    - generic [ref=e313]: "4.5"
+                    - generic [ref=e314]:
+                      - generic "vegetarian" [ref=e315]: V
+                      - generic "gluten-free" [ref=e316]: GF
+                  - generic [ref=e317]:
+                    - img [ref=e318]
+                    - generic [ref=e320]: 7:00 PM
+                    - generic [ref=e321]: · 5
+                  - generic [ref=e326]: "71"
+                  - img [ref=e328]
+            - generic [ref=e330]:
+              - generic [ref=e331]:
+                - img [ref=e332]
+                - generic [ref=e334]: Filtered out · dietary constraints
+              - generic [ref=e336]:
+                - generic [ref=e337]: T
+                - generic [ref=e338]:
+                  - generic [ref=e339]:
+                    - generic [ref=e340]: Tony's Pizza Napoletana
+                    - generic [ref=e341]: Italian · Pizza · $
+                  - generic [ref=e342]: No reliable gluten-free menu — Carol's hard constraint filters this out.
+                - generic [ref=e343]:
+                  - img [ref=e344]
+                  - text: Filtered
+      - complementary [ref=e346]:
+        - generic [ref=e347]:
+          - generic [ref=e349]: Italian · Rustic
+          - generic [ref=e350]:
+            - img [ref=e351]
+            - text: Picked · Booked
+        - generic [ref=e353]:
+          - generic [ref=e354]:
+            - heading "Cotogna" [level=2] [ref=e355]
+            - generic [ref=e356]:
+              - img [ref=e357]
+              - generic [ref=e359]: Jackson Square
+              - generic [ref=e360]: ·
+              - generic [ref=e361]: $$
+              - generic [ref=e362]: ·
+              - generic [ref=e363]:
+                - img [ref=e364]
+                - generic [ref=e366]: "4.6"
+                - generic [ref=e367]: (2,847)
+          - generic [ref=e368]:
+            - generic [ref=e369]:
+              - generic [ref=e370]: Confirmation
+              - generic [ref=e371]:
+                - img [ref=e372]
+                - text: Confirmed
+            - generic [ref=e374]:
+              - generic [ref=e375]: A47X9KLM
+              - generic [ref=e376]:
+                - generic [ref=e377]:
+                  - generic [ref=e378]: When
+                  - generic [ref=e379]: Sat, Apr 26 · 7:00 PM
+                - generic [ref=e380]:
+                  - generic [ref=e381]: Party
+                  - generic [ref=e382]: 5 people · under Victoria
+            - generic [ref=e383]:
+              - button "Add to calendar" [ref=e384]:
+                - img [ref=e385]
+                - text: Add to calendar
+              - link "OpenTable" [ref=e387] [cursor=pointer]:
+                - /url: https://www.opentable.com/r/cotogna-san-francisco
+                - img [ref=e388]
+                - text: OpenTable
+          - generic [ref=e390]:
+            - generic [ref=e391]: Why Alfredo picked this
+            - paragraph [ref=e392]: Handles Alice's vegetarian and Carol's gluten-free constraints cleanly — house-made GF pasta, robust vegetable-forward menu. Mid-range pricing hits your group's budget, and Jackson Square matches the chat's 'downtown-adjacent' vibe. 7 PM had the widest availability across your overlap.
+          - generic [ref=e393]:
+            - generic [ref=e394]: Top dishes
+            - generic [ref=e395]:
+              - generic [ref=e396]: Cacio e pepe
+              - generic [ref=e397]: Wood-fired vegetables
+              - generic [ref=e398]: Handkerchief pasta
+              - generic [ref=e399]: Roasted chicken
+          - generic [ref=e400]:
+            - generic [ref=e401]: Availability · Saturday
+            - generic [ref=e402]:
+              - generic [ref=e403]:
+                - generic [ref=e404]: 6:30p
+                - generic [ref=e405]: 3 open
+              - generic [ref=e406]:
+                - generic [ref=e407]: 7:00p
+                - generic [ref=e408]: 5 open
+              - generic [ref=e409]:
+                - generic [ref=e410]: 7:30p
+                - generic [ref=e411]: 2 open
+              - generic [ref=e412]:
+                - generic [ref=e413]: 8:00p
+                - generic [ref=e414]: booked
+          - generic [ref=e415]:
+            - generic [ref=e416]: Dietary match
+            - generic [ref=e417]:
+              - generic [ref=e418]:
+                - generic [ref=e419]:
+                  - generic [ref=e420]: V
+                  - generic [ref=e421]: Victoria
+                - generic [ref=e422]:
+                  - img [ref=e423]
+                  - text: OK
+              - generic [ref=e425]:
+                - generic [ref=e426]:
+                  - generic [ref=e427]: A
+                  - generic [ref=e428]: Alice
+                  - generic [ref=e429]: vegetarian
+                - generic [ref=e430]:
+                  - img [ref=e431]
+                  - text: OK
+              - generic [ref=e433]:
+                - generic [ref=e434]:
+                  - generic [ref=e435]: B
+                  - generic [ref=e436]: Bob
+                - generic [ref=e437]:
+                  - img [ref=e438]
+                  - text: OK
+              - generic [ref=e440]:
+                - generic [ref=e441]:
+                  - generic [ref=e442]: C
+                  - generic [ref=e443]: Carol
+                  - generic [ref=e444]: gluten-free
+                - generic [ref=e445]:
+                  - img [ref=e446]
+                  - text: OK
+              - generic [ref=e448]:
+                - generic [ref=e449]:
+                  - generic [ref=e450]: D
+                  - generic [ref=e451]: Dave
+                - generic [ref=e452]:
+                  - img [ref=e453]
+                  - text: OK
+  - button "Open Next.js Dev Tools" [ref=e460] [cursor=pointer]:
+    - img [ref=e461]
+  - alert [ref=e464]

@@ -1,31 +1,31 @@
 import {
-  FaAlignLeft,
-  FaHashtag,
-  FaCalendar,
-  FaClock,
-  FaCircle,
-  FaTag,
-  FaTableCellsLarge,
-  FaToggleOff,
-  FaFont,
-} from "react-icons/fa6";
-import type { IconType } from "react-icons";
+  AlignLeft,
+  Calendar,
+  Circle,
+  Clock,
+  Grid3X3,
+  Hash,
+  Tag,
+  ToggleLeft,
+  Type,
+  type LucideIcon,
+} from "lucide-react";
 
-const REGISTRY: Record<string, IconType> = {
-  type: FaFont,
-  text: FaAlignLeft,
-  "align-left": FaAlignLeft,
-  number: FaHashtag,
-  hash: FaHashtag,
-  calendar: FaCalendar,
-  clock: FaClock,
-  date: FaCalendar,
-  circle: FaCircle,
-  status: FaCircle,
-  tag: FaTag,
-  grid: FaTableCellsLarge,
-  multiselect: FaTableCellsLarge,
-  boolean: FaToggleOff,
+const REGISTRY: Record<string, LucideIcon> = {
+  type: Type,
+  text: AlignLeft,
+  "align-left": AlignLeft,
+  number: Hash,
+  hash: Hash,
+  calendar: Calendar,
+  clock: Clock,
+  date: Calendar,
+  circle: Circle,
+  status: Circle,
+  tag: Tag,
+  grid: Grid3X3,
+  multiselect: Grid3X3,
+  boolean: ToggleLeft,
 };
 
 interface FieldIconProps {
@@ -33,7 +33,9 @@ interface FieldIconProps {
   size?: number;
 }
 
-export function FieldIcon({ name, size = 12 }: FieldIconProps) {
-  const Icon = REGISTRY[name] ?? FaCircle;
-  return <Icon size={size} />;
+/** Resolves a `FieldDef.icon` string to a lucide icon. Falls back to a
+ *  neutral circle so an unknown icon name doesn't blow up the layout. */
+export function FieldIcon({ name, size = 13 }: FieldIconProps) {
+  const Icon = REGISTRY[name] ?? Circle;
+  return <Icon size={size} strokeWidth={1.75} />;
 }

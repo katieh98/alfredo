@@ -1,4 +1,12 @@
 import type { ReactNode } from "react";
+import {
+  FaStar,
+  FaCircle,
+  FaCircleCheck,
+  FaCalendar,
+  FaArrowUpRightFromSquare,
+  FaLocationDot,
+} from "react-icons/fa6";
 import type { Restaurant, Session } from "@/app/dashboard/_data";
 
 interface DetailPanelProps {
@@ -8,117 +16,117 @@ interface DetailPanelProps {
 
 export function DetailPanel({ restaurant: r, session: s }: DetailPanelProps) {
   return (
-    <aside className="flex h-full w-[440px] shrink-0 flex-col overflow-y-auto border-l border-[var(--color-border-subtle)] bg-[var(--color-surface)]">
+    <aside className="flex h-full w-[416px] shrink-0 flex-col rounded-[14px] bg-[var(--color-surface)] shadow-[0_1px_3px_rgba(0,0,0,0.04)] overflow-hidden">
       {/* Hero swatch */}
       <div
-        className="relative h-[140px] shrink-0 overflow-hidden"
+        className="relative h-[152px] shrink-0 overflow-hidden"
         style={{
-          background: `linear-gradient(135deg, ${r.accentColor} 0%, ${shade(r.accentColor, -20)} 100%)`,
+          background: `linear-gradient(135deg, ${r.accentColor} 0%, ${shade(r.accentColor, -22)} 100%)`,
         }}
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_60%,rgba(255,255,255,0.18),transparent_60%)]" />
-        <div className="absolute bottom-3 left-5 text-white/80">
-          <div className="text-[10px] font-semibold uppercase tracking-[0.1em]">
-            {r.cuisine}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_60%,rgba(255,255,255,0.16),transparent_60%)]" />
+        <div className="absolute left-6 bottom-4 text-white/80 eyebrow">
+          {r.cuisine}
+        </div>
+        {r.status === "picked" && (
+          <div className="absolute top-4 right-4 inline-flex h-[26px] items-center gap-1.5 rounded-full bg-white px-2.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-[var(--color-fg-strong)] shadow-[0_1px_3px_rgba(0,0,0,0.12)]">
+            <FaCircleCheck size={11} style={{ color: "var(--color-status-green)" }} />
+            Picked · Booked
           </div>
-        </div>
-        <div className="absolute right-4 top-4 flex gap-1.5">
-          {r.status === "picked" && (
-            <span className="inline-flex items-center gap-1 rounded-[4px] bg-white px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--color-fg-strong)] shadow">
-              <span
-                className="size-[5px] rounded-full"
-                style={{ background: "var(--color-status-green)" }}
-                aria-hidden
-              />
-              Picked · Booked
-            </span>
-          )}
-        </div>
+        )}
       </div>
 
-      <div className="flex flex-col gap-5 px-5 py-5">
-        {/* Title */}
+      <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto px-6 py-6">
+        {/* Title block */}
         <div>
           <h2
-            className="font-display text-[32px] leading-[1.05] text-[var(--color-fg-strong)]"
-            style={{ letterSpacing: "-0.03em" }}
+            className="leading-[1.05]"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: 36,
+              fontWeight: 400,
+              letterSpacing: "-0.03em",
+              color: "var(--color-fg-strong)",
+            }}
           >
             {r.name}
           </h2>
-          <div className="mt-1.5 flex items-center gap-2 text-[12px] text-[var(--color-fg-muted)]">
+          <div className="mt-2 flex items-center gap-2 text-[13px] text-[var(--color-fg-secondary)]">
+            <FaLocationDot size={11} className="text-[var(--color-fg-tertiary)]" />
             <span>{r.neighborhood}</span>
-            <span className="text-[var(--color-fg-faint)]">·</span>
-            <span className="font-medium text-[var(--color-fg-strong)]">
+            <span className="text-[var(--color-fg-tertiary)]">·</span>
+            <span
+              className="text-[var(--color-fg-strong)]"
+              style={{ fontWeight: 510, fontVariationSettings: "'wght' 510" }}
+            >
               {r.priceRange}
             </span>
-            <span className="text-[var(--color-fg-faint)]">·</span>
-            <div className="flex items-center gap-1">
-              <StarIcon />
-              <span className="font-medium text-[var(--color-fg-strong)]">
+            <span className="text-[var(--color-fg-tertiary)]">·</span>
+            <div className="flex items-center gap-1.5">
+              <FaStar size={11} style={{ color: "#F5A623" }} />
+              <span
+                className="text-[var(--color-fg-strong)]"
+                style={{ fontWeight: 510, fontVariationSettings: "'wght' 510" }}
+              >
                 {r.rating.toFixed(1)}
               </span>
-              <span className="text-[var(--color-fg-faint)]">
+              <span className="text-[var(--color-fg-tertiary)]">
                 ({r.reviewCount.toLocaleString()})
               </span>
             </div>
           </div>
         </div>
 
-        {/* Confirmation card */}
+        {/* Confirmation */}
         {r.confirmation && (
-          <div className="overflow-hidden rounded-[10px] bg-[var(--color-fg-strong)] text-white">
-            <div className="flex items-center justify-between border-b border-white/10 px-4 py-2.5">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-white/60">
+          <div
+            className="overflow-hidden rounded-[12px] text-white"
+            style={{ background: "var(--color-fg-strong)" }}
+          >
+            <div className="flex items-center justify-between border-b border-white/10 px-5 py-3">
+              <span className="eyebrow-strong" style={{ color: "rgba(255,255,255,0.5)" }}>
                 Confirmation
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-[4px] bg-white/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/80">
-                <span
-                  className="size-[5px] rounded-full"
-                  style={{ background: "var(--color-status-green)" }}
-                  aria-hidden
-                />
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-white/80">
+                <FaCircle size={6} style={{ color: "var(--color-status-green)" }} />
                 Confirmed
               </span>
             </div>
-            <div className="px-4 py-4">
+            <div className="px-5 py-5">
               <div
-                className="font-display text-[44px] leading-none tracking-tight"
-                style={{ letterSpacing: "-0.02em" }}
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: 52,
+                  fontWeight: 400,
+                  lineHeight: 1,
+                  letterSpacing: "-0.025em",
+                  fontVariantNumeric: "tabular-nums",
+                }}
               >
                 {r.confirmation}
               </div>
-              <div className="mt-3 grid grid-cols-2 gap-3 text-[12px] text-white/70">
-                <div>
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.08em] text-white/50">
-                    When
-                  </div>
-                  <div className="mt-0.5 text-white">{s.dateTime}</div>
-                </div>
-                <div>
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.08em] text-white/50">
-                    Party
-                  </div>
-                  <div className="mt-0.5 text-white">
-                    {s.partySize} people · under Victoria
-                  </div>
-                </div>
+              <div className="mt-4 grid grid-cols-2 gap-4">
+                <DarkField label="When">{s.dateTime}</DarkField>
+                <DarkField label="Party">{s.partySize} people · under Victoria</DarkField>
               </div>
             </div>
-            <div className="flex divide-x divide-white/10 border-t border-white/10 text-[12px]">
+            <div className="grid grid-cols-2 divide-x divide-white/10 border-t border-white/10">
               <button
                 type="button"
-                className="flex flex-1 items-center justify-center gap-1.5 py-2.5 font-medium text-white/80 transition-colors hover:bg-white/5 hover:text-white"
+                className="flex h-12 items-center justify-center gap-2 text-[13px] text-white/80 transition-colors hover:bg-white/5 hover:text-white"
+                style={{ fontWeight: 510, fontVariationSettings: "'wght' 510" }}
               >
-                <CalendarIcon />
+                <FaCalendar size={12} />
                 Add to calendar
               </button>
               <a
-                className="flex flex-1 items-center justify-center gap-1.5 py-2.5 font-medium text-white/80 transition-colors hover:bg-white/5 hover:text-white"
+                className="flex h-12 items-center justify-center gap-2 text-[13px] text-white/80 transition-colors hover:bg-white/5 hover:text-white"
+                style={{ fontWeight: 510, fontVariationSettings: "'wght' 510" }}
                 href={`https://www.opentable.com/r/${r.openTableId ?? ""}`}
                 target="_blank"
                 rel="noreferrer"
               >
-                <ExternalIcon />
+                <FaArrowUpRightFromSquare size={12} />
                 OpenTable
               </a>
             </div>
@@ -127,18 +135,21 @@ export function DetailPanel({ restaurant: r, session: s }: DetailPanelProps) {
 
         {/* Reasoning */}
         <Section label="Why Alfredo picked this">
-          <p className="text-[13px] leading-[1.6] text-[var(--color-fg-secondary)]">
+          <p
+            className="text-[14px] text-[var(--color-fg-secondary)]"
+            style={{ lineHeight: "22px", letterSpacing: "-0.005em" }}
+          >
             {r.reasoning}
           </p>
         </Section>
 
         {/* Top dishes */}
         <Section label="Top dishes">
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-2">
             {r.topDishes.map((d) => (
               <span
                 key={d}
-                className="rounded-full border border-[var(--color-border-subtle)] bg-[var(--color-surface-raised)] px-2.5 py-1 text-[11px] font-medium text-[var(--color-fg-muted)]"
+                className="inline-flex h-[28px] items-center rounded-full border border-[var(--color-border-subtle)] bg-[var(--color-surface-raised)] px-3 text-[12px] font-medium text-[var(--color-fg-secondary)]"
               >
                 {d}
               </span>
@@ -146,73 +157,91 @@ export function DetailPanel({ restaurant: r, session: s }: DetailPanelProps) {
           </div>
         </Section>
 
-        {/* Availability */}
+        {/* Availability grid */}
         <Section label="Availability · Saturday">
-          <div className="grid grid-cols-4 gap-1.5">
-            {r.availability.map((slot) => (
-              <div
-                key={slot.label}
-                className={`flex flex-col items-center rounded-[6px] border px-2 py-1.5 text-center ${
-                  slot.available
-                    ? slot.time === "7:00 PM"
-                      ? "border-[var(--color-accent-border)] bg-[var(--color-accent-light)]"
-                      : "border-[var(--color-border-strong)] bg-[var(--color-surface)]"
-                    : "border-[var(--color-border-subtle)] bg-[var(--color-surface-raised)] opacity-50"
-                }`}
-              >
+          <div className="grid grid-cols-4 gap-2">
+            {r.availability.map((slot) => {
+              const isBooked = slot.time === "7:00 PM" && slot.available;
+              const active = slot.available;
+              return (
                 <div
-                  className={`text-[11px] font-semibold ${
-                    slot.time === "7:00 PM" && slot.available
-                      ? "text-[var(--color-accent)]"
-                      : "text-[var(--color-fg-strong)]"
+                  key={slot.label}
+                  className={`flex flex-col items-center rounded-[10px] border px-1 py-2.5 text-center transition-colors ${
+                    isBooked
+                      ? "border-[var(--color-accent-border)] bg-[var(--color-accent-light)]"
+                      : active
+                        ? "border-[var(--color-border-strong)] bg-[var(--color-surface)]"
+                        : "border-[var(--color-border-subtle)] bg-[var(--color-surface-raised)] opacity-55"
                   }`}
                 >
-                  {slot.time.replace(" PM", "p").replace(" AM", "a")}
+                  <div
+                    className="text-[14px]"
+                    style={{
+                      fontWeight: 510,
+                      fontVariationSettings: "'wght' 510",
+                      color: isBooked
+                        ? "var(--color-accent)"
+                        : "var(--color-fg-strong)",
+                    }}
+                  >
+                    {slot.time.replace(" PM", "p").replace(" AM", "a")}
+                  </div>
+                  <div className="mt-0.5 text-[11px] text-[var(--color-fg-faint)]">
+                    {active ? `${slot.remaining} open` : "booked"}
+                  </div>
                 </div>
-                <div className="text-[9px] text-[var(--color-fg-faint)]">
-                  {slot.available
-                    ? `${slot.remaining} open`
-                    : "booked"}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </Section>
 
         {/* Dietary match */}
         <Section label="Dietary match">
-          <div className="space-y-1.5">
+          <div className="flex flex-col gap-0.5">
             {s.members.map((m) => {
               const matches = dietaryMatch(m.dietary ?? [], r);
               return (
                 <div
                   key={m.id}
-                  className="flex items-center justify-between text-[12px]"
+                  className="flex h-10 items-center justify-between rounded-[8px] px-2 text-[13px]"
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2.5">
                     <div
-                      className="flex size-5 items-center justify-center rounded-full text-[9px] font-semibold text-white"
+                      className="flex size-6 items-center justify-center rounded-full text-[10px] font-semibold text-white"
                       style={{ background: m.accentColor }}
                       aria-hidden
                     >
                       {m.name[0]}
                     </div>
-                    <span className="text-[var(--color-fg-strong)]">
+                    <span
+                      className="text-[var(--color-fg-strong)]"
+                      style={{
+                        fontWeight: 510,
+                        fontVariationSettings: "'wght' 510",
+                      }}
+                    >
                       {m.name}
                     </span>
                     {(m.dietary ?? []).length > 0 && (
-                      <span className="text-[10px] text-[var(--color-fg-faint)]">
+                      <span className="text-[12px] text-[var(--color-fg-faint)]">
                         {(m.dietary ?? []).join(", ")}
                       </span>
                     )}
                   </div>
                   {matches ? (
-                    <span className="inline-flex items-center gap-1 rounded-[4px] border border-[var(--color-status-green-light)] bg-[var(--color-status-green-light)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[var(--color-status-green)]">
-                      <CheckIcon />
+                    <span
+                      className="inline-flex h-[22px] items-center gap-1.5 rounded-full border px-2 text-[10.5px] font-semibold uppercase tracking-[0.06em]"
+                      style={{
+                        color: "var(--color-status-green)",
+                        background: "var(--color-status-green-light)",
+                        borderColor: "rgba(46,204,113,0.25)",
+                      }}
+                    >
+                      <FaCircleCheck size={9} />
                       OK
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 rounded-[4px] border border-[var(--color-status-amber-light)] bg-[var(--color-status-amber-light)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[var(--color-status-amber)]">
+                    <span className="inline-flex h-[22px] items-center rounded-full border border-[rgba(245,158,11,0.25)] bg-[var(--color-status-amber-light)] px-2 text-[10.5px] font-semibold uppercase tracking-[0.06em] text-[var(--color-status-amber)]">
                       review
                     </span>
                   )}
@@ -226,20 +255,31 @@ export function DetailPanel({ restaurant: r, session: s }: DetailPanelProps) {
   );
 }
 
-function Section({
-  label,
-  children,
-}: {
-  label: string;
-  children: ReactNode;
-}) {
+function Section({ label, children }: { label: string; children: ReactNode }) {
   return (
     <section>
-      <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-[var(--color-fg-faint)]">
-        {label}
-      </div>
+      <div className="eyebrow-strong mb-2">{label}</div>
       {children}
     </section>
+  );
+}
+
+function DarkField({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div>
+      <div
+        className="eyebrow-strong"
+        style={{ color: "rgba(255,255,255,0.45)" }}
+      >
+        {label}
+      </div>
+      <div
+        className="mt-1.5 text-[13px] text-white"
+        style={{ fontWeight: 510, fontVariationSettings: "'wght' 510" }}
+      >
+        {children}
+      </div>
+    </div>
   );
 }
 
@@ -252,7 +292,6 @@ function dietaryMatch(memberDietary: string[], r: Restaurant): boolean {
   return true;
 }
 
-// Darken a hex color by `percent` (negative darkens). Tolerates #RRGGBB.
 function shade(hex: string, percent: number): string {
   const n = parseInt(hex.replace("#", ""), 16);
   const amt = Math.round(2.55 * percent);
@@ -260,41 +299,4 @@ function shade(hex: string, percent: number): string {
   const g = Math.max(0, Math.min(255, ((n >> 8) & 0xff) + amt));
   const b = Math.max(0, Math.min(255, (n & 0xff) + amt));
   return `rgb(${r}, ${g}, ${b})`;
-}
-
-function StarIcon(): ReactNode {
-  return (
-    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="text-[#F5A623]">
-      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-    </svg>
-  );
-}
-
-function CheckIcon(): ReactNode {
-  return (
-    <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="20 6 9 17 4 12" />
-    </svg>
-  );
-}
-
-function CalendarIcon(): ReactNode {
-  return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-      <line x1="16" y1="2" x2="16" y2="6" />
-      <line x1="8" y1="2" x2="8" y2="6" />
-      <line x1="3" y1="10" x2="21" y2="10" />
-    </svg>
-  );
-}
-
-function ExternalIcon(): ReactNode {
-  return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-      <polyline points="15 3 21 3 21 9" />
-      <line x1="10" y1="14" x2="21" y2="3" />
-    </svg>
-  );
 }
