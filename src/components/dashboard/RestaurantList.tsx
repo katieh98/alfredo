@@ -41,7 +41,11 @@ export function RestaurantList({
   const rows = [...active, ...cancelled];
 
   return (
-    <div className="dop-card overflow-hidden">
+    // shrink-0 prevents the flex-col-overflow-auto ancestor from
+    // compressing the card below its natural height; without it the
+    // last reservation row gets visually clipped and reads as a ghost
+    // divider line.
+    <div className="dop-card shrink-0 overflow-hidden">
       <div
         className="grid items-center gap-2 border-b border-[var(--color-border-subtle)] bg-[var(--color-surface-raised)] px-5 py-3 normal-case text-[14px]"
         style={{

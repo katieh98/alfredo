@@ -100,8 +100,8 @@ export function Sidebar({ activePage = "tonight" }: SidebarProps) {
         />
         <NavItem
           icon={<FaAddressBook size={20} />}
-          label="Guest book"
-          href="/dashboard#guests"
+          label="Guestbook"
+          href="/dashboard/guests"
           active={activePage === "guests"}
         />
         <NavItem

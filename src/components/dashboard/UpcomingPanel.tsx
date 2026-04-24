@@ -1,4 +1,4 @@
-import { FaCircle, FaCalendarDays } from "react-icons/fa6";
+import { FaCircle } from "react-icons/fa6";
 
 interface UpcomingBooking {
   bookingId: string;
@@ -140,27 +140,11 @@ const SOURCE_COLORS: Record<UpcomingBooking["source"], string> = {
  * from Tonight's Reservations so operators can pattern-match.
  */
 export function UpcomingPanel() {
-  const totalBookings = UPCOMING.reduce((n, d) => n + d.bookings.length, 0);
-  const totalCovers = UPCOMING.reduce(
-    (n, d) => n + d.bookings.reduce((m, b) => m + b.partySize, 0),
-    0,
-  );
-
   return (
     <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
       <main className="dop-no-scrollbar flex min-h-0 flex-1 flex-col gap-8 overflow-y-auto px-8 pb-16 pt-10">
-        <header className="flex flex-col gap-3">
-          <div className="eyebrow flex items-center gap-2">
-            <FaCalendarDays size={11} className="text-[var(--color-fg-faint)]" />
-            <span>Next 7 days</span>
-          </div>
-          <h1 className="hero-title whitespace-nowrap">
-            Upcoming
-            <span className="text-[var(--color-fg-tertiary)]">
-              {" · "}
-              {totalBookings} bookings · {totalCovers} covers
-            </span>
-          </h1>
+        <header className="flex shrink-0 flex-col gap-3">
+          <h1 className="hero-title whitespace-nowrap">Upcoming</h1>
         </header>
 
         {UPCOMING.map((day) => (
@@ -174,7 +158,11 @@ export function UpcomingPanel() {
 function DayCard({ day }: { day: UpcomingDay }) {
   const covers = day.bookings.reduce((n, b) => n + b.partySize, 0);
   return (
-    <section className="dop-card overflow-hidden">
+    // shrink-0 is load-bearing — without it, the parent `flex flex-col
+    // overflow-y-auto min-h-0` compresses each card below its natural
+    // content height and the last row gets visually clipped, leaving a
+    // phantom horizontal line that reads as "a row with no data".
+    <section className="dop-card shrink-0 overflow-hidden">
       <div
         className="flex items-center justify-between border-b border-[var(--color-border-subtle)] bg-[var(--color-surface-raised)] px-5 py-3"
         style={{ color: "var(--color-fg-strong)" }}

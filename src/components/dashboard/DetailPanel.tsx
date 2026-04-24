@@ -244,10 +244,11 @@ function Section({ label, children }: { label: string; children: ReactNode }) {
   return (
     <section>
       <div
-        className="mb-3 text-[13px] text-[var(--color-fg-muted)]"
+        className="mb-3 text-[13px]"
         style={{
-          fontWeight: 510,
-          fontVariationSettings: "'wght' 510",
+          color: "#1F1D1D",
+          fontWeight: 500,
+          fontVariationSettings: "'wght' 500",
           letterSpacing: "-0.005em",
         }}
       >

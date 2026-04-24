@@ -47,7 +47,7 @@ export function FilteredCandidatesArea({
   }, [restaurants, group, sorts]);
 
   return (
-    <section className="flex flex-col">
+    <section className="flex shrink-0 flex-col">
       {/* Section title — sits above the filter row so the table reads as
           "Tonight's reservations → narrow with filters → table". */}
       <header className="mb-4">

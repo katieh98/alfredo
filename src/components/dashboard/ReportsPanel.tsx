@@ -87,14 +87,14 @@ export function ReportsPanel() {
         </header>
 
         {/* KPI row */}
-        <section className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        <section className="grid shrink-0 grid-cols-2 gap-3 md:grid-cols-4">
           {KPIS.map((k) => (
             <KpiCard key={k.label} kpi={k} />
           ))}
         </section>
 
         {/* Source breakdown + Weekly trend side by side */}
-        <section className="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+        <section className="grid shrink-0 grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
           <div className="dop-card overflow-hidden">
             <CardHeader title="Covers by source" caption="Tonight" />
             <div className="flex flex-col gap-3 p-5">
@@ -186,7 +186,7 @@ export function ReportsPanel() {
         </section>
 
         {/* Top hosts */}
-        <section className="dop-card overflow-hidden">
+        <section className="dop-card shrink-0 overflow-hidden">
           <CardHeader title="Top hosts · this week" caption="By covers" />
           <div>
             {TOP_HOSTS.map((h, i) => (
