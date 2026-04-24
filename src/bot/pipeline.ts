@@ -66,11 +66,14 @@ async function postResult(
         `Why Alfredo picked it:\n${pick.reasoning}`,
     );
   } else {
+    const bookingLine = booking.directUrl
+      ? `Book it here: ${booking.directUrl}`
+      : `Call to book: 703-915-6060`;
     await channel.send(
       `${pick.restaurant.name}\n` +
         `${pick.date} - ${pick.time} - ${pick.partySize} people\n\n` +
         `Alfredo found the perfect spot but couldn't grab the reservation automatically.\n` +
-        `Book it here: ${booking.directUrl}\n\n` +
+        `${bookingLine}\n\n` +
         `Why Alfredo picked it:\n${pick.reasoning}`,
     );
   }
