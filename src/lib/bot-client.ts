@@ -1,11 +1,14 @@
 import type { Client } from "discord.js";
 
-let _client: Client | null = null;
+declare global {
+  // eslint-disable-next-line no-var
+  var __discordClient: Client | undefined;
+}
 
 export function setBotClient(client: Client) {
-  _client = client;
+  globalThis.__discordClient = client;
 }
 
 export function getBotClient(): Client | null {
-  return _client;
+  return globalThis.__discordClient ?? null;
 }

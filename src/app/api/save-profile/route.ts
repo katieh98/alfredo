@@ -75,6 +75,7 @@ export async function POST(req: NextRequest) {
   try {
     const sessDb = getSessionsDb();
     const botClient = getBotClient();
+    console.log(`[save-profile] post-registration check for ${discord_id}, botClient=${!!botClient}`);
     if (sessDb && botClient) {
       // Send availability DM if tagged in a collecting session
       const taggedSessions = await sessDb.query(
