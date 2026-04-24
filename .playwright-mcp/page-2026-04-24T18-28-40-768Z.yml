@@ -1,0 +1,1271 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic [ref=e5]:
+      - generic [ref=e7]:
+        - generic [ref=e13] [cursor=pointer]: Menu
+        - link "go to homepage" [ref=e15] [cursor=pointer]:
+          - /url: /
+          - img [ref=e16]
+          - img [ref=e18]
+        - generic [ref=e20]:
+          - link "Login" [ref=e22] [cursor=pointer]:
+            - /url: /login
+            - generic [ref=e23]:
+              - generic [ref=e25]: Login
+              - generic [ref=e27]: Login
+          - link "Join" [ref=e29] [cursor=pointer]:
+            - /url: /plans
+            - generic [ref=e30]:
+              - generic [ref=e32]: Join
+              - generic [ref=e34]: Join
+      - generic [ref=e37]:
+        - generic [ref=e38]:
+          - generic [ref=e40]: Our Products
+          - list [ref=e41]:
+            - listitem [ref=e42]:
+              - link "The Vault" [ref=e43] [cursor=pointer]:
+                - /url: /product/vault
+                - generic [ref=e44]: The Vault
+            - listitem [ref=e46]:
+              - link "Page Transition Course NEW" [ref=e47] [cursor=pointer]:
+                - /url: /product/page-transition-course
+                - generic [ref=e48]: Page Transition Course
+                - generic [ref=e51]: NEW
+            - listitem [ref=e53]:
+              - link "Icon Library" [ref=e54] [cursor=pointer]:
+                - /url: /product/icons
+                - generic [ref=e55]: Icon Library
+            - listitem [ref=e57]:
+              - link "Community" [ref=e58] [cursor=pointer]:
+                - /url: /product/community
+                - generic [ref=e59]: Community
+          - list [ref=e60]:
+            - listitem [ref=e61]:
+              - generic:
+                - generic: Easings
+                - generic:
+                  - generic:
+                    - generic: New
+        - generic [ref=e62]:
+          - generic [ref=e64]: Explore
+          - list [ref=e65]:
+            - listitem [ref=e66]:
+              - link "Osmo Showcase" [ref=e67] [cursor=pointer]:
+                - /url: /showcase
+                - generic [ref=e68]: Osmo Showcase
+            - listitem [ref=e70]:
+              - link "Collection 173" [ref=e71] [cursor=pointer]:
+                - /url: /collection
+                - generic [ref=e72]: Collection
+                - generic [ref=e73]: "173"
+            - listitem [ref=e75]:
+              - link "Pricing" [ref=e76] [cursor=pointer]:
+                - /url: /plans
+                - generic [ref=e77]: Pricing
+          - generic [ref=e79]:
+            - link "linkedin" [ref=e80] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/osmosupply/
+              - generic [ref=e81]:
+                - img [ref=e83]
+                - img [ref=e86]
+            - link "instagram" [ref=e88] [cursor=pointer]:
+              - /url: https://www.instagram.com/osmo.supply/
+              - generic [ref=e89]:
+                - img [ref=e91]
+                - img [ref=e96]
+            - link "x/twitter" [ref=e100] [cursor=pointer]:
+              - /url: https://twitter.com/osmosupply
+              - generic [ref=e101]:
+                - img [ref=e103]
+                - img [ref=e106]
+        - link "Start Learning Page Transition Course More info" [ref=e109] [cursor=pointer]:
+          - /url: /product/page-transition-course
+          - generic [ref=e112]:
+            - generic [ref=e113]:
+              - generic [ref=e115]: Start
+              - generic [ref=e117]: Learning
+            - generic [ref=e118]:
+              - heading "Page Transition Course" [level=2] [ref=e120]
+              - button "More info" [ref=e124]:
+                - generic [ref=e125]:
+                  - generic [ref=e127]: More info
+                  - generic [ref=e129]: More info
+                  - generic [ref=e131]: More info
+    - generic:
+      - generic:
+        - generic:
+          - img
+          - img
+        - generic:
+          - generic: Drag
+  - main [ref=e132]:
+    - generic [ref=e138]:
+      - generic [ref=e139]:
+        - heading "Dev Toolkit" [level=1] [ref=e140]:
+          - generic [ref=e142]:
+            - generic [ref=e143]: Dev
+            - generic [ref=e144]: Toolkit
+        - img [ref=e145]:
+          - generic "Osmo Supply Logo Icon" [ref=e146]
+        - heading "Built to Flex" [level=2] [ref=e147]:
+          - generic [ref=e149]:
+            - generic [ref=e150]: Built
+            - generic [ref=e151]: to
+            - generic [ref=e152]: Flex
+      - paragraph [ref=e154]:
+        - text: Platform packed with
+        - generic [ref=e155]: Webflow
+        - text: "&"
+        - generic [ref=e156]: HTML
+        - text: resources,
+        - generic [ref=e157]: icons
+        - text: ","
+        - generic [ref=e158]: easings
+        - text: and a page transition
+        - generic [ref=e159]: course
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - list:
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Pixelate Image Render Effect"
+                        - generic:
+                          - paragraph: Pixelate Image Render Effect
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Directional List Hover"
+                        - generic:
+                          - paragraph: Directional List Hover
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Flick Cards Slider"
+                        - generic:
+                          - paragraph: Flick Cards Slider
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Face Follow Cursor (Mascot)"
+                        - generic:
+                          - paragraph: Face Follow Cursor (Mascot)
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Locomotive Smooth Scroll Setup"
+                        - generic:
+                          - paragraph: Locomotive Smooth Scroll Setup
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Logo Wall Cycle"
+                        - generic:
+                          - paragraph: Logo Wall Cycle
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Falling 2D Objects (MatterJS)"
+                        - generic:
+                          - paragraph: Falling 2D Objects (MatterJS)
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "3D Image Carousel"
+                        - generic:
+                          - paragraph: 3D Image Carousel
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Momentum Based Hover (Inertia)"
+                        - generic:
+                          - paragraph: Momentum Based Hover (Inertia)
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Pixelate Image Render Effect"
+                        - generic:
+                          - paragraph: Pixelate Image Render Effect
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Directional List Hover"
+                        - generic:
+                          - paragraph: Directional List Hover
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Flick Cards Slider"
+                        - generic:
+                          - paragraph: Flick Cards Slider
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Face Follow Cursor (Mascot)"
+                        - generic:
+                          - paragraph: Face Follow Cursor (Mascot)
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Locomotive Smooth Scroll Setup"
+                        - generic:
+                          - paragraph: Locomotive Smooth Scroll Setup
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Logo Wall Cycle"
+                        - generic:
+                          - paragraph: Logo Wall Cycle
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Falling 2D Objects (MatterJS)"
+                        - generic:
+                          - paragraph: Falling 2D Objects (MatterJS)
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "3D Image Carousel"
+                        - generic:
+                          - paragraph: 3D Image Carousel
+                  - listitem:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img "Momentum Based Hover (Inertia)"
+                        - generic:
+                          - paragraph: Momentum Based Hover (Inertia)
+    - generic [ref=e161]:
+      - heading "Osmo is an ever-growing platform with Webflow & HTML resources. Get exclusive access to the elements, techniques and code behind award-winning work." [level=2] [ref=e165]
+      - generic [ref=e166] [cursor=pointer]:
+        - generic [ref=e167]: Play
+        - generic [ref=e168]:
+          - generic [ref=e170]:
+            - paragraph [ref=e171]: Osmo in use
+            - paragraph [ref=e172]: 00:48
+          - generic [ref=e176]:
+            - img [ref=e177]
+            - paragraph [ref=e179]: See what it can do!
+        - generic [ref=e180]: Reel
+    - generic [ref=e182]:
+      - generic [ref=e186]:
+        - list [ref=e189]:
+          - listitem [ref=e190]:
+            - img "Victor Work"
+          - listitem [ref=e191]:
+            - img "Jordan Gilory"
+          - listitem [ref=e192]:
+            - img "Jason Harvey"
+          - listitem [ref=e193]:
+            - img "Huy Nguyen"
+        - paragraph [ref=e194]: Join 2K+ others
+      - generic [ref=e200]:
+        - generic [ref=e202] [cursor=pointer]:
+          - generic [ref=e203]:
+            - paragraph [ref=e204]: Created by
+            - generic [ref=e205]:
+              - generic [ref=e206]:
+                - heading "Dennis" [level=3] [ref=e207]
+                - heading "Ilja" [level=3] [ref=e208]
+              - generic [ref=e209]:
+                - heading "Snellenberg" [level=4] [ref=e210]
+                - heading "van Eck" [level=4] [ref=e211]
+          - button "About us" [ref=e213]:
+            - generic [ref=e214]:
+              - generic [ref=e216]: About us
+              - generic [ref=e218]: About us
+              - generic [ref=e220]: About us
+          - generic [ref=e222]:
+            - img "Dennis Snellenberg PNG" [ref=e224]
+            - img "Dennis Snellenberg PNG" [ref=e226]
+            - img "Dennis Snellenberg PNG" [ref=e228]
+            - img [ref=e230]
+        - generic [ref=e300]:
+          - list [ref=e302]:
+            - listitem [ref=e303]:
+              - generic [ref=e305]:
+                - generic [ref=e306]:
+                  - generic [ref=e307]:
+                    - generic [ref=e310]: 2 days ago
+                    - generic [ref=e312]: New Resource
+                  - generic [ref=e313]:
+                    - heading "Click to Zoom (Basic)" [level=4] [ref=e315]
+                    - generic [ref=e317]: Gallery & Images
+                - generic [ref=e319]:
+                  - img "Click to Zoom (Basic)"
+            - listitem:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: 4 days ago
+                      - generic:
+                        - generic: New Resource
+                    - generic:
+                      - generic:
+                        - heading [level=4]: Progressive Blur
+                      - generic:
+                        - generic: Visual Effects
+                  - generic:
+                    - generic:
+                      - img
+            - listitem:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: 1 week ago
+                      - generic:
+                        - generic: New Resource
+                    - generic:
+                      - generic:
+                        - heading [level=4]: Scroll to Next Page
+                      - generic:
+                        - generic: Scroll Animations
+                  - generic:
+                    - generic:
+                      - img
+            - listitem:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: 1 week ago
+                      - generic:
+                        - generic: New Resource
+                    - generic:
+                      - generic:
+                        - heading [level=4]: Scramble Text Cursor
+                      - generic:
+                        - generic: Cursor Animations
+                  - generic:
+                    - generic:
+                      - img
+            - listitem:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: 2 weeks ago
+                      - generic:
+                        - generic: New Resource
+                    - generic:
+                      - generic:
+                        - heading [level=4]: Shutter Scroll Transition
+                      - generic:
+                        - generic: Scroll Animations
+                  - generic:
+                    - generic:
+                      - img
+          - generic [ref=e334]:
+            - button "previous slide" [ref=e335] [cursor=pointer]
+            - button "next slide" [ref=e336] [cursor=pointer]
+          - generic [ref=e337]:
+            - paragraph [ref=e338]:
+              - text: Latest updates
+              - text: from Osmo
+            - paragraph [ref=e339]:
+              - text: New stuff is
+              - text: added every week!
+    - generic [ref=e341]:
+      - generic [ref=e343]:
+        - generic [ref=e344]:
+          - heading "The platform" [level=2] [ref=e345]
+          - generic [ref=e346]:
+            - paragraph [ref=e347]: ( The Vault )
+            - img [ref=e348]
+        - paragraph [ref=e351]: Built by two award-winning creative developers, our vault gives you access to the techniques, components, code, and tools behind our projects. Build, tweak, and make them your own.
+      - generic [ref=e353]:
+        - generic [ref=e356]:
+          - img "Osmo Vault Dashboard Preview"
+        - generic [ref=e358]:
+          - paragraph [ref=e360]: We built Osmo to help creative developers work smarter, faster, and better.
+          - link "About the Vault" [ref=e362] [cursor=pointer]:
+            - /url: /product/vault
+            - generic [ref=e363]:
+              - generic [ref=e365]: About the Vault
+              - generic [ref=e367]: About the Vault
+    - generic [ref=e369]:
+      - generic [ref=e371]:
+        - heading "A growing toolkit for creative developers" [level=2] [ref=e373]
+        - paragraph [ref=e375]: "Access everything with a single membership:"
+      - generic [ref=e376]:
+        - generic [ref=e377]:
+          - button "The Vault" [ref=e378] [cursor=pointer]:
+            - generic [ref=e379]:
+              - generic [ref=e381]: The Vault
+              - generic [ref=e383]: The Vault
+              - generic [ref=e385]: The Vault
+          - button "Page Transition Course" [ref=e386] [cursor=pointer]:
+            - generic [ref=e387]:
+              - generic [ref=e389]: Page Transition Course
+              - generic [ref=e391]: Page Transition Course
+              - generic [ref=e393]: Page Transition Course
+          - button "Icons" [ref=e394] [cursor=pointer]:
+            - generic [ref=e395]:
+              - generic [ref=e397]: Icons
+              - generic [ref=e399]: Icons
+              - generic [ref=e401]: Icons
+          - button "Easings" [ref=e402] [cursor=pointer]:
+            - generic [ref=e403]:
+              - generic [ref=e405]: Easings
+              - generic [ref=e407]: Easings
+              - generic [ref=e409]: Easings
+          - button "Community" [ref=e410] [cursor=pointer]:
+            - generic [ref=e411]:
+              - generic [ref=e413]: Community
+              - generic [ref=e415]: Community
+              - generic [ref=e417]: Community
+        - generic [ref=e419]:
+          - link "Part of the Membership The Vault Our ever-growing dashboard packed with ready-to-go components. Discover" [ref=e421] [cursor=pointer]:
+            - /url: /product/vault
+            - generic [ref=e423]:
+              - generic [ref=e424]:
+                - generic [ref=e426]: Part of the
+                - generic [ref=e428]: Membership
+              - generic [ref=e429]:
+                - img [ref=e431]
+                - heading "The Vault" [level=3] [ref=e434]
+                - paragraph [ref=e436]: Our ever-growing dashboard packed with ready-to-go components.
+              - button "Discover" [ref=e438]:
+                - generic [ref=e439]:
+                  - generic [ref=e441]: Discover
+                  - generic [ref=e443]: Discover
+                  - generic [ref=e445]: Discover
+          - link "Part of the Membership Page Transition Course Learn how to create page transitions that take your websites to the next level. Discover" [ref=e447] [cursor=pointer]:
+            - /url: /product/page-transition-course
+            - generic [ref=e451]:
+              - generic [ref=e452]:
+                - generic [ref=e454]: Part of the
+                - generic [ref=e456]: Membership
+              - generic [ref=e457]:
+                - img [ref=e459]
+                - heading "Page Transition Course" [level=3] [ref=e462]
+                - paragraph [ref=e464]: Learn how to create page transitions that take your websites to the next level.
+              - button "Discover" [ref=e466]:
+                - generic [ref=e467]:
+                  - generic [ref=e469]: Discover
+                  - generic [ref=e471]: Discover
+                  - generic [ref=e473]: Discover
+          - link "Part of the Membership Icons A uniform library of clean, scalable SVG icons you can copy or download in seconds. Discover" [ref=e475] [cursor=pointer]:
+            - /url: /product/icons
+            - generic [ref=e478]:
+              - generic [ref=e479]:
+                - generic [ref=e481]: Part of the
+                - generic [ref=e483]: Membership
+              - generic [ref=e484]:
+                - img [ref=e486]
+                - heading "Icons" [level=3] [ref=e489]
+                - paragraph [ref=e491]: A uniform library of clean, scalable SVG icons you can copy or download in seconds.
+              - button "Discover" [ref=e493]:
+                - generic [ref=e494]:
+                  - generic [ref=e496]: Discover
+                  - generic [ref=e498]: Discover
+                  - generic [ref=e500]: Discover
+          - generic [ref=e505]:
+            - generic [ref=e506]:
+              - generic [ref=e508]: Part of the
+              - generic [ref=e510]: membership
+            - generic [ref=e511]:
+              - img [ref=e513]
+              - heading "Easings" [level=3] [ref=e516]
+              - paragraph [ref=e518]: Ready-to-paste easings for CSS and GSAP inside the Osmo Vault.
+          - link "Part of the Membership Community Connect with the people who love building great websites as much as you do. Discover" [ref=e521] [cursor=pointer]:
+            - /url: /product/community
+            - generic [ref=e524]:
+              - generic [ref=e525]:
+                - generic [ref=e527]: Part of the
+                - generic [ref=e529]: Membership
+              - generic [ref=e530]:
+                - img [ref=e532]
+                - heading "Community" [level=3] [ref=e535]
+                - paragraph [ref=e537]: Connect with the people who love building great websites as much as you do.
+              - button "Discover" [ref=e539]:
+                - generic [ref=e540]:
+                  - generic [ref=e542]: Discover
+                  - generic [ref=e544]: Discover
+                  - generic [ref=e546]: Discover
+    - generic [ref=e551]:
+      - generic [ref=e552]:
+        - paragraph [ref=e553]: Why Osmo?
+        - img [ref=e554]
+      - heading "Level up your game and join a community of creatives who love building great websites as much as you do." [level=3] [ref=e557]
+      - list [ref=e558]:
+        - listitem [ref=e559]:
+          - heading "Build faster and better" [level=4] [ref=e561]
+          - paragraph [ref=e562]: Our resources save you hours of rebuilding from scratch. Each one is made for real-world projects, so you can focus on shipping work that stands out.
+        - listitem [ref=e563]:
+          - heading "Speed up your process" [level=4] [ref=e565]
+          - paragraph [ref=e566]: These aren’t stripped-down templates. Every resource is built to be fast, flexible, and production-ready, so you can ship beautiful work without trading quality for time.
+        - listitem [ref=e567]:
+          - heading "A living and growing system" [level=4] [ref=e569]
+          - paragraph [ref=e570]: We keep adding new resources, ideas, and techniques every week. The Vault evolves with you and your needs, so your toolkit never stops expanding.
+      - generic [ref=e571]:
+        - generic [ref=e574]:
+          - generic [ref=e576]: Trusted by
+          - generic [ref=e578]: Industry Giants
+        - generic [ref=e581]:
+          - generic [ref=e582]:
+            - img [ref=e584]
+            - img [ref=e587]
+            - img [ref=e595]
+            - img [ref=e606]
+            - img [ref=e626]
+            - img [ref=e633]
+            - img [ref=e647]
+            - img [ref=e657]
+          - generic [ref=e667]:
+            - img [ref=e669]
+            - img [ref=e672]
+            - img [ref=e680]
+            - img [ref=e691]
+            - img [ref=e711]
+            - img [ref=e718]
+            - img [ref=e732]
+            - img [ref=e742]
+          - generic [ref=e752]:
+            - img [ref=e754]
+            - img [ref=e757]
+            - img [ref=e765]
+            - img [ref=e776]
+            - img [ref=e796]
+            - img [ref=e803]
+            - img [ref=e817]
+            - img [ref=e827]
+          - generic [ref=e837]:
+            - img [ref=e839]
+            - img [ref=e842]
+            - img [ref=e850]
+            - img [ref=e861]
+            - img [ref=e881]
+            - img [ref=e888]
+            - img [ref=e902]
+            - img [ref=e912]
+    - generic [ref=e924]:
+      - generic [ref=e926]:
+        - paragraph [ref=e927]:
+          - text: Connect
+          - text: Worldwide
+        - generic [ref=e928]:
+          - img [ref=e929]
+          - generic [ref=e932]:
+            - img "Globe Map"
+        - paragraph [ref=e933]:
+          - text: Osmo’s Global
+          - text: Community
+      - generic [ref=e935]:
+        - list [ref=e937]:
+          - listitem [ref=e938]:
+            - generic [ref=e939]:
+              - heading "Osmo empowered me to take on any creative challenge" [level=3] [ref=e940]
+              - generic [ref=e941]:
+                - generic [ref=e942]:
+                  - img "Dang Nguyen" [ref=e944]
+                  - generic [ref=e945]:
+                    - heading "Dang Nguyen" [level=4] [ref=e946]
+                    - generic [ref=e948]: Head of Creative
+                - paragraph [ref=e949]: Thanks to Osmo, I’ve won my first major awards and signed clients I once only dreamed of. Their powerful, easy-to-use effects feature cutting-edge code that has expanded my development skills. Joining this community is an easy choice for developers at any level who want to grow and succeed!
+          - listitem:
+            - generic:
+              - heading [level=3]: This gets the official GSAP stamp of approval.
+              - generic:
+                - generic:
+                  - generic:
+                    - img
+                  - generic:
+                    - heading [level=4]: Cassie Evans
+                    - generic:
+                      - generic: Education GSAP
+                - paragraph: Even if you know GSAP, it can be tricky to apply abstract animation concepts to real-world scenarios. Dennis and Ilja have come to the rescue with this treasure-trove of useful techniques. There’s something for everyone here, grab-and-go or use the code as a jumping off point.
+          - listitem:
+            - generic:
+              - heading [level=3]: One of a kind platform for any developers out there.
+              - generic:
+                - generic:
+                  - generic:
+                    - img
+                  - generic:
+                    - heading [level=4]: Huy (by Huy)
+                    - generic:
+                      - generic: Designer & YT creator
+                - paragraph: It's incredible to be able to see and learn how the pros implement their animations. If you love web animations and creative development, this platform this a no brainer. Just sign up already.
+          - listitem:
+            - generic:
+              - heading [level=3]: The creative developer's cheat code.
+              - generic:
+                - generic:
+                  - generic:
+                    - img
+                  - generic:
+                    - heading [level=4]: Jordan Gilroy
+                    - generic:
+                      - generic: Web Designer
+                - paragraph: Osmo is a one-stop shop, offering everything from snippets to help you set up your site to advanced animations and interactions that elevate it to the next level. The resources are so easy to implement, and with some imagination, you can adapt them to create something unique.
+          - listitem:
+            - generic:
+              - heading [level=3]: "\"Even I\" came across a few neat tricks I hadn’t seen before."
+              - generic:
+                - generic:
+                  - generic:
+                    - img
+                  - generic:
+                    - heading [level=4]: Jesper Landberg
+                    - generic:
+                      - generic: Creative Developer
+                - paragraph: Osmo Supply is a gem for clever and well-thought-out code/no-code solutions for animations and components. It’s a resource both beginners and seasoned pros will find incredibly useful. Lama stamp of approval on this one, and I’ll deffo be coming back to it!
+          - listitem:
+            - generic:
+              - heading [level=3]: The Osmo Vault has been a great partner in speeding up my projects
+              - generic:
+                - generic:
+                  - generic:
+                    - img
+                  - generic:
+                    - heading [level=4]: Victor Work
+                    - generic:
+                      - generic: VW Lab
+                - paragraph: Osmo Supply has been a great partner in speeding and building up my projects since its release. I have used the vault in countless projects, and it's fantastic to be a part of such an inspiring community. Osmo, it's a must-have.
+        - generic [ref=e963]:
+          - button "previous slide" [ref=e964] [cursor=pointer]
+          - button "next slide" [ref=e965] [cursor=pointer]
+    - generic [ref=e966]:
+      - generic [ref=e967]:
+        - generic [ref=e970]:
+          - generic [ref=e971]:
+            - button "For Individuals" [ref=e972] [cursor=pointer]:
+              - generic [ref=e973]:
+                - generic [ref=e975]: For Individuals
+                - generic [ref=e977]: For Individuals
+                - generic [ref=e979]: For Individuals
+            - button "For Teams" [ref=e980] [cursor=pointer]:
+              - generic [ref=e981]:
+                - generic [ref=e983]: For Teams
+                - generic [ref=e985]: For Teams
+                - generic [ref=e987]: For Teams
+          - generic [ref=e988]:
+            - img [ref=e989]
+            - paragraph [ref=e991]:
+              - text: Save 20%
+              - text: per user
+        - generic [ref=e992]:
+          - generic [ref=e993]:
+            - heading "Pricing for" [level=2] [ref=e994]
+            - generic [ref=e995]:
+              - heading "Individuals" [level=2] [ref=e996]
+              - heading "Teams" [level=2] [ref=e997]
+          - paragraph [ref=e999]: Choose the plan that fits you best.
+      - generic [ref=e1000]:
+        - generic [ref=e1002]:
+          - generic [ref=e1004]:
+            - generic [ref=e1006]: One user
+            - generic [ref=e1007]:
+              - heading "Member" [level=3] [ref=e1008]
+              - generic [ref=e1009]:
+                - generic [ref=e1010]:
+                  - generic [ref=e1011]:
+                    - paragraph [ref=e1012]: €25 EUR
+                    - paragraph [ref=e1013]: €20 EUR
+                  - generic [ref=e1014]: per month
+                - generic [ref=e1015]:
+                  - button "Quarterly" [ref=e1016] [cursor=pointer]:
+                    - generic [ref=e1017]:
+                      - generic [ref=e1018]: Quarterly
+                      - generic [ref=e1019]: Quarterly
+                  - button "Annually" [ref=e1020] [cursor=pointer]:
+                    - generic [ref=e1021]:
+                      - generic [ref=e1022]: Annually
+                      - generic [ref=e1023]: Annually
+            - generic [ref=e1024]:
+              - generic [ref=e1027]:
+                - generic [ref=e1029]: our
+                - generic [ref=e1031]: base plan
+              - generic [ref=e1033]:
+                - paragraph [ref=e1035]: Perfect if you’re looking to level up your dev game without any long-term commitments.
+                - link "Become a member" [ref=e1036] [cursor=pointer]:
+                  - /url: /plans/subscription
+                  - generic [ref=e1037]:
+                    - generic [ref=e1039]: Become a member
+                    - generic [ref=e1041]: Become a member
+            - generic [ref=e1042]:
+              - generic [ref=e1043]:
+                - heading "Benefits:" [level=4] [ref=e1044]
+                - list [ref=e1045]:
+                  - listitem [ref=e1046]:
+                    - generic [ref=e1047]: "173"
+                    - paragraph [ref=e1048]: Vault resources, and always growing
+              - link "View all benefits" [ref=e1049] [cursor=pointer]:
+                - /url: /plans
+          - generic [ref=e1050]:
+            - generic [ref=e1051]:
+              - generic [ref=e1053]: One user
+              - generic [ref=e1054]:
+                - heading "Lifetime" [level=3] [ref=e1055]
+                - generic [ref=e1057]:
+                  - paragraph [ref=e1058]: €750 EUR
+                  - generic [ref=e1059]: one time
+              - generic [ref=e1060]:
+                - generic [ref=e1063] [cursor=pointer]:
+                  - generic [ref=e1065]: "Bonus:"
+                  - generic [ref=e1067]: a copy of this website
+                  - button "?" [ref=e1068]:
+                    - generic [ref=e1069]:
+                      - generic [ref=e1070]: "?"
+                      - generic [ref=e1071]: "?"
+                - generic [ref=e1073]:
+                  - paragraph [ref=e1075]: Join once, stay part of the community forever. All future resources and updates included.
+                  - link "Become a Lifetime member" [ref=e1076] [cursor=pointer]:
+                    - /url: /plans/lifetime
+                    - generic [ref=e1077]:
+                      - generic [ref=e1079]: Become a Lifetime member
+                      - generic [ref=e1081]: Become a Lifetime member
+              - generic [ref=e1082]:
+                - generic [ref=e1083]:
+                  - heading "Benefits:" [level=4] [ref=e1084]
+                  - list [ref=e1085]:
+                    - listitem [ref=e1086]:
+                      - generic [ref=e1087]: "173"
+                      - paragraph [ref=e1088]: Vault resources, and always growing
+                - link "View all benefits" [ref=e1089] [cursor=pointer]:
+                  - /url: /plans
+            - paragraph [ref=e1091]:
+              - text: Pay Once,
+              - text: Use Forever
+          - generic:
+            - generic:
+              - generic:
+                - generic: Multiple users
+              - generic:
+                - heading "Team" [level=3]
+                - generic:
+                  - generic:
+                    - generic:
+                      - paragraph: €20 EUR
+                      - paragraph: €16 EUR
+                    - generic: per month, per user
+                  - generic:
+                    - button "quarterly":
+                      - generic:
+                        - generic: quarterly
+                        - generic: quarterly
+                    - button "annually":
+                      - generic:
+                        - generic: annually
+                        - generic: annually
+              - generic:
+                - generic:
+                  - generic:
+                    - paragraph: Empower your whole team with personal accounts and access everything Osmo has to offer.
+                  - link "Sign up your team":
+                    - /url: /plans/team-subscription
+                    - generic:
+                      - generic:
+                        - generic: Sign up your team
+                      - generic:
+                        - generic: Sign up your team
+              - generic:
+                - generic:
+                  - heading "Adding members:" [level=4]
+                  - list:
+                    - listitem:
+                      - generic: "2"
+                      - paragraph: Minimum of users included
+                    - listitem:
+                      - generic: "173"
+                      - paragraph: Vault Resources
+                - link "View all benefits":
+                  - /url: /plans
+        - link "View full pricing" [ref=e1093] [cursor=pointer]:
+          - /url: /plans
+          - generic [ref=e1094]:
+            - generic [ref=e1096]: View full pricing
+            - generic [ref=e1098]: View full pricing
+    - generic [ref=e1100]:
+      - generic [ref=e1101]:
+        - heading "Made" [level=2] [ref=e1102]
+        - heading "with" [level=2] [ref=e1103]
+        - heading "Osmo" [level=2] [ref=e1104]
+      - generic [ref=e1105]:
+        - list [ref=e1107]:
+          - listitem [ref=e1108]:
+            - generic [ref=e1109] [cursor=pointer]:
+              - generic [ref=e1113]:
+                - img "Evolve"
+              - generic [ref=e1115]:
+                - heading "Evolve" [level=3] [ref=e1116]
+                - generic [ref=e1117]:
+                  - generic [ref=e1118]:
+                    - paragraph [ref=e1119]: "12"
+                    - paragraph [ref=e1120]: Resources Used
+                  - img [ref=e1123]
+            - generic [ref=e1126]:
+              - link "@nicolaromei" [ref=e1127] [cursor=pointer]:
+                - /url: https://www.nicolaromei.com/
+                - generic [ref=e1128]:
+                  - generic [ref=e1129]: "@nicolaromei"
+                  - generic [ref=e1130]: "@nicolaromei"
+                  - generic [ref=e1131]: "@nicolaromei"
+              - link "@madeinevolve" [ref=e1133] [cursor=pointer]:
+                - /url: https://www.instagram.com/madeinevolve/
+                - generic [ref=e1134]:
+                  - generic [ref=e1135]: "@madeinevolve"
+                  - generic [ref=e1136]: "@madeinevolve"
+                  - generic [ref=e1137]: "@madeinevolve"
+          - listitem [ref=e1139]:
+            - generic [ref=e1144] [cursor=pointer]:
+              - img "WGB"
+          - listitem [ref=e1147]:
+            - generic [ref=e1152] [cursor=pointer]:
+              - img "Champions For Good"
+          - listitem [ref=e1155]:
+            - generic [ref=e1160] [cursor=pointer]:
+              - img "Suero Studio"
+          - listitem [ref=e1163]:
+            - generic [ref=e1168] [cursor=pointer]:
+              - img "Code by Jesse Portfolio"
+          - listitem [ref=e1171]:
+            - generic [ref=e1176] [cursor=pointer]:
+              - img "Thanks"
+          - listitem [ref=e1179]:
+            - generic [ref=e1184] [cursor=pointer]:
+              - img "Studio X"
+        - generic [ref=e1187]:
+          - img [ref=e1188]
+          - paragraph [ref=e1190]:
+            - text: These folks
+            - text: are talented
+      - link "Explore showcase" [ref=e1192] [cursor=pointer]:
+        - /url: /showcase
+        - generic [ref=e1193]:
+          - generic [ref=e1195]: Explore showcase
+          - generic [ref=e1197]: Explore showcase
+    - generic [ref=e1200]:
+      - generic [ref=e1202]:
+        - generic [ref=e1203]: We'll see you there!
+        - generic [ref=e1204]:
+          - heading "Built to Flex Built to Flex" [level=3] [ref=e1207]:
+            - text: Built
+            - text: to Flex
+            - text: Built
+            - text: to Flex
+          - heading "Built to Flex Built to Flex" [level=3] [ref=e1210]:
+            - text: Built
+            - text: to Flex
+            - text: Built
+            - text: to Flex
+          - img [ref=e1213]
+      - generic [ref=e1216]:
+        - generic [ref=e1217]:
+          - list [ref=e1220]:
+            - listitem [ref=e1221]:
+              - img "Victor Work"
+            - listitem [ref=e1222]:
+              - img "Jordan Gilory"
+            - listitem [ref=e1223]:
+              - img "Jason Harvey"
+            - listitem [ref=e1224]:
+              - img "Huy Nguyen"
+          - paragraph [ref=e1225]: Join 2K+ others
+        - generic [ref=e1226]:
+          - heading "Ready to level up?" [level=4] [ref=e1227]:
+            - text: Ready to
+            - text: level up?
+          - paragraph [ref=e1229]: Become a member to unlock the full Osmo toolkit today.
+        - generic [ref=e1230]:
+          - link "Become a member" [ref=e1231] [cursor=pointer]:
+            - /url: /plans
+            - generic [ref=e1232]:
+              - generic [ref=e1234]: Become a member
+              - generic [ref=e1236]: Become a member
+          - link "FAQs" [ref=e1237] [cursor=pointer]:
+            - /url: /faq
+            - generic [ref=e1238]:
+              - generic [ref=e1240]: FAQs
+              - generic [ref=e1242]: FAQs
+    - generic [ref=e1245]:
+      - generic [ref=e1246]:
+        - generic [ref=e1247]:
+          - generic [ref=e1248]:
+            - heading "Subscribe to the Osmo Newsletter" [level=4] [ref=e1249]:
+              - strong [ref=e1250]: Subscribe to the Osmo Newsletter
+            - form "Newsletter Footer" [ref=e1252]:
+              - generic [ref=e1253]:
+                - textbox "First name" [ref=e1256]
+                - textbox "yourname@email.com" [ref=e1259]
+              - generic [ref=e1260]:
+                - generic [ref=e1263]:
+                  - checkbox "I agree to the Privacy Policy"
+                  - generic [ref=e1264] [cursor=pointer]:
+                    - text: I agree to the
+                    - link "Privacy Policy" [ref=e1265]:
+                      - /url: /legal/privacy-policy
+                  - generic:
+                    - img
+                - generic [ref=e1268] [cursor=pointer]:
+                  - button "Get updates":
+                    - generic:
+                      - generic:
+                        - generic: Get updates
+                      - generic:
+                        - generic: Get updates
+                      - generic:
+                        - generic: Get updates
+          - generic [ref=e1269]:
+            - generic [ref=e1270]:
+              - heading "Product" [level=4] [ref=e1272] [cursor=pointer]
+              - list [ref=e1276]:
+                - listitem [ref=e1277]:
+                  - link "The Vault" [ref=e1278] [cursor=pointer]:
+                    - /url: /product/vault
+                - listitem [ref=e1279]:
+                  - link "Page Transition Course" [ref=e1280] [cursor=pointer]:
+                    - /url: /product/page-transition-course
+                  - generic [ref=e1283]: NEW
+                - listitem [ref=e1284]:
+                  - link "Icon Library" [ref=e1285] [cursor=pointer]:
+                    - /url: /product/icons
+                - listitem [ref=e1286]:
+                  - link "Community" [ref=e1287] [cursor=pointer]:
+                    - /url: /product/community
+                - listitem [ref=e1288]:
+                  - paragraph [ref=e1289]: Easings
+                  - generic [ref=e1292]: new
+            - generic [ref=e1293]:
+              - heading "Community" [level=4] [ref=e1295] [cursor=pointer]
+              - list [ref=e1299]:
+                - listitem [ref=e1300]:
+                  - link "Showcase" [ref=e1301] [cursor=pointer]:
+                    - /url: /showcase
+                - listitem [ref=e1302]:
+                  - button "About Osmo" [ref=e1303] [cursor=pointer]
+                - listitem [ref=e1304]:
+                  - link "Updates" [ref=e1305] [cursor=pointer]:
+                    - /url: /updates
+            - generic [ref=e1306]:
+              - heading "Membership" [level=4] [ref=e1308] [cursor=pointer]
+              - list [ref=e1312]:
+                - listitem [ref=e1313]:
+                  - link "Collection" [ref=e1314] [cursor=pointer]:
+                    - /url: /collection
+                - listitem [ref=e1315]:
+                  - link "Pricing" [ref=e1316] [cursor=pointer]:
+                    - /url: /plans
+                - listitem [ref=e1317]:
+                  - link "FAQs" [ref=e1318] [cursor=pointer]:
+                    - /url: /faq
+                - listitem [ref=e1319]:
+                  - link "Support" [ref=e1320] [cursor=pointer]:
+                    - /url: "#"
+        - generic [ref=e1322]:
+          - generic [ref=e1324]:
+            - link "Login" [ref=e1325] [cursor=pointer]:
+              - /url: /login
+              - generic [ref=e1326]:
+                - generic [ref=e1328]: Login
+                - generic [ref=e1330]: Login
+            - link "Join Osmo" [ref=e1331] [cursor=pointer]:
+              - /url: /plans
+              - generic [ref=e1332]:
+                - generic [ref=e1334]: Join Osmo
+                - generic [ref=e1336]: Join Osmo
+          - generic [ref=e1338]:
+            - link "linkedin" [ref=e1339] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/osmosupply/
+              - generic [ref=e1340]:
+                - img [ref=e1342]
+                - img [ref=e1345]
+            - link "instagram" [ref=e1347] [cursor=pointer]:
+              - /url: https://www.instagram.com/osmo.supply/
+              - generic [ref=e1348]:
+                - img [ref=e1350]
+                - img [ref=e1355]
+            - link "x/twitter" [ref=e1359] [cursor=pointer]:
+              - /url: https://twitter.com/osmosupply
+              - generic [ref=e1360]:
+                - img [ref=e1362]
+                - img [ref=e1365]
+      - generic [ref=e1367]:
+        - img [ref=e1369]
+        - generic [ref=e1377]:
+          - list [ref=e1380]:
+            - listitem [ref=e1381]:
+              - link "Licensing" [ref=e1382] [cursor=pointer]:
+                - /url: /legal/licensing-agreement
+                - generic [ref=e1383]:
+                  - generic [ref=e1384]: Licensing
+                  - generic [ref=e1385]: Licensing
+            - listitem [ref=e1386]:
+              - link "T&CS" [ref=e1387] [cursor=pointer]:
+                - /url: /legal/terms-and-conditions
+                - generic [ref=e1388]:
+                  - generic [ref=e1389]: T&CS
+                  - generic [ref=e1390]: T&CS
+            - listitem [ref=e1391]:
+              - link "Privacy" [ref=e1392] [cursor=pointer]:
+                - /url: /legal/privacy-policy
+                - generic [ref=e1393]:
+                  - generic [ref=e1394]: Privacy
+                  - generic [ref=e1395]: Privacy
+            - listitem [ref=e1396]:
+              - link "Cookies" [ref=e1397] [cursor=pointer]:
+                - /url: /legal/cookie-policy
+                - generic [ref=e1398]:
+                  - generic [ref=e1399]: Cookies
+                  - generic [ref=e1400]: Cookies
+          - paragraph [ref=e1402]: © 2026 osmo supply b.v.
+          - generic [ref=e1403]:
+            - generic [ref=e1404]: created by
+            - generic [ref=e1405]:
+              - link "dennis" [ref=e1406] [cursor=pointer]:
+                - /url: https://dennissnellenberg.com/
+                - generic [ref=e1407]:
+                  - generic [ref=e1408]: dennis
+                  - generic [ref=e1409]: dennis
+              - link "ilja" [ref=e1410] [cursor=pointer]:
+                - /url: https://www.iljavaneck.com/
+                - generic [ref=e1411]:
+                  - generic [ref=e1412]: ilja
+                  - generic [ref=e1413]: ilja
+    - generic:
+      - generic [ref=e1415]:
+        - button [ref=e1417] [cursor=pointer]:
+          - img [ref=e1419]
+          - generic [ref=e1422]:
+            - generic [ref=e1423]: Close
+            - generic [ref=e1424]: Close
+            - generic [ref=e1425]: Close
+        - generic [ref=e1427]:
+          - heading [level=2] [ref=e1431]: Project name
+          - generic [ref=e1434]:
+            - link [ref=e1436] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e1438]
+              - button [ref=e1441]:
+                - generic [ref=e1442]:
+                  - generic [ref=e1443]: name here
+                  - generic [ref=e1444]: name here
+            - paragraph [ref=e1446]: XX Resources Used
+          - generic [ref=e1450]:
+            - generic [ref=e1451]:
+              - heading [level=3] [ref=e1452]: Heading
+              - generic [ref=e1454]: category
+            - link [ref=e1457] [cursor=pointer]:
+              - /url: "#"
+        - generic [ref=e1460]:
+          - link:
+            - /url: "#"
+            - button:
+              - generic:
+                - generic:
+                  - generic: Visit site
+                  - generic:
+                    - generic:
+                      - img
+                - generic:
+                  - generic: Visit site
+                  - generic:
+                    - generic:
+                      - img
+                - generic:
+                  - generic: Visit site
+                  - generic:
+                    - generic:
+                      - img
+          - link [ref=e1461] [cursor=pointer]:
+            - /url: /plans
+            - generic [ref=e1462]:
+              - generic [ref=e1464]: Join Osmo
+              - generic [ref=e1466]: Join Osmo
+      - generic [ref=e1468]:
+        - button [ref=e1470] [cursor=pointer]:
+          - img [ref=e1472]
+          - generic [ref=e1475]:
+            - generic [ref=e1476]: Close
+            - generic [ref=e1477]: Close
+            - generic [ref=e1478]: Close
+        - generic [ref=e1482]:
+          - heading [level=3] [ref=e1483]: Lifetime Bonus
+          - generic [ref=e1484]:
+            - generic [ref=e1485]: A copy of this site!
+            - img [ref=e1486]
+          - paragraph [ref=e1489]:
+            - text: Every Lifetime member gets a full copy of our own website, literally the one you’re looking at right now.
+            - text: Below you’ll find an overview of what’s included. Some pages are part of the package, while others remain exclusive to our live site. Available as a ZIP with the HTML/CSS/JS, or as a Webflow transfer.
+        - generic [ref=e1495]:
+          - generic [ref=e1496]:
+            - generic [ref=e1497]: Home
+            - img [ref=e1498]
+          - generic [ref=e1501]:
+            - generic [ref=e1502]: Product / The Vault
+            - img [ref=e1503]
+          - generic [ref=e1506]:
+            - generic [ref=e1507]: Product / Icon Library
+            - img [ref=e1508]
+          - generic [ref=e1511]:
+            - generic [ref=e1512]: Product / Community
+            - img [ref=e1513]
+          - generic [ref=e1516]:
+            - generic [ref=e1517]: Showcase
+            - img [ref=e1518]
+          - generic [ref=e1521]:
+            - generic [ref=e1522]: Pricing
+            - img [ref=e1523]
+          - generic [ref=e1526]:
+            - generic [ref=e1527]: Updates
+            - img [ref=e1528]
+          - generic [ref=e1531]:
+            - generic [ref=e1532]: FAQs
+            - img [ref=e1533]
+          - generic [ref=e1536]:
+            - generic [ref=e1537]: Utility pages (privacy policy etc)
+            - img [ref=e1538]
+          - generic [ref=e1541]:
+            - generic [ref=e1542]: 404 page
+            - img [ref=e1543]
+          - generic [ref=e1546]:
+            - generic [ref=e1547]: Navigation System
+            - img [ref=e1548]
+          - generic [ref=e1551]:
+            - generic [ref=e1552]: Modal System (like this one you’re on)
+            - img [ref=e1553]
+          - generic [ref=e1557]:
+            - generic [ref=e1558]: Dashboard Pages
+            - img [ref=e1559]
+          - generic [ref=e1563]:
+            - generic [ref=e1564]: Sign-up & Login Pages
+            - img [ref=e1565]
+          - generic [ref=e1569]:
+            - generic [ref=e1570]: Product / Page Transition Course
+            - img [ref=e1571]
+          - generic [ref=e1575]:
+            - generic [ref=e1576]: Form Pages (Submit, Demo, Onboarding, Newsletter)
+            - img [ref=e1577]
+        - generic [ref=e1583]:
+          - generic [ref=e1584]:
+            - heading [level=3] [ref=e1585]:
+              - text: Got questions?
+              - text: We’ve got answers.
+            - paragraph [ref=e1588]: If you're unsure about anything, feel free to send us a message, and we'll get back to you as soon as possible.
+          - button [ref=e1590] [cursor=pointer]:
+            - generic [ref=e1591]:
+              - generic [ref=e1593]: Reach out to us
+              - generic [ref=e1595]: Reach out to us
+              - generic [ref=e1597]: Reach out to us
+        - img [ref=e1600]
+    - generic:
+      - generic:
+        - generic:
+          - button "Close":
+            - generic:
+              - img
+            - generic:
+              - generic:
+                - generic: Close
+                - generic: Close
+                - generic: Close
+  - generic [ref=e1611]:
+    - button [ref=e1613] [cursor=pointer]:
+      - img [ref=e1615]
+      - generic [ref=e1618]:
+        - generic [ref=e1619]: Close
+        - generic [ref=e1620]: Close
+        - generic [ref=e1621]: Close
+    - generic [ref=e1623]:
+      - img [ref=e1626]
+      - generic [ref=e1630]:
+        - heading [level=2] [ref=e1631]: A platform by...
+        - generic [ref=e1632]:
+          - generic [ref=e1634]:
+            - generic [ref=e1635]:
+              - generic [ref=e1636]:
+                - img
+              - heading [level=3] [ref=e1637]:
+                - text: Dennis
+                - text: Snellenberg
+            - generic [ref=e1641]:
+              - link [ref=e1642] [cursor=pointer]:
+                - /url: https://www.instagram.com/codebydennis/
+                - generic [ref=e1643]:
+                  - img [ref=e1645]
+                  - img [ref=e1650]
+              - link [ref=e1654] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/dennissnellenberg/
+                - generic [ref=e1655]:
+                  - img [ref=e1657]
+                  - img [ref=e1660]
+              - link [ref=e1662] [cursor=pointer]:
+                - /url: https://x.com/codebydennis
+                - generic [ref=e1663]:
+                  - img [ref=e1665]
+                  - img [ref=e1668]
+          - generic [ref=e1671]:
+            - generic [ref=e1672]:
+              - generic [ref=e1673]:
+                - img
+              - heading [level=3] [ref=e1674]:
+                - text: Ilja
+                - text: van Eck
+            - generic [ref=e1678]:
+              - link [ref=e1679] [cursor=pointer]:
+                - /url: https://www.instagram.com/by.ilja/
+                - generic [ref=e1680]:
+                  - img [ref=e1682]
+                  - img [ref=e1687]
+              - link [ref=e1691] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/ilja-van-eck/
+                - generic [ref=e1692]:
+                  - img [ref=e1694]
+                  - img [ref=e1697]
+              - link [ref=e1699] [cursor=pointer]:
+                - /url: https://x.com/iljavaneck
+                - generic [ref=e1700]:
+                  - img [ref=e1702]
+                  - img [ref=e1705]
+      - img [ref=e1710]
+      - paragraph [ref=e1713]: Based in Netherlands and Belgium, and with a combined total of 38 Site of the Day awards on Awwwards, we’ve put our years of experience in to a platform that empowers you to create interactive, animated, one-of-a-kind websites.
+    - generic [ref=e1715]:
+      - generic [ref=e1716]:
+        - heading [level=3] [ref=e1717]: 120+
+        - heading [level=4] [ref=e1718]: Sites Pushed Live
+      - generic [ref=e1719]:
+        - heading [level=3] [ref=e1720]: "38"
+        - heading [level=4] [ref=e1721]: Site of the Day Awards
+    - generic [ref=e1729]:
+      - link [ref=e1730] [cursor=pointer]:
+        - /url: /plans
+        - generic [ref=e1731]:
+          - generic [ref=e1733]: Join Osmo
+          - generic [ref=e1735]: Join Osmo
+      - link [ref=e1736] [cursor=pointer]:
+        - /url: /product/community
+        - generic [ref=e1737]:
+          - generic [ref=e1739]: Community
+          - generic [ref=e1741]: Community
+    - img [ref=e1744]

@@ -1,0 +1,4 @@
+[    1116ms] [WARNING] SplitText called before fonts loaded @ https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js:10
+[    1134ms] The play() request was interrupted by a call to pause(). https://goo.gl/LdLk22
+[    1134ms] The play() request was interrupted by a call to pause(). https://goo.gl/LdLk22
+[    1518ms] The play() request was interrupted by a call to pause(). https://goo.gl/LdLk22

@@ -120,7 +120,6 @@ function SetupForm() {
 
   return (
     <div className="mx-auto max-w-[880px] px-8 pb-24 pt-48">
-        <p className="label-xs mb-8">Setup · One-time</p>
         <h1
           className="font-display text-[clamp(52px,7vw,96px)] font-normal leading-[0.95]"
           style={{ letterSpacing: "-0.035em" }}
@@ -134,12 +133,8 @@ function SetupForm() {
           be changed later from your profile.
         </p>
 
-        <form
-          onSubmit={handleSubmit}
-          /* The #F4F4F4 osmo form container — light div on darker bg-alt. */
-          className="mt-16 rounded-[24px] bg-bg p-10 ring-1 ring-border-soft"
-        >
-          <div className="space-y-12">
+        <form onSubmit={handleSubmit} className="mt-16 space-y-5">
+          <FormGroup>
             <Section heading="Booking contact">
               <p className="body-md mb-6 text-ink-soft">
                 Used on the OpenTable reservation under your name. Not shared
@@ -170,9 +165,9 @@ function SetupForm() {
                 </div>
               </div>
             </Section>
+          </FormGroup>
 
-            <SectionDivider />
-
+          <FormGroup>
             <Section heading="Food preferences">
               <p className="body-md mb-6 text-ink-soft">
                 Alfredo uses these to narrow the group&apos;s restaurant list.
@@ -201,44 +196,53 @@ function SetupForm() {
                 </div>
               </div>
             </Section>
+          </FormGroup>
 
-            {error && (
-              <div
-                className="rounded-[8px] px-5 py-4 text-[15px] text-ink"
-                style={{
-                  background: "rgba(248, 65, 49, 0.08)",
-                  border: "1px solid rgba(248, 65, 49, 0.25)",
-                }}
+          {error && (
+            <div
+              className="rounded-[8px] px-5 py-4 text-[15px] text-ink"
+              style={{
+                background: "rgba(248, 65, 49, 0.08)",
+                border: "1px solid rgba(248, 65, 49, 0.25)",
+              }}
+            >
+              <span
+                className="label-sm mr-2"
+                style={{ color: "var(--color-coral)" }}
               >
-                <span
-                  className="label-sm mr-2"
-                  style={{ color: "var(--color-coral)" }}
-                >
-                  Error
-                </span>
-                {error}
-              </div>
-            )}
-
-            <div className="flex flex-col gap-4 border-t border-border-soft pt-8 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-[13px] text-ink-soft">
-                Saved to your Discord ID · Never shared with the group
-              </p>
-              <button
-                type="submit"
-                disabled={submitting}
-                className="stagger-btn inline-flex h-14 items-center justify-center rounded-[8px] bg-bg-dark px-8 text-[16px] font-medium text-bg transition-opacity hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {submitting ? (
-                  "Saving…"
-                ) : (
-                  <StaggerText text="Save and return to Discord" />
-                )}
-              </button>
+                Error
+              </span>
+              {error}
             </div>
+          )}
+
+          <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-[13px] text-ink-soft">
+              Saved to your Discord ID · Never shared with the group
+            </p>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="stagger-btn inline-flex h-14 items-center justify-center rounded-[8px] bg-bg-dark px-8 text-[16px] font-medium text-bg transition-opacity hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {submitting ? (
+                "Saving…"
+              ) : (
+                <StaggerText text="Save and return to Discord" />
+              )}
+            </button>
           </div>
         </form>
       </div>
+  );
+}
+
+/** The #F4F4F4 osmo container — one per related field group. */
+function FormGroup({ children }: { children: ReactNode }) {
+  return (
+    <div className="rounded-[24px] bg-bg p-10 ring-1 ring-border-soft">
+      {children}
+    </div>
   );
 }
 
@@ -259,12 +263,15 @@ function Section({
   );
 }
 
-function SectionDivider() {
-  return <div className="border-t border-border-soft" />;
-}
-
 function Label({ children }: { children: ReactNode }) {
-  return <label className="label-sm mb-3 block">{children}</label>;
+  return (
+    <label
+      className="mb-3 block text-[14px] font-semibold text-ink"
+      style={{ fontVariationSettings: '"wght" 600' }}
+    >
+      {children}
+    </label>
+  );
 }
 
 function Field({
@@ -288,7 +295,7 @@ function Field({
         type={type}
         placeholder={placeholder}
         required={required}
-        className="h-14 w-full rounded-[8px] border border-border bg-bg-card px-5 text-[16px] text-ink placeholder:text-ink-placeholder focus:outline-none focus:ring-2 focus:ring-ink focus:ring-offset-2 focus:ring-offset-bg"
+        className="h-14 w-full rounded-[8px] bg-bg-card px-5 text-[16px] text-ink placeholder:text-ink-placeholder focus:outline-none focus:ring-2 focus:ring-ink focus:ring-offset-2 focus:ring-offset-bg"
       />
     </div>
   );
@@ -320,7 +327,7 @@ function ChipGroup({
               className={
                 isOn
                   ? "inline-flex h-10 items-center rounded-[8px] bg-bg-dark px-4 text-[14px] font-medium text-bg transition-colors"
-                  : "inline-flex h-10 items-center rounded-[8px] border border-border bg-bg-card px-4 text-[14px] font-medium text-ink transition-colors hover:bg-bg-alt"
+                  : "inline-flex h-10 items-center rounded-[8px] bg-bg-card px-4 text-[14px] font-medium text-ink transition-colors hover:bg-bg-alt"
               }
             >
               {opt}
@@ -342,7 +349,7 @@ function Segmented<T extends string>({
   options: readonly { value: T; label: string; hint: string }[];
 }) {
   return (
-    <div className="inline-flex rounded-[8px] border border-border bg-bg-card p-1">
+    <div className="inline-flex rounded-[8px] bg-bg-card p-1">
       {options.map((opt) => {
         const isOn = value === opt.value;
         return (
