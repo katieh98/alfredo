@@ -321,7 +321,7 @@ function ChipGroup({
               className={
                 isOn
                   ? "inline-flex h-10 items-center rounded-[8px] bg-bg-dark px-4 text-[14px] font-medium text-bg transition-colors"
-                  : "inline-flex h-10 items-center rounded-[8px] border border-border bg-bg-card px-4 text-[14px] font-medium text-ink transition-colors hover:bg-bg-alt"
+                  : "inline-flex h-10 items-center rounded-[8px] bg-bg-card px-4 text-[14px] font-medium text-ink transition-colors hover:bg-bg-alt"
               }
             >
               {opt}
@@ -343,7 +343,7 @@ function Segmented<T extends string>({
   options: readonly { value: T; label: string; hint: string }[];
 }) {
   return (
-    <div className="inline-flex rounded-[8px] border border-border bg-bg-card p-1">
+    <div className="inline-flex rounded-[8px] bg-bg-card p-1">
       {options.map((opt) => {
         const isOn = value === opt.value;
         return (
