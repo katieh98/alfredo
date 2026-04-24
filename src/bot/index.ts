@@ -72,6 +72,23 @@ async function handleAlfredoCommand(interaction: ChatInputCommandInteraction) {
       console.error(`Failed to DM user ${userId}:`, err);
     }
   }
+
+  // Timeout: fire pipeline with whoever responded after 2 minutes
+  const TIMEOUT_MS = 2 * 60 * 1000;
+  setTimeout(async () => {
+    try {
+      const session = await db.query(
+        "SELECT status FROM sessions WHERE id = $1",
+        [sessionId],
+      );
+      if (session.rows[0]?.status !== "collecting") return;
+
+      console.log(`Session ${sessionId} timed out, running pipeline with available responses`);
+      await runAgentPipeline(interaction.client, sessionId);
+    } catch (err) {
+      console.error(`Timeout pipeline error for session ${sessionId}:`, err);
+    }
+  }, TIMEOUT_MS);
 }
 
 async function handleAvailabilityButton(interaction: ButtonInteraction) {
@@ -91,7 +108,7 @@ async function handleAvailabilityButton(interaction: ButtonInteraction) {
   await interaction.update({ content: "Got it!", components: [] });
 
   const sessionResult = await db.query(
-    "SELECT tagged_users FROM sessions WHERE id = $1",
+    "SELECT tagged_users, channel_id FROM sessions WHERE id = $1",
     [sessionId],
   );
   const responsesResult = await db.query(
@@ -99,11 +116,41 @@ async function handleAvailabilityButton(interaction: ButtonInteraction) {
     [sessionId],
   );
 
-  const taggedUsers: string[] = sessionResult.rows[0].tagged_users;
+  const session = sessionResult.rows[0];
+  const taggedUsers: string[] = session.tagged_users;
   const respondedIds = responsesResult.rows.map(
     (r: { discord_id: string }) => r.discord_id,
   );
-  const allResponded = taggedUsers.every((id) => respondedIds.includes(id));
+
+  // Post update to the original channel
+  try {
+    const channel = (await interaction.client.channels.fetch(session.channel_id)) as import("discord.js").TextChannel;
+    const respondedNames = await Promise.all(
+      respondedIds.map(async (id: string) => {
+        const u = await interaction.client.users.fetch(id);
+        return u.username;
+      }),
+    );
+    const waiting = taggedUsers.filter((id: string) => !respondedIds.includes(id));
+    const waitingNames = await Promise.all(
+      waiting.map(async (id: string) => {
+        const u = await interaction.client.users.fetch(id);
+        return u.username;
+      }),
+    );
+
+    let status = `Checked in: ${respondedNames.join(", ")}`;
+    if (waitingNames.length > 0) {
+      status += `\nWaiting on: ${waitingNames.join(", ")}`;
+    } else {
+      status += `\nEveryone's in! Finding the perfect spot...`;
+    }
+    await channel.send(status);
+  } catch (err) {
+    console.error("Failed to post availability update:", err);
+  }
+
+  const allResponded = taggedUsers.every((id: string) => respondedIds.includes(id));
 
   if (allResponded) {
     await runAgentPipeline(interaction.client, sessionId);
