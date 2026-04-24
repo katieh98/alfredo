@@ -15,7 +15,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen flex-col">
       <TopBar />
       <main
-        className="login-hero flex flex-1 flex-col items-center justify-center px-6 pb-20 pt-32"
+        className="login-hero flex flex-1 flex-col items-center justify-center px-6 pb-20 pt-48"
         style={{
           background: "var(--color-bg-dark)",
           color: "#e1e1e1",

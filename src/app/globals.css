@@ -112,11 +112,14 @@
 }
 
 @utility label-sm {
-  font-size: 14px;
-  line-height: 1.3;
-  letter-spacing: -0.005em;
+  /* Osmo .form-label — ported from Haffer Mono→uppercase sans (we've dropped
+   * mono). Uppercase + wide tracking reads as "field name" without needing
+   * a distinct typeface. */
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--color-ink);
-  /* Field-name weight — explicit so it overrides the body's wght:460 lock. */
   font-weight: 600;
   font-variation-settings: "wght" 600;
 }
@@ -165,132 +168,157 @@
 
 /* ============================================================
  * Doppel-desktop ported utilities — used by /dashboard.
- * Numbers are lifted from doppel_desktop/src/styles/index.css
- * and verified against osmo.supply/demo via DevTools.
+ * Numbers lifted from doppel_desktop/src/styles/index.css and
+ * verified against osmo.supply/demo via DevTools.
+ *
+ * Using @layer components (not @utility) because Tailwind v4's
+ * functional @utility can miss static class names when they're
+ * used across many files; @layer components always emits.
  * ============================================================ */
 
-@utility dop-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-}
+@layer components {
+  .dop-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
 
-@utility dop-frame {
-  background: var(--color-surface-raised);
-  border-radius: 14px;
-  padding: 6px;
-}
+  .dop-frame {
+    background: var(--color-surface-raised);
+    border-radius: 14px;
+    padding: 6px;
+  }
 
-@utility eyebrow {
-  font-size: 11px;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: 0.025em;
-  text-transform: uppercase;
-  color: var(--color-fg-faint);
-}
+  /* Eyebrow — matches osmo demo's 11px Haffer Mono (we use Geist
+   * uppercase with 2.5% tracking to fake mono feel without the font). */
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+    color: var(--color-fg-faint);
+  }
 
-@utility eyebrow-strong {
-  font-size: 10px;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-fg-faint);
-}
+  /* Stronger section eyebrow — Doppel's `.dop-section-label` scaled up
+   * so it's legible at normal reading distance. */
+  .eyebrow-strong {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-fg-faint);
+  }
 
-@utility row-title {
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 20px;
-  letter-spacing: -0.003em;
-  color: var(--color-fg-strong);
-}
+  /* Row title — Doppel `.dop-settings-row-title` at +1px. */
+  .row-title {
+    font-size: 14px;
+    font-weight: 510;
+    line-height: 20px;
+    letter-spacing: -0.005em;
+    color: var(--color-fg-strong);
+  }
 
-@utility row-subtitle {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 17px;
-  color: var(--color-fg-tertiary);
-}
+  /* Row subtitle — matches osmo "Delete / Esc / Alt" small text at 13px. */
+  .row-subtitle {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+    color: var(--color-fg-tertiary);
+  }
 
-@utility stat-num {
-  font-size: 20px;
-  font-weight: 510;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
-  color: var(--color-fg-strong);
-}
+  /* Pipeline stat number — promoted from Doppel's 20px/510/-0.02em
+   * up to 26px so numbers read as hero-adjacent data points. */
+  .stat-num {
+    font-size: 26px;
+    font-weight: 510;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-fg-strong);
+  }
 
-@utility hero-title {
-  font-family: var(--font-display);
-  font-size: 42px;
-  font-weight: 400;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  color: var(--color-fg-strong);
-}
+  /* Page hero — osmo's h2 @ 42px / Haffer XH / weight 400 / -3% tracking.
+   * Line-height 1:1 is the osmo signature. */
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 1.04;
+    letter-spacing: -0.032em;
+    color: var(--color-fg-strong);
+  }
 
-@utility dop-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 28px;
-  padding: 0 10px;
-  border-radius: 6px;
-  border: 1px solid var(--color-border-strong);
-  background: var(--color-surface);
-  color: var(--color-fg-secondary);
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1;
-  transition: background 0.12s ease;
-}
+  /* Buttons — osmo demo uses 16px text in 50px pills. For dense
+   * dashboard use we scale down to 13px in 36px pills, matching
+   * Doppel's DropsView buttons (h-9 px-3 text-[13px]). */
+  .dop-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 36px;
+    padding: 0 14px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border-strong);
+    background: var(--color-surface);
+    color: var(--color-fg-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.005em;
+    transition: background 0.12s ease;
+  }
+  .dop-btn:hover { background: var(--color-surface-hover); }
 
-@utility dop-btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 28px;
-  padding: 0 12px;
-  border-radius: 6px;
-  border: 0;
-  background: var(--color-fg-strong);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1;
-  transition: opacity 0.12s ease;
-}
+  .dop-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 36px;
+    padding: 0 16px;
+    border-radius: 8px;
+    border: 0;
+    background: var(--color-fg-strong);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 510;
+    line-height: 1;
+    letter-spacing: -0.005em;
+    transition: opacity 0.12s ease;
+  }
+  .dop-btn-primary:hover { opacity: 0.9; }
 
-@utility dop-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 26px;
-  padding: 0 9px;
-  border-radius: 6px;
-  border: 1px solid var(--color-border-strong);
-  background: var(--color-surface);
-  color: var(--color-fg-muted);
-  font-size: 11px;
-  font-weight: 500;
-  line-height: 1;
-}
+  /* Filter chips — taller than buttons for the floating bar feel osmo
+   * uses on its category row. */
+  .dop-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border-strong);
+    background: var(--color-surface);
+    color: var(--color-fg-muted);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+  }
 
-@utility dop-chip-active {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 26px;
-  padding: 0 9px;
-  border-radius: 6px;
-  border: 1px solid var(--color-accent-border);
-  background: var(--color-accent-light);
-  color: var(--color-accent);
-  font-size: 11px;
-  font-weight: 500;
-  line-height: 1;
+  .dop-chip-active {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid var(--color-accent-border);
+    background: var(--color-accent-light);
+    color: var(--color-accent);
+    font-size: 13px;
+    font-weight: 510;
+    line-height: 1;
+  }
 }

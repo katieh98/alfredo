@@ -18,7 +18,7 @@ export default function LandingPage() {
 
 function Hero() {
   return (
-    <section className="mx-auto max-w-[1440px] px-8 pb-24 pt-28">
+    <section className="mx-auto max-w-[1440px] px-8 pb-24 pt-48">
       <div className="max-w-[1140px]">
         <p className="label-xs mb-8">
           Discord bot · Hackathon build · Apr 2026
