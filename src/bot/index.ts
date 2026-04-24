@@ -76,8 +76,8 @@ async function handleAlfredoCommand(interaction: ChatInputCommandInteraction) {
     }
   }
 
-  // Timeout: fire pipeline with whoever responded after 2 minutes
-  const TIMEOUT_MS = 2 * 60 * 1000;
+  // Timeout: fire pipeline with whoever responded after 2 hours
+  const TIMEOUT_MS = 2 * 60 * 60 * 1000;
   setTimeout(async () => {
     try {
       const session = await db.query(
