@@ -60,7 +60,7 @@ interface YelpBusiness {
 
 async function searchYelp(location: string): Promise<YelpBusiness[]> {
   const res = await fetch(
-    `https://api.yelp.com/v3/businesses/search?location=${encodeURIComponent(location)}&categories=restaurants&limit=10&sort_by=rating`,
+    `https://api.yelp.com/v3/businesses/search?location=${encodeURIComponent(location)}&categories=restaurants&limit=20&sort_by=rating`,
     {
       headers: {
         Authorization: `Bearer ${process.env.YELP_API_KEY}`,
