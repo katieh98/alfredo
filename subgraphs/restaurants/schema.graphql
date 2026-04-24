@@ -1,0 +1,34 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key"])
+
+type Restaurant {
+  id: ID!
+  name: String!
+  cuisine: String!
+  priceRange: String!
+  rating: Float!
+  openTableId: String
+  availableSlots: [TimeSlot!]!
+  enrichment: RestaurantEnrichment!
+}
+
+type TimeSlot {
+  date: String!
+  time: String!
+}
+
+type RestaurantEnrichment {
+  topDishes: [String!]!
+  vibeSummary: String!
+  transitInfo: String!
+}
+
+input TimeSlotInput {
+  date: String!
+  startTime: String!
+  endTime: String!
+}
+
+type Query {
+  restaurants(near: String!, partySize: Int!, availableIn: [TimeSlotInput!]!): [Restaurant!]!
+}

@@ -1,0 +1,40 @@
+{
+  "name": "alfredo-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.91.0",
+    "@apollo/server": "^5.5.0",
+    "@apollo/subgraph": "^2.13.3",
+    "@as-integrations/next": "^4.1.0",
+    "@auth/core": "^0.34.3",
+    "@tiny-fish/sdk": "^0.0.8",
+    "discord.js": "^14.26.3",
+    "dotenv": "^17.4.2",
+    "graphql": "^16.13.2",
+    "graphql-tag": "^2.12.6",
+    "next": "16.2.4",
+    "next-auth": "^4.24.14",
+    "openai": "^6.34.0",
+    "pg": "^8.20.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/pg": "^8.20.0",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.4",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
