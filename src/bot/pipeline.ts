@@ -172,9 +172,14 @@ export async function runAgentPipeline(client: Client, sessionId: string) {
     "SELECT * FROM users WHERE discord_id = $1",
     [session.invoker_id],
   );
+  const invoker = invokerRow.rows[0] ?? {
+    booking_name: "Guest",
+    booking_phone: "",
+    booking_email: "",
+  };
 
   console.log("[pipeline] Attempting booking...");
-  const booking = await bookRestaurant(pick, invokerRow.rows[0], session.demo ?? false);
+  const booking = await bookRestaurant(pick, invoker, session.demo ?? false);
   console.log(`[pipeline] Booking result: success=${booking.success}`);
 
   await sessDb.query(
