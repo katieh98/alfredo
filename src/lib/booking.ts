@@ -1,7 +1,7 @@
 import { TinyFish } from "@tiny-fish/sdk";
 import type { RestaurantPick } from "./claude";
 
-const TINYFISH_TIMEOUT_MS = 30_000;
+const TINYFISH_TIMEOUT_MS = 120_000;
 const DEMO_PHONE = "+17039156060";
 
 interface BookingContact {
@@ -54,7 +54,7 @@ async function tryTinyFish(
   };
 }
 
-async function callViaVapi(pick: RestaurantPick, invoker: BookingContact): Promise<BookingResult> {
+async function callViaVapi(pick: RestaurantPick, invoker: BookingContact, demo: boolean): Promise<BookingResult> {
   const vapiKey = process.env.VAPI_API_KEY;
   const vapiPhoneNumberId = process.env.VAPI_PHONE_NUMBER_ID;
 
@@ -65,6 +65,9 @@ async function callViaVapi(pick: RestaurantPick, invoker: BookingContact): Promi
     };
   }
 
+  const callNumber = demo ? DEMO_PHONE : (pick.restaurant.phone ?? DEMO_PHONE);
+  console.log(`[booking] VAPI calling ${callNumber} for ${pick.restaurant.name}`);
+
   const res = await fetch("https://api.vapi.ai/call/phone", {
     method: "POST",
     headers: {
@@ -73,7 +76,7 @@ async function callViaVapi(pick: RestaurantPick, invoker: BookingContact): Promi
     },
     body: JSON.stringify({
       phoneNumberId: vapiPhoneNumberId,
-      customer: { number: DEMO_PHONE },
+      customer: { number: callNumber },
       assistant: {
         firstMessage: `Hi! I'm calling on behalf of ${invoker.booking_name} to make a dinner reservation at ${pick.restaurant.name} for ${pick.partySize} people on ${pick.date} at ${pick.time}. Can you help with that?`,
         model: {
@@ -115,5 +118,5 @@ export async function bookRestaurant(
     }
   }
 
-  return callViaVapi(pick, invoker);
+  return callViaVapi(pick, invoker, demo);
 }

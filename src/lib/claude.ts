@@ -13,6 +13,7 @@ interface Restaurant {
   cuisine: string;
   priceRange: string;
   rating: number;
+  phone?: string;
   openTableId?: string;
   enrichment?: {
     topDishes: string[];

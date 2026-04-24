@@ -15,6 +15,7 @@ const typeDefs = gql`
     cuisine: String!
     priceRange: String!
     rating: Float!
+    phone: String
     openTableId: String
     availableSlots: [TimeSlot!]!
     enrichment: RestaurantEnrichment!
@@ -52,6 +53,7 @@ interface YelpBusiness {
   categories: Array<{ title: string }>;
   price?: string;
   rating: number;
+  phone?: string;
   url: string;
   location: { display_address: string[] };
 }
@@ -154,6 +156,7 @@ const resolvers = {
             cuisine: biz.categories[0]?.title ?? "Restaurant",
             priceRange: yelpPriceToRange(biz.price),
             rating: biz.rating,
+            phone: biz.phone ?? null,
             openTableId: openTableSlug,
             availableSlots: availableIn.map((slot) => ({
               date: slot.date,

@@ -18,7 +18,7 @@ async function querySubgraphs(
   };
 
   const restaurantsGql = {
-    query: `query Restaurants($near: String!, $partySize: Int!, $availableIn: [TimeSlotInput!]!) { restaurants(near: $near, partySize: $partySize, availableIn: $availableIn) { id name cuisine priceRange rating openTableId availableSlots { date time } enrichment { topDishes vibeSummary transitInfo } } }`,
+    query: `query Restaurants($near: String!, $partySize: Int!, $availableIn: [TimeSlotInput!]!) { restaurants(near: $near, partySize: $partySize, availableIn: $availableIn) { id name cuisine priceRange rating phone openTableId availableSlots { date time } enrichment { topDishes vibeSummary transitInfo } } }`,
     variables: { near: "San Francisco, CA", partySize, availableIn: slots },
   };
 
