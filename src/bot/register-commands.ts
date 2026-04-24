@@ -10,6 +10,16 @@ const command = new SlashCommandBuilder()
       .setDescription("Tag your friends with @mentions")
       .setRequired(true),
   )
+  .addStringOption((option) =>
+    option
+      .setName("type")
+      .setDescription("What are you booking?")
+      .setRequired(false)
+      .addChoices(
+        { name: "restaurants", value: "restaurants" },
+        { name: "hotels", value: "hotels" },
+      ),
+  )
   .addBooleanOption((option) =>
     option
       .setName("demo")

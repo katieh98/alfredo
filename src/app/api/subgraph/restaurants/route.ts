@@ -43,6 +43,7 @@ const typeDefs = gql`
       near: String!
       partySize: Int!
       availableIn: [TimeSlotInput!]!
+      bookingType: String
     ): [Restaurant!]!
   }
 `;
@@ -63,12 +64,12 @@ const SF_LAT = 37.7749;
 const SF_LNG = -122.4194;
 const SF_RADIUS_METERS = 8000;
 
-async function searchYelp(): Promise<YelpBusiness[]> {
+async function searchYelp(category = "restaurants"): Promise<YelpBusiness[]> {
   const params = new URLSearchParams({
     latitude: String(SF_LAT),
     longitude: String(SF_LNG),
     radius: String(SF_RADIUS_METERS),
-    categories: "restaurants",
+    categories: category,
     limit: "20",
     sort_by: "best_match",
   });
@@ -103,6 +104,7 @@ const resolvers = {
         near,
         partySize,
         availableIn,
+        bookingType,
       }: {
         near: string;
         partySize: number;
@@ -111,9 +113,10 @@ const resolvers = {
           startTime: string;
           endTime: string;
         }>;
+        bookingType?: string;
       },
     ) => {
-      const yelpResults = await searchYelp();
+      const yelpResults = await searchYelp(bookingType === "hotels" ? "hotels" : "restaurants");
       const tf = new TinyFish({ apiKey: process.env.TINYFISH_API_KEY });
 
       const shuffled = yelpResults.sort(() => Math.random() - 0.5);

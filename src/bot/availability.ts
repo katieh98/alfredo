@@ -32,10 +32,32 @@ export function buildAvailabilityRow(sessionId: string) {
   );
 }
 
+export function buildHotelAvailabilityRow(sessionId: string) {
+  return new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder()
+      .setCustomId(`avail:fri_night:${sessionId}`)
+      .setLabel("Friday night")
+      .setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId(`avail:sat_night:${sessionId}`)
+      .setLabel("Saturday night")
+      .setStyle(ButtonStyle.Secondary),
+    new ButtonBuilder()
+      .setCustomId(`avail:full_weekend:${sessionId}`)
+      .setLabel("Full weekend")
+      .setStyle(ButtonStyle.Primary),
+    new ButtonBuilder()
+      .setCustomId(`avail:none:${sessionId}`)
+      .setLabel("Can't make it")
+      .setStyle(ButtonStyle.Danger),
+  );
+}
+
 export async function dmUser(
   user: DiscordUser,
   sessionId: string,
   invokerName: string,
+  bookingType: "restaurants" | "hotels" = "restaurants",
 ) {
   const db = getUsersDb();
   if (!db) throw new Error("Users DB not configured");
@@ -59,9 +81,15 @@ export async function dmUser(
 
     const setupUrl = `${process.env.APP_URL}/setup?token=${token}`;
 
+    const verb = bookingType === "hotels" ? "planning a weekend trip to SF" : "planning a night out";
     await user.send(
-      `hey ${user.username}! 🍝 **${invokerName}** is planning a night out and wants you there.\n\nset up your food profile first and we'll ask when you're free:\n${setupUrl}`,
+      `hey ${user.username}! 🍝 **${invokerName}** is ${verb} and wants you there.\n\nset up your profile first and we'll ask when you're free:\n${setupUrl}`,
     );
+  } else if (bookingType === "hotels") {
+    await user.send({
+      content: `hey ${user.username}! 🏨 **${invokerName}** is planning a SF trip and wants you along.\n\nwhich nights work for you? 👇`,
+      components: [buildHotelAvailabilityRow(sessionId)],
+    });
   } else {
     await user.send({
       content: `hey ${user.username}! 🍝 **${invokerName}** is planning a night out and wants you there.\n\nwhen are you free this weekend? 👇`,
