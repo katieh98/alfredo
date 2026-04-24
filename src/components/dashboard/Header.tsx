@@ -2,7 +2,6 @@ import Link from "next/link";
 import {
   FaShareNodes,
   FaDownload,
-  FaArrowsRotate,
   FaChevronRight,
 } from "react-icons/fa6";
 
@@ -44,10 +43,6 @@ export function Header({ sessionShortId }: HeaderProps) {
         <button type="button" className="dop-btn">
           <FaDownload size={12} />
           Export
-        </button>
-        <button type="button" className="dop-btn-primary">
-          <FaArrowsRotate size={12} />
-          Rerun pipeline
         </button>
       </div>
     </header>
