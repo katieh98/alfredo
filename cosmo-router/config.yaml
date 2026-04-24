@@ -1,0 +1,9 @@
+version: "1"
+
+graph:
+  token: "${GRAPH_API_TOKEN}"
+
+listen_addr: "0.0.0.0:3002"
+
+controlplane:
+  endpoint: "https://cosmo-cp.wundergraph.com"

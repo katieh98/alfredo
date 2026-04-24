@@ -10,8 +10,43 @@ async function querySubgraphs(
   partySize: number,
   bookingType = "restaurants",
 ) {
+  const cosmoRouterUrl = process.env.COSMO_ROUTER_URL;
   const appUrl = process.env.APP_URL ?? "http://localhost:3000";
-  console.log("querySubgraphs called, appUrl:", appUrl);
+
+  if (cosmoRouterUrl) {
+    console.log("[cosmo-router] routing through Cosmo federated graph:", cosmoRouterUrl);
+    // Single federated query through Cosmo router — this is what generates analytics
+    const federatedQuery = {
+      query: `
+        query AlfredoPipeline($ids: [ID!]!, $near: String!, $partySize: Int!, $availableIn: [TimeSlotInput!]!, $bookingType: String) {
+          users(ids: $ids) { discordId dietaryRestrictions cuisinePreferences priceRange bookingName bookingPhone bookingEmail }
+          restaurants(near: $near, partySize: $partySize, availableIn: $availableIn, bookingType: $bookingType) { id name cuisine priceRange rating phone openTableId availableSlots { date time } enrichment { topDishes vibeSummary transitInfo } }
+        }
+      `,
+      variables: {
+        ids: userIds,
+        near: "San Francisco, CA",
+        partySize,
+        availableIn: slots,
+        bookingType,
+      },
+    };
+
+    const res = await fetch(cosmoRouterUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(federatedQuery),
+    });
+    const json = await res.json();
+    console.log("[cosmo-router] response:", JSON.stringify(json).slice(0, 500));
+    return {
+      users: json.data?.users ?? [],
+      restaurants: json.data?.restaurants ?? [],
+    };
+  }
+
+  // Fallback: direct subgraph calls (no Cosmo analytics)
+  console.log("[subgraphs] direct call, appUrl:", appUrl);
 
   const usersGql = {
     query: `query Users($ids: [ID!]!) { users(ids: $ids) { discordId dietaryRestrictions cuisinePreferences priceRange bookingName bookingPhone bookingEmail } }`,
