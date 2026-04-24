@@ -295,7 +295,7 @@ function Field({
         type={type}
         placeholder={placeholder}
         required={required}
-        className="h-14 w-full rounded-[8px] border border-border bg-bg-card px-5 text-[16px] text-ink placeholder:text-ink-placeholder focus:outline-none focus:ring-2 focus:ring-ink focus:ring-offset-2 focus:ring-offset-bg"
+        className="h-14 w-full rounded-[8px] bg-bg-card px-5 text-[16px] text-ink placeholder:text-ink-placeholder focus:outline-none focus:ring-2 focus:ring-ink focus:ring-offset-2 focus:ring-offset-bg"
       />
     </div>
   );
