@@ -443,7 +443,12 @@ shadowSec.fills = [];
 root.appendChild(shadowSec);
 const shadowStyles = await figma.getLocalEffectStylesAsync();
 const cardStyle = shadowStyles.find(s => s.name === "Alfredo/Shadow/card");
-for (const [label, styleId] of [["flat", null], ["card", cardStyle && cardStyle.id]]) {
+const hoverStyle = shadowStyles.find(s => s.name === "Alfredo/Shadow/cta-hover");
+for (const [label, styleId] of [
+  ["flat", null],
+  ["card", cardStyle && cardStyle.id],
+  ["cta-hover", hoverStyle && hoverStyle.id],
+]) {
   const c = figma.createFrame();
   c.resize(96, 96);
   c.cornerRadius = 20;
