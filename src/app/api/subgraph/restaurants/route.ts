@@ -105,7 +105,8 @@ const resolvers = {
       const yelpResults = await searchYelp(near);
       const tf = new TinyFish({ apiKey: process.env.TINYFISH_API_KEY });
 
-      const top5 = yelpResults.slice(0, 5);
+      const shuffled = yelpResults.sort(() => Math.random() - 0.5);
+      const top5 = shuffled.slice(0, 5);
 
       const enriched = await Promise.all(
         top5.map(async (biz) => {
