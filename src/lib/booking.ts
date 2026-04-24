@@ -118,16 +118,14 @@ export async function bookRestaurant(
   invoker: BookingContact,
   demo = false,
 ): Promise<BookingResult> {
-  const skipTinyFish = demo || process.env.SKIP_TINYFISH === "true";
-
-  if (!skipTinyFish) {
+  if (!demo) {
     try {
       return await tryTinyFish(pick, invoker);
     } catch {
       console.log("[booking] TinyFish failed or timed out, falling back to VAPI");
     }
   } else {
-    console.log("[booking] Skipping TinyFish, going straight to VAPI call");
+    console.log("[booking] Demo mode — skipping TinyFish, going straight to VAPI call");
   }
 
   return callViaVapi(pick, invoker, demo);
